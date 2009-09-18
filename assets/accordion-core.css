@@ -1,0 +1,84 @@
+.yui-accordion {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #007f9e;
+    position: relative;
+}
+
+.yui-accordion-item {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+}
+
+.yui-accordion-item-content .yui-widget-bd {
+    cursor: default;
+    overflow: hidden;
+    position: relative;
+}
+
+.yui-accordion-item-table {
+    width: 100%;
+    -moz-user-select: none;
+}
+
+.yui-accordion-item-table DIV{
+    height: 22px;
+    _height: 16px;
+    _overflow: hidden;
+} 
+
+.yui-accordion-item-td-icon {
+    width: 20px;
+}
+
+.yui-accordion-item-td-label {
+    text-align: left;
+    vertical-align: center;    
+}
+
+.yui-accordion-item-label a{
+    text-decoration: none;
+    background: transparent;
+}
+
+.yui-accordion-item-label a:hover{
+    text-decoration: underline;
+}
+
+.yui-accordion-item-td-iconalwaysvisible {
+    width: 20px;
+}
+
+.yui-accordion-item-iconalwaysvisible {
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.yui-accordion-item-td-iconextended {
+    width: 22px;
+}
+
+.yui-accordion-item-iconextended {
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.yui-accordion-item-td-iconclose {
+    width: 22px;
+}
+
+.yui-accordion-item-td-iconclose-hidden {
+    display: none;
+}
+
+.yui-accordion-item-iconclose {
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+.yui-accordion-item-table TR{
+    _height: 24px;
+}
+
