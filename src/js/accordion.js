@@ -1658,7 +1658,7 @@ Y.extend( Accordion, Y.Widget, {
                 if( _tmpItem === _item ){
                     _res = _index;
                     return true;
-                } else {false
+                } else {
                     return false;
                 }
             }, this );
