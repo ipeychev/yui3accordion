@@ -1,10 +1,10 @@
 /**
- * Provides the AccordionItem class
+ * Provides the Accordion class
  *
  * @module accordion
  */
 
-YUI.add( 'accordion-item', function(Y) {
+(function(){
 
 /**
  * Create an AccordionItem widget.
@@ -614,4 +614,5 @@ Base.build( AccordionItem.NAME, AccordionItem, [ WidgetStdMod ], {
 
 Y.AccordionItem = AccordionItem;
 
-}, '1.0', { requires: ['widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'accordion'], skinnable:true} );
+}());
+

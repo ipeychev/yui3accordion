@@ -1,14 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
 <html>
   <head>
-    <title>Accordion tests Strict mode</title>
+    <title>Accordion tests Quirks mode</title>
     
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
-
-    <link rel="stylesheet" type="text/css" href="../assets/accordion-core.css">
-    <link rel="stylesheet" type="text/css" href="../assets/skins/sam/accordion-skin.css">
+    <link rel="stylesheet" type="text/css" href="../../../build/cssreset/reset-min.css">
+    <link rel="stylesheet" type="text/css" href="../../../build/cssfonts/fonts-min.css">
 				
 				
     <style type="text/css">
@@ -23,13 +18,14 @@
         }
      </style>
 
-     <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui.js"></script>
+     <script type="text/javascript" src="../../../build/yui/yui.js"></script>
      <script type="text/javascript" src="testaccordion.js"></script>
+     
 
   </head>
   <body class="yui-skin-sam">
       <div style="position: absolute; width:350px; height: 550px;">
-          <div id="acc1">
+          <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles, the other browsers don't -->
             <div id="item1" class="yui-accordion-item">
                 <div class="yui-widget-hd">
                     <div class="yui-accordion-item-icon customiconclass"></div>
