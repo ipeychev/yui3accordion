@@ -1,1 +1,15 @@
 Accordion widget for YUI 3
+
+Build process:
+1. Install ANT 1.7 or above, and add ant to your path
+2. Download or fork modified YUI builder from this URL:
+http://github.com/ipeychev/builder
+
+The directory structure should be as follows:
+
+projects_dir--|
+              |---builder
+              |---yui3accordion
+
+$ cd yui3accordion
+$ ant all
