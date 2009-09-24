@@ -16,6 +16,35 @@
 		height:100%;
 	}
 	
+	.step {
+		position: relative;
+		border: 2px solid #E5ECF9;
+		background-color: #F2FBFF;
+		margin:0 0 0 0px;
+		padding: 1em 1em 2em 1em;
+	}
+	
+	h1 {
+		font-size: 170%;
+		line-height: 130%;
+		margin:0 0 0 0px;
+		padding: 1em 0.5em 1em;
+	}
+	
+	h2 {
+		font-size:150%;
+		font-weight:bold;
+		margin:1.5em 0 0;
+		top:0;
+	}
+	
+	h3 {
+		font-size:130%;
+		font-weight:bold;
+		margin:1.5em 0 0;
+		top:0;
+	}
+	
 	#item2 .customiconclass {
 		background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
 		background-repeat: no-repeat;
@@ -60,6 +89,14 @@ YUI({
 </head>
 <body class="yui-skin-sam">
 
+	<div class="step">
+	
+	<div style="float:right; position:relative;">
+	<h3><a href="build_from_markup.html" target="_blank">See the this example in new window.</a></h3>
+	</div>
+	
+	<h1>Step one: create accordion module</h1>
+	
 	<p>
 		In order to use Accordion widget, you have to add it as module in your YUI instance. You have to define two modules - one for its js and second one about its css.
 		Let's name them 'accordion' and 'accordion-css'. You have to specify also the full path to accordion js file. Here we will load it from GitHub.
@@ -89,6 +126,10 @@ YUI({
 
 		});
 	</pre>
+	</div>
+	
+	<div class="step">
+	<h1>Step two: define the markup of the accordion and (optionally) of its items</h1>
 	
 	<p>
 	In this example, we will create markup for accordion itself and three items.
@@ -103,15 +144,14 @@ YUI({
 	<div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
 	</pre>
 	<br>
-	For each item, we have to create standard markup as for regular widget, with some additional settings. These are:<br>
-	1. We have to set class "yui-accordion-item" in the main item's div:
+	For each item, we have to create standard markup as for regular widget, with some additional settings. These are:
+	<h3>1. Set class "yui-accordion-item" in the main item's div:</h3>
 	<pre class="brush: html;">
 	<div id="item1" class="yui-accordion-item">
 	........
 	</div>
 	</pre>
-	<br>
-	2. We may set also one div for item's label, like this:<br>
+	<h3>2. Set markup for item's label (optionally)</h3>
 	<pre class="brush: html;">
 	<div class="yui-widget-hd">
          <div class="yui-accordion-item-label">Label 1</div>
@@ -119,13 +159,12 @@ YUI({
 	</pre>
 	
 	<p>
-	3. We may set also custom icon instead those, which the item provides by default, like this:<br>
+	<h3>3. Set custom icon instead those, which the item provides by default (optionally):</h3>
 	<pre class="brush: html;">
 	<div class="yui-widget-hd">
 		<div class="yui-accordion-item-icon customiconclass"></div>
 	</div>
 	</pre>
-	<br>
 	The custom class is defined in this way:
 	<pre class="brush: css;">
 	#item2 .customiconclass {
@@ -179,7 +218,10 @@ YUI({
             </div>
        </div>
 	</pre>
+	</div>
 	
+	<div class="step">
+	<h1>Step three: instantiate the Accordion</h1>
 	<p>
 	When YUI3 finishes loading all scripts, it will execute a function, passed as last argument of YUI "use" function. This is the right place you have to start creating instances, including those of the Accordion.
 	You can instantiate Accordion as any other widget in YUI3:
@@ -193,6 +235,10 @@ YUI({
     });
 	</pre>
 	</p>
+	</div>
+	
+	<div class="step">
+	<h1>Step four: add/modify params of the items before add them to Accordion</h1>
 	
 	<p>
 	If you would like to set other parameters to the items in addition to "label" and "icon" (set from markup), the best way is to subscribe for "beforeItemAdd" event:
@@ -234,6 +280,10 @@ YUI({
 		}
 	}, this );
 	</pre>
+	</div>
+	
+	<div class="step">
+	<h1>Step five: render the Accordion</h1>
 	
 	<p>
 	The last step is to render the accordion. Render process will look for some items and if found, they will be created authomatically. In this example, there will be created three items.
@@ -241,12 +291,13 @@ YUI({
 	 _accordion.render();
 	</pre>
 	</p>
+	</div>
 	
 
 	<p>
-	<a href="build_from_markup.html" target="_blank">See the this example in new window.</a>
-	<br>
+	<h3><a href="build_from_markup.html" target="_blank">See the this example in new window.</a></h3>
 	</p>
+	<br>
 </body>
 
 </html>
