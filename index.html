@@ -13,6 +13,7 @@
 
             h1 {
                 font-size: 170%;
+                font-weight:bold;
                 line-height: 130%;
                 margin:0 0 0 0px;
                 padding: 1em 0.5em 1em;
@@ -31,6 +32,13 @@
                 margin:1.5em 0 0;
                 top:0;
             }
+
+            h4 {
+                font-size:110%;
+                font-weight:bold;
+                margin:1.5em 0 0;
+                top:0;
+            }
             
             li {
                 background: transparent url(images/arrow_right.png) no-repeat scroll 0px 0px;
@@ -41,7 +49,7 @@
                 padding:0 0 0 20px;
             }
 
-            .description {
+            .main {
                 position: relative;
                 border: 2px solid #E5ECF9;
                 background-color: #F2FBFF;
@@ -49,37 +57,130 @@
                 padding: 1em 1em 2em 1em;
             }
         </style>
-    </head>
-    <body>
-        <div class="description">
-            <h1>Accordion widget</h1>
-            <p>
-		Accordion widget allows to group one or more items, containing arbitrary data inside. These items can be expanded, collapsed, closed, reordered by using drag and drop, etc.<br>
-                The height of the content inside each item can be set in three different ways:<br>
-            </p>
-            <ol type="1">
-                <li>auto - this means the height will be as is being calculated from browser</li>
-                <li>fixed - the content will be exactly X pixels</li>
-                <li>stretch - the height will be calculated, based on the height of the other items in the Accordion</li>
-            </ol>
         
-            <h2>
-                Examples:
-            </h2>
-            <ol>
-                <li>
-                    <h3>
-                        <a href="build_from_markup.html">Build Accordion widget from markup<br></a>
-                    </h3>
-                </li>
-                <li>
-                    <h3>
-                        <a href="build_from_script.html">Build Accordion widget from script<br></a>
-                    </h3>
-                </li>
-            </ol>
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+        
+        <script type="text/javascript"> 
 
+        YUI({
+            combine: true,
+            modules: {
+                'accordion': {
+                    type: 'js',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                    requires:["widget-stdmod","event-delegate","anim-easing","dd-constrain","dd-proxy","dd-drop"]
+                },
+                'accordion-css' : {
+                        type: 'css',
+                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                }
+            }
+        } ).use('accordion', 'accordion-css', function(Y) {
+            var _accordion;
+            
+            _accordion = new Y.Accordion( {
+                contentBox: "#acc1",
+                useAnimation: true,
+                collapseOthersOnExpand: false
+            });
+
+
+            _accordion.subscribe( "beforeItemAdd", function( _args ){
+                var _item, _id;
+
+                _item = _args.item;
+                _id = _item.get( "contentBox" ).get( "id" );
+
+                if( _id === "item1" ){
+                    _item.set( "expanded", true );
+                } else if( _id === "item2" ){
+                    _item.set( "contentHeight",  {
+                        method: "stretch"
+                    });
+
+                    _item.set( "expanded", true );
+                } else if( _id === "item3" ){
+                     _item.set( "contentHeight",  {
+                        method: "fixed",
+                        height: 50
+                    });
+
+                    _item.set( "expanded", true );
+                }
+            }, this );
+                
+            _accordion.render();
+        });
+        </script>
+    </head>
+    <body class="yui-skin-sam">
+        <div class="main">
+            <div id="acc_container" style="position: relative; width: 500px; height: 800px;">
+                <div id="acc1">
+                    <div id="item1" class="yui-accordion-item">
+                        <div class="yui-widget-hd">
+                            <div class="yui-accordion-item-label">What is Accordion widget?</div>
+                        </div>
+                        <div class="yui-widget-bd">
+                            <div id="pm1" style="position: relative;">
+                                <h1>Accordion widget</h1>
+                                <p>
+                                    Accordion widget allows to group one or more items, containing arbitrary data inside. These items can be expanded, collapsed, closed, reordered by using drag and drop, etc.<br>
+                                    The height of the content inside each item can be set in three different ways:<br>
+                                </p>
+                                <ol>
+                                    <li>auto - this means the height will be as is being calculated from browser</li>
+                                    <li>fixed - the content will be exactly X pixels</li>
+                                    <li>stretch - the height will be calculated, based on the height of the other items in the Accordion</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="item2" class="yui-accordion-item">
+                        <div class="yui-widget-hd">
+                            <div class="yui-accordion-item-label">Can I see some examples?</div>
+                        </div>
+                        <div id="bodyid2" class="yui-widget-bd">
+                            <div id="pm2" style="position:relative; overflow: auto; height: 100%;">
+                                <h2>
+                                    Examples:
+                                </h2>
+                                <ol>
+                                    <li>
+                                        <h4>
+                                            <a href="build_from_markup.html">Build Accordion widget from markup<br></a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4>
+                                            <a href="build_from_script.html">Build Accordion widget from script<br></a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4>
+                                            <a href="content_height.html">Content height property<br></a>
+                                        </h4>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div id="item3" class="yui-accordion-item">
+                        <div class="yui-widget-hd">
+                            <div class="yui-accordion-item-label">Where is API documentation?</div>
+                        </div>
+                        <div id="bodyid3" class="yui-widget-bd">
+                            <div id="pm3">
+                                <h4>
+                                    <a href="api_documentation.html">API Documentation<br></a>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 </body>
-
 </html>
