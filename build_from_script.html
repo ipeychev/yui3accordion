@@ -1,9 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
-
-
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>YUI3 Accordion widget</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>YUI3 Accordion widget - build from script</title>
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
@@ -79,8 +77,8 @@
                     }
                 }
             } ).use("accordion", 'accordion-css', function(Y) {
-    
-    
+
+
             });
 
             //////////////////////////////////////////////////////////////////////////////////////////
@@ -93,204 +91,120 @@
 
             <div style="float:right; position:relative;">
                 <h3>
-                    <a href="build_from_markup.html" target="_blank">See the this example in new window.</a>
+                    <a href="build_from_script_window.html" target="_blank">See the this example in new window.</a>
                 </h3>
             </div>
 
             <h1>Step one: create accordion module</h1>
 
             <p>
-		In order to use Accordion widget, you have to add it as module in your YUI instance. You have to define two modules - one for its js and second one about its css.
-		Let's name them 'accordion' and 'accordion-css'. You have to specify also the full path to accordion js file. Here we will load it from GitHub.
-		Of course, we must load YUI3 core file also.
+        In order to use Accordion widget, you have to add it as module in your YUI instance. You have to define two modules - one for its js and second one about its css.
+        Let's name them 'accordion' and 'accordion-css'. You have to specify also the full path to accordion js file. Here we will load it from GitHub.
+        Of course, we must load YUI3 core file also.
             </p>
 
             <pre class="brush: html;">
-			<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+            <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
             </pre>
 
 
         <pre class="brush: js;">
-		YUI({
-			combine: true,
-			modules: {
-				'accordion': {
-					type: 'js',
-					fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-					requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
-				},
-				'accordion-css' : {
-					type: 'css',
-					fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-				}
-			}
-		} ).use("accordion", 'accordion-css', function(Y) {
+        YUI({
+            combine: true,
+            modules: {
+                'accordion': {
+                    type: 'js',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                    requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
+                },
+                'accordion-css' : {
+                    type: 'css',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                }
+            }
+        } ).use("accordion", 'accordion-css', function(Y) {
 
-		});
-        </pre>
-    </div>
-
-    <div class="step">
-        <h1>Step two: define the markup of the accordion and (optionally) of its items</h1>
-
-        <p>
-	In this example, we will create markup for accordion itself and three items.
-        </p>
-
-        <p>
-	Accordion needs regular div for itself. We will set also position, height and "overflow:hidden" for IE in case of quirks mode.<br>
-        </p>
-        <pre class="brush: html">
-            <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-        </pre>
-        <br>
-	For each item, we have to create standard markup as for regular widget, with some additional settings. These are:
-        <h3>1. Set class "yui-accordion-item" in the main item's div:</h3>
-        <pre class="brush: html;">
-	<div id="item1" class="yui-accordion-item">
-	........
-	</div>
-        </pre>
-        <h3>2. Set markup for item's label (optionally)</h3>
-        <pre class="brush: html;">
-	<div class="yui-widget-hd">
-         <div class="yui-accordion-item-label">Label 1</div>
-        </div>
-        </pre>
-
-        <h3>3. Set custom icon instead those, which the item provides by default (optionally):</h3>
-        <pre class="brush: html;">
-	<div class="yui-widget-hd">
-		<div class="yui-accordion-item-icon customiconclass"></div>
-	</div>
-        </pre>
-	The custom class is defined in this way:
-        <pre class="brush: css;">
-	#item2 .customiconclass {
-		background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
-		background-repeat: no-repeat;
-		background-position: center -83px;
-	}
-        </pre>
-
-        <p>
-	Here is the whole markup of the Accordion:
-        </p>
-        <pre class="brush: html;">
-            <!-- Accordion markup -->
-	    <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-                <!-- Item1 markup -->
-                <div id="item1" class="yui-accordion-item">
-                    <div class="yui-widget-hd">
-                        <div class="yui-accordion-item-label">Label 1</div>
-                    </div>
-                    <div class="yui-widget-bd">
-                        <div id="pm1" style="position: relative;">
-                            Item1 content...
-                        </div>
-                    </div>
-                </div>
-            
-                <!-- Item2 markup -->
-                <div id="item2" class="yui-accordion-item">
-                    <div class="yui-widget-hd">
-                        <div class="yui-accordion-item-icon customiconclass"></div>
-                    </div>
-                    <div id="bodyid2" class="yui-widget-bd">
-                        <div id="pm2" style="position:relative">
-                            Item2 content...
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item3 markup -->
-                <div id="item3" class="yui-accordion-item">
-                    <div class="yui-widget-hd">
-                        <div class="yui-accordion-item-label">Label 3 from markup</div>
-                    </div>
-                    <div id="bodyid3" class="yui-widget-bd">
-                        <div id="pm3" style="position:relative;">
-                            Item3 content...
-                        </div>
-                    </div>
-                </div>
-           </div>
-        </pre>
-    </div>
-
-    <div class="step">
-        <h1>Step three: instantiate the Accordion</h1>
-        <p>
-	When YUI3 finishes loading all scripts, it will execute a function, passed as last argument of YUI "use" function. This is the right place you have to start creating instances, including those of the Accordion.
-	You can instantiate Accordion as any other widget in YUI3:
-        </p>
-
-        <pre class="brush: js;">
-	var _accordion = new Y.Accordion( {
-            contentBox: "#acc1",
-            useAnimation: true,
-            collapseOthersOnExpand: true
         });
         </pre>
     </div>
 
+    
     <div class="step">
-        <h1>Step four (optional): add/modify params of the items before add them to Accordion</h1>
-
+        <h1>Step two: instantiate and render the Accordion</h1>
         <p>
-	If you would like to set other parameters to the items in addition to "label" and "icon" (set from markup), the best way is to subscribe for "beforeItemAdd" event:
+    When YUI3 finishes loading all scripts, it will execute a function, passed as last argument of YUI "use" function. This is the right place you have to start creating instances, including those of the Accordion.
+    You can instantiate Accordion as any other widget in YUI3:
         </p>
 
         <pre class="brush: js;">
-	_accordion.on( "beforeItemAdd", function( _attrs ){
-		var _item, _id;
-
-		_item = _attrs.item;
-		_id = _item.get( "contentBox" ).get( "id" );
-
-		if( _id === "item1" ){
-			_item.set( "contentHeight",  {
-					method: "fixed",
-					height: 150 <!-- In pixels -->
-				});
-
-			_item.set( "alwaysVisible", true );  // this means that the item will be also expanded after render
-
-			_item.set( "closable", true );
-		} else if( _id === "item2" ){
-			_item.set( "label", "Label2" ); // there is no label in markup for this item, so we set it here
-
-			_item.set( "contentHeight",  {
-					method: "stretch"
-				});
-
-		   _item.set( "expanded", true );
-		} else if( _id === "item3" ){
-			_item.set( "label", "Label3, overwritten" ); // we overwrite the label from markup
-
-			_item.set( "contentHeight",  {
-					method: "auto"
-				});
-
-			_item.set( "expanded", true );
-		}
-	}, this );
+        var _accordion = new Y.Accordion( {
+            contentBox: "#acc1",
+            useAnimation: true,
+            collapseOthersOnExpand: true
+        });
+        
+        _accordion.render();
         </pre>
     </div>
 
     <div class="step">
-        <h1>Step five: render the Accordion</h1>
+        <h1>Step three: create one or more items</h1>
 
         <p>
-	The last step is to render the accordion. Render process will look for some items and if found, they will be created authomatically. In this example, there will be created three items.
+            You have to instantiate the following class: Y.AccordionItem<br>
+            The accordion item is a regular widget with a few confguation options in addition to those, provided from widget.<br>
+            In this example we will create three items.
         </p>
+
         <pre class="brush: js;">
-	 _accordion.render();
+        var _item1, _item2, _item3;
+            
+        _item1 = new Y.AccordionItem( {
+            label: "Item1, added from script",
+            expanded: true,
+            contentBox: "dynamicContentBox1",
+            contentHeight: {
+                method: "fixed",
+                height: 80
+            },
+            closable: true
+        } );
+
+        _item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"fixed, 80px\"." );
+        
+        _accordion.addItem( _item1 );
+        
+        _item2 = new Y.AccordionItem( {
+            label: "Item2, added from script",
+            expanded: true,
+            contentBox: "dynamicContentBox2",
+            contentHeight: {
+                method: "stretch"
+            }
+        } );
+
+        _item2.set( "bodyContent", "This is the body of the item, added dynamically to accordion, before item1.<br>Content height has been set as \"stretch\"." );
+        
+        _accordion.addItem( _item2, _item1 );
+        
+        _item3 = new Y.AccordionItem( {
+            label: "Item3, added from script",
+            expanded: true,
+            alwaysVisible: true,
+            contentBox: "dynamicContentBox3",
+            contentHeight: {
+                method: "auto"
+            }
+        } );
+
+        _item3.set( "bodyContent", "<div style='position:relative;'>This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"auto\".</div>" );
+        
+        _accordion.addItem( _item3 );
         </pre>
     </div>
 
 
-<h3><a href="build_from_markup.html" target="_blank">See the this example in new window.</a></h3>
+<h3><a href="build_from_script_window.html" target="_blank">See the this example in new window.</a></h3>
 
 </body>
 
