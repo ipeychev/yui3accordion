@@ -1,114 +1,116 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-<head>
+    <head>
 
 
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>YUI3 Accordion widget</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>YUI3 Accordion widget</title>
 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
 
-<link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shCore.css">
-<link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shThemeDefault.css">
+        <link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shCore.css">
+        <link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shThemeDefault.css">
 
-<style type="text/css">
-	html, body {
-		height:100%;
-	}
-	
-	.step {
-		position: relative;
-		border: 2px solid #E5ECF9;
-		background-color: #F2FBFF;
-		margin:0 0 0 0px;
-		padding: 1em 1em 2em 1em;
-	}
-	
-	h1 {
-		font-size: 170%;
-		line-height: 130%;
-		margin:0 0 0 0px;
-		padding: 1em 0.5em 1em;
-	}
-	
-	h2 {
-		font-size:150%;
-		font-weight:bold;
-		margin:1.5em 0 0;
-		top:0;
-	}
-	
-	h3 {
-		font-size:130%;
-		font-weight:bold;
-		margin:1.5em 0 0;
-		top:0;
-	}
-	
-	#item2 .customiconclass {
-		background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
-		background-repeat: no-repeat;
-		background-position: center -83px;
-	}
-</style>
+        <style type="text/css">
+            html, body {
+                height:100%;
+            }
+
+            .step {
+                position: relative;
+                border: 2px solid #E5ECF9;
+                background-color: #F2FBFF;
+                margin:0 0 0 0px;
+                padding: 1em 1em 2em 1em;
+            }
+
+            h1 {
+                font-size: 170%;
+                line-height: 130%;
+                margin:0 0 0 0px;
+                padding: 1em 0.5em 1em;
+            }
+
+            h2 {
+                font-size:150%;
+                font-weight:bold;
+                margin:1.5em 0 0;
+                top:0;
+            }
+
+            h3 {
+                font-size:130%;
+                font-weight:bold;
+                margin:1.5em 0 0;
+                top:0;
+            }
+
+            #item2 .customiconclass {
+                background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
+                background-repeat: no-repeat;
+                background-position: center -83px;
+            }
+        </style>
 
 
 
-<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
 
-<script type="text/javascript" src="syntaxhighlighter/scripts/shCore.js"></script>	
-<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCss.js"></script>
-<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJScript.js"></script>
-<script type="text/javascript" src="syntaxhighlighter/scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCss.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJScript.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushXml.js"></script>
 
-<script type="text/javascript">	
-SyntaxHighlighter.config.clipboardSwf = 'syntaxhighlighter/scripts/clipboard.swf';
-SyntaxHighlighter.all();
+        <script type="text/javascript">
+            SyntaxHighlighter.config.clipboardSwf = 'syntaxhighlighter/scripts/clipboard.swf';
+            SyntaxHighlighter.all();
 
-YUI({
-    combine: true,
-    modules: {
-        'accordion': {
-			type: 'js',
-			fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
-        },
-		'accordion-css' : {
-			type: 'css',
-			fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-		}
-    }
-} ).use("accordion", 'accordion-css', function(Y) {
+            YUI({
+                combine: true,
+                modules: {
+                    'accordion': {
+                        type: 'js',
+                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                        requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
+                    },
+                    'accordion-css' : {
+                        type: 'css',
+                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                    }
+                }
+            } ).use("accordion", 'accordion-css', function(Y) {
     
     
-});
+            });
 
-//////////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////////////////////
 
-</script>
-</head>
-<body class="yui-skin-sam">
+        </script>
+    </head>
+    <body class="yui-skin-sam">
 
-	<div class="step">
-	
-	<div style="float:right; position:relative;">
-	<h3><a href="build_from_markup.html" target="_blank">See the this example in new window.</a></h3>
-	</div>
-	
-	<h1>Step one: create accordion module</h1>
-	
-	<p>
+        <div class="step">
+
+            <div style="float:right; position:relative;">
+                <h3>
+                    <a href="build_from_markup.html" target="_blank">See the this example in new window.</a>
+                </h3>
+            </div>
+
+            <h1>Step one: create accordion module</h1>
+
+            <p>
 		In order to use Accordion widget, you have to add it as module in your YUI instance. You have to define two modules - one for its js and second one about its css.
 		Let's name them 'accordion' and 'accordion-css'. You have to specify also the full path to accordion js file. Here we will load it from GitHub.
 		Of course, we must load YUI3 core file also.
-		
-		<pre class="brush: html;">
-			<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
-		</pre>
-	</p>
+            </p>
 
-	
-	<pre class="brush: js;">
+            <pre class="brush: html;">
+			<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+            </pre>
+
+
+        <pre class="brush: js;">
 		YUI({
 			combine: true,
 			modules: {
@@ -125,127 +127,121 @@ YUI({
 		} ).use("accordion", 'accordion-css', function(Y) {
 
 		});
-	</pre>
-	</div>
-	
-	<div class="step">
-	<h1>Step two: define the markup of the accordion and (optionally) of its items</h1>
-	
-	<p>
+        </pre>
+    </div>
+
+    <div class="step">
+        <h1>Step two: define the markup of the accordion and (optionally) of its items</h1>
+
+        <p>
 	In this example, we will create markup for accordion itself and three items.
-	<p>
-	<a href="build_from_markup.html" target="_blank">See the this example in new window.</a>
-	</p>
-	</p>
-	
-	<p>
+        </p>
+
+        <p>
 	Accordion needs regular div for itself. We will set also position, height and "overflow:hidden" for IE in case of quirks mode.<br>
-	<pre class="brush: html">
-	<div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-	</pre>
-	<br>
+        </p>
+        <pre class="brush: html">
+            <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
+        </pre>
+        <br>
 	For each item, we have to create standard markup as for regular widget, with some additional settings. These are:
-	<h3>1. Set class "yui-accordion-item" in the main item's div:</h3>
-	<pre class="brush: html;">
+        <h3>1. Set class "yui-accordion-item" in the main item's div:</h3>
+        <pre class="brush: html;">
 	<div id="item1" class="yui-accordion-item">
 	........
 	</div>
-	</pre>
-	<h3>2. Set markup for item's label (optionally)</h3>
-	<pre class="brush: html;">
+        </pre>
+        <h3>2. Set markup for item's label (optionally)</h3>
+        <pre class="brush: html;">
 	<div class="yui-widget-hd">
          <div class="yui-accordion-item-label">Label 1</div>
-    </div>
-	</pre>
-	
-	<p>
-	<h3>3. Set custom icon instead those, which the item provides by default (optionally):</h3>
-	<pre class="brush: html;">
+        </div>
+        </pre>
+
+        <h3>3. Set custom icon instead those, which the item provides by default (optionally):</h3>
+        <pre class="brush: html;">
 	<div class="yui-widget-hd">
 		<div class="yui-accordion-item-icon customiconclass"></div>
 	</div>
-	</pre>
+        </pre>
 	The custom class is defined in this way:
-	<pre class="brush: css;">
+        <pre class="brush: css;">
 	#item2 .customiconclass {
 		background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
 		background-repeat: no-repeat;
 		background-position: center -83px;
 	}
-	</pre>	
-	</p>
-	
-	<p>
-	Here is the whole markup of the Accordion:
-	</p>
-	<pre class="brush: html;">
-		<!-- Accordion markup -->
-	    <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-			<!-- Item1 markup -->
-            <div id="item1" class="yui-accordion-item">
-                <div class="yui-widget-hd">
-                    <div class="yui-accordion-item-label">Label 1</div>
-                </div>
-                <div class="yui-widget-bd">
-                    <div id="pm1" style="position: relative;">
-                        Item1 content...
-                    </div>
-                </div>
-            </div>
-            
-			<!-- Item2 markup -->
-            <div id="item2" class="yui-accordion-item">
-                <div class="yui-widget-hd">
-                    <div class="yui-accordion-item-icon customiconclass"></div>
-                </div>
-                <div id="bodyid2" class="yui-widget-bd">
-                    <div id="pm2" style="position:relative">
-                        Item2 content...
-                    </div>
-                </div>
-            </div>
+        </pre>
 
-            <!-- Item3 markup -->
-            <div id="item3" class="yui-accordion-item">
-                <div class="yui-widget-hd">
-					<div class="yui-accordion-item-label">Label 3 from markup</div>
-                </div>
-                <div id="bodyid3" class="yui-widget-bd">
-                    <div id="pm3" style="position:relative;">
-                        Item3 content...
+        <p>
+	Here is the whole markup of the Accordion:
+        </p>
+        <pre class="brush: html;">
+            <!-- Accordion markup -->
+	    <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
+                <!-- Item1 markup -->
+                <div id="item1" class="yui-accordion-item">
+                    <div class="yui-widget-hd">
+                        <div class="yui-accordion-item-label">Label 1</div>
+                    </div>
+                    <div class="yui-widget-bd">
+                        <div id="pm1" style="position: relative;">
+                            Item1 content...
+                        </div>
                     </div>
                 </div>
-            </div>
-       </div>
-	</pre>
-	</div>
-	
-	<div class="step">
-	<h1>Step three: instantiate the Accordion</h1>
-	<p>
+            
+                <!-- Item2 markup -->
+                <div id="item2" class="yui-accordion-item">
+                    <div class="yui-widget-hd">
+                        <div class="yui-accordion-item-icon customiconclass"></div>
+                    </div>
+                    <div id="bodyid2" class="yui-widget-bd">
+                        <div id="pm2" style="position:relative">
+                            Item2 content...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item3 markup -->
+                <div id="item3" class="yui-accordion-item">
+                    <div class="yui-widget-hd">
+                        <div class="yui-accordion-item-label">Label 3 from markup</div>
+                    </div>
+                    <div id="bodyid3" class="yui-widget-bd">
+                        <div id="pm3" style="position:relative;">
+                            Item3 content...
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </pre>
+    </div>
+
+    <div class="step">
+        <h1>Step three: instantiate the Accordion</h1>
+        <p>
 	When YUI3 finishes loading all scripts, it will execute a function, passed as last argument of YUI "use" function. This is the right place you have to start creating instances, including those of the Accordion.
 	You can instantiate Accordion as any other widget in YUI3:
-	</p>
-	
-	<pre class="brush: js;">
+        </p>
+
+        <pre class="brush: js;">
 	var _accordion = new Y.Accordion( {
-        contentBox: "#acc1",
-        useAnimation: true,
-        collapseOthersOnExpand: true
-    });
-	</pre>
-	</p>
-	</div>
-	
-	<div class="step">
-	<h1>Step four: add/modify params of the items before add them to Accordion</h1>
-	
-	<p>
+            contentBox: "#acc1",
+            useAnimation: true,
+            collapseOthersOnExpand: true
+        });
+        </pre>
+    </div>
+
+    <div class="step">
+        <h1>Step four (optional): add/modify params of the items before add them to Accordion</h1>
+
+        <p>
 	If you would like to set other parameters to the items in addition to "label" and "icon" (set from markup), the best way is to subscribe for "beforeItemAdd" event:
-	</p>
-	
-	<p>
-	<pre class="brush: js;">
+        </p>
+
+        <pre class="brush: js;">
 	_accordion.on( "beforeItemAdd", function( _attrs ){
 		var _item, _id;
 
@@ -279,25 +275,23 @@ YUI({
 			_item.set( "expanded", true );
 		}
 	}, this );
-	</pre>
-	</div>
-	
-	<div class="step">
-	<h1>Step five: render the Accordion</h1>
-	
-	<p>
-	The last step is to render the accordion. Render process will look for some items and if found, they will be created authomatically. In this example, there will be created three items.
-	<pre class="brush: js;">
-	 _accordion.render();
-	</pre>
-	</p>
-	</div>
-	
+        </pre>
+    </div>
 
-	<p>
-	<h3><a href="build_from_markup.html" target="_blank">See the this example in new window.</a></h3>
-	</p>
-	<br>
+    <div class="step">
+        <h1>Step five: render the Accordion</h1>
+
+        <p>
+	The last step is to render the accordion. Render process will look for some items and if found, they will be created authomatically. In this example, there will be created three items.
+        </p>
+        <pre class="brush: js;">
+	 _accordion.render();
+        </pre>
+    </div>
+
+
+<h3><a href="build_from_markup.html" target="_blank">See the this example in new window.</a></h3>
+
 </body>
 
 </html>
