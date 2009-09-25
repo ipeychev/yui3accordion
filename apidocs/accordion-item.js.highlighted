@@ -1,0 +1,618 @@
+<div class="highlight"><pre><span class="c">/**</span>
+<span class="c"> * Provides the Accordion class</span>
+<span class="c"> *</span>
+<span class="c"> * @module accordion</span>
+<span class="c"> */</span>
+
+<span class="p">(</span><span class="k">function</span><span class="p">(){</span>
+
+<span class="c">/**</span>
+<span class="c"> * Create an AccordionItem widget.</span>
+<span class="c"> * </span>
+<span class="c"> * @param _config {Object} Object literal specifying AccordionItem configuration properties.</span>
+<span class="c"> *</span>
+<span class="c"> * @class AccordionItem</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @extends Widget</span>
+<span class="c"> */</span>
+
+<span class="k">function</span> <span class="nx">AccordionItem</span><span class="p">(</span> <span class="nx">_config</span> <span class="p">){</span>
+    <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span> <span class="k">this</span><span class="o">,</span> <span class="nx">arguments</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c">// Local constants</span>
+<span class="k">var</span> <span class="nx">Lang</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Lang</span><span class="o">,</span>
+    <span class="nx">Base</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Base</span><span class="o">,</span>
+    <span class="nx">Node</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Node</span><span class="o">,</span>
+    <span class="nx">WidgetStdMod</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">WidgetStdMod</span><span class="o">,</span>
+    <span class="nx">AccItemName</span> <span class="o">=</span> <span class="s2">&quot;accordion-item&quot;</span><span class="o">,</span>
+    <span class="nx">getCN</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">ClassNameManager</span><span class="p">.</span><span class="nx">getClassName</span><span class="o">;</span>
+
+<span class="c">/**</span>
+<span class="c"> *  Static property provides a string to identify the class.</span>
+<span class="c"> *</span>
+<span class="c"> * @property AccordionItem.NAME</span>
+<span class="c"> * @type String</span>
+<span class="c"> * @static</span>
+<span class="c"> */</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">NAME</span> <span class="o">=</span> <span class="nx">AccItemName</span><span class="o">;</span>
+
+<span class="c">/**</span>
+<span class="c"> * Static property used to define the default attribute </span>
+<span class="c"> * configuration for the Accordion.</span>
+<span class="c"> * </span>
+<span class="c"> * @property Accordion.ATTRS</span>
+<span class="c"> * @type Object</span>
+<span class="c"> * @static</span>
+<span class="c"> */</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c">/**</span>
+<span class="c">     * @description The icon of the item. The value can be one of these:</span>
+<span class="c">     *  &lt;dl&gt;</span>
+<span class="c">     *      &lt;dt&gt;default&lt;/dt&gt;</span>
+<span class="c">     *          &lt;dd&gt;The AccordionItem will use the default icon&lt;/dd&gt;</span>
+<span class="c">     *      &lt;dt&gt;Custom class name&lt;/dt&gt;</span>
+<span class="c">     *          &lt;dd&gt;A custom class to be added to icon&#39;s classes&lt;/dd&gt;</span>
+<span class="c">     *  &lt;/dl&gt;</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute icon</span>
+<span class="c">     * @default &quot;default&quot;</span>
+<span class="c">     * @type String</span>
+<span class="c">     */</span>
+    <span class="nx">icon</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;default&quot;</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description The label of the item</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute label</span>
+<span class="c">     * @default &quot;&amp;#160;&quot;</span>
+<span class="c">     * @type String</span>
+<span class="c">     */</span>
+    <span class="k">label</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;&amp;#160;&quot;</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="c">/**</span>
+<span class="c">     * @description Icon always visible</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute iconAlwaysVisible</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @readOnly</span>
+<span class="c">     * @type Node</span>
+<span class="c">     */</span>
+    <span class="nx">iconAlwaysVisible</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">_value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span><span class="o">,</span>
+        <span class="nx">getter</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="o">;</span>
+        <span class="p">}</span><span class="o">,</span>
+        <span class="nx">readOnly</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="c">/**</span>
+<span class="c">     * @description Icon extended</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute iconExtended</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @readOnly</span>
+<span class="c">     * @type Node</span>
+<span class="c">     */</span>
+    <span class="nx">iconExtended</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">_value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span><span class="o">,</span>
+        <span class="nx">getter</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="o">;</span>
+        <span class="p">}</span><span class="o">,</span>
+        <span class="nx">readOnly</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * @description Icon close, or null if the item is not closable</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute iconClose</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @readOnly</span>
+<span class="c">     * @type Node</span>
+<span class="c">     */</span>
+    <span class="nx">iconClose</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">_value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span><span class="o">,</span>
+        <span class="nx">getter</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconClose</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description Get/Set the expanded status of the item</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute expanded</span>
+<span class="c">     * @default false</span>
+<span class="c">     * @type Boolean</span>
+<span class="c">     */</span>
+    <span class="nx">expanded</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isBoolean</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description Describe the method, which will be used when expanding/collapsing</span>
+<span class="c">     * the item. The value should be an object with at least one property (&quot;method&quot;):</span>
+<span class="c">     *  &lt;dl&gt;</span>
+<span class="c">     *      &lt;dt&gt;method&lt;/dt&gt;</span>
+<span class="c">     *          &lt;dd&gt;The method can be one of these: &quot;auto&quot;, &quot;fixed&quot; and &quot;stretch&quot;&lt;/dd&gt;</span>
+<span class="c">     *      &lt;dt&gt;height&lt;/dt&gt;</span>
+<span class="c">     *          &lt;dd&gt;Must be set only if method&#39;s value is &quot;fixed&quot;&lt;/dd&gt;</span>
+<span class="c">     *  &lt;/dl&gt;</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute contentHeight</span>
+<span class="c">     * @default auto</span>
+<span class="c">     * @type Object</span>
+<span class="c">     */</span>
+    <span class="nx">contentHeight</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">method</span><span class="o">:</span> <span class="s2">&quot;auto&quot;</span>
+        <span class="p">}</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_value</span> <span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span> <span class="nx">_value</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span> <span class="nx">_value</span><span class="p">.</span><span class="nx">method</span> <span class="o">===</span> <span class="s2">&quot;auto&quot;</span> <span class="p">){</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="nx">_value</span><span class="p">.</span><span class="nx">method</span> <span class="o">===</span> <span class="s2">&quot;stretch&quot;</span> <span class="p">){</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="nx">_value</span><span class="p">.</span><span class="nx">method</span> <span class="o">===</span> <span class="s2">&quot;fixed&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isNumber</span><span class="p">(</span> <span class="nx">_value</span><span class="p">.</span><span class="nx">height</span> <span class="p">)</span> <span class="o">&amp;&amp;</span> 
+                    <span class="nx">_value</span><span class="p">.</span><span class="nx">height</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">){</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            
+            <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description Get/Set the expanded status of the item</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute alwaysVisible</span>
+<span class="c">     * @default false</span>
+<span class="c">     * @type Boolean</span>
+<span class="c">     */</span>
+    <span class="nx">alwaysVisible</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isBoolean</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    
+    <span class="c">/**</span>
+<span class="c">     * @description Get/Set the animaton specific settings. By default there are no any settings.</span>
+<span class="c">     * If set, they will overwrite Accordion&#39;s animation settings</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute animation</span>
+<span class="c">     * @default {}</span>
+<span class="c">     * @type Object</span>
+<span class="c">     */</span>
+    <span class="nx">animation</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="p">{}</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isObject</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description Provides client side string localization support.</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute strings</span>
+<span class="c">     * @default Object English messages</span>
+<span class="c">     * @type Object</span>
+<span class="c">     */</span>
+    <span class="nx">strings</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">title_always_visible_off</span><span class="o">:</span> <span class="s2">&quot;Click to set always visible on&quot;</span><span class="o">,</span>
+            <span class="nx">title_always_visible_on</span><span class="o">:</span> <span class="s2">&quot;Click to set always visible off&quot;</span><span class="o">,</span>
+            <span class="nx">title_iconextended_off</span><span class="o">:</span> <span class="s2">&quot;Click to expand&quot;</span><span class="o">,</span>
+            <span class="nx">title_iconextended_on</span><span class="o">:</span> <span class="s2">&quot;Click to collapse&quot;</span><span class="o">,</span>
+            <span class="nx">title_iconclose</span><span class="o">:</span> <span class="s2">&quot;Click to close&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description Flag, indicated whether the item can be closed by user, or not</span>
+<span class="c">     * If yes, there will be placed close icon, otherwise not</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute closable</span>
+<span class="c">     * @default false</span>
+<span class="c">     * @type Boolean</span>
+<span class="c">     */</span>
+    <span class="nx">closable</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isBoolean</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+
+<span class="c">// AccordionItem classes</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ITEM</span>                         <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">DEFAULT_ICON</span>                   <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="o">;</span>
+
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TABLE</span>                        <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;table&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICON</span>                      <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;icon&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_LABEL</span>                     <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;label&quot;</span> <span class="p">);</span>
+
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONALWAYSVISIBLE</span>         <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONEXTENDED</span>              <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE</span>                 <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE_HIDDEN</span>          <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span><span class="o">,</span> <span class="s2">&quot;hidden&quot;</span> <span class="p">);</span>
+
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_EXPANDING</span>       <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;expanding&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_COLLAPSING</span>      <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;collapsing&quot;</span> <span class="p">);</span>
+
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICON</span>                         <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;icon&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_LABEL</span>                        <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;label&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE</span>            <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED</span>                 <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONCLOSE</span>                    <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span> <span class="p">);</span>
+
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_ON</span>              <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;on&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_OFF</span>             <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;off&quot;</span> <span class="p">);</span>
+
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_ON</span>         <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span><span class="o">,</span> <span class="s2">&quot;on&quot;</span> <span class="p">);</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_OFF</span>        <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span><span class="o">,</span> <span class="s2">&quot;off&quot;</span> <span class="p">);</span>
+
+
+<span class="c">/**</span>
+<span class="c"> * Static Object hash used to capture existing markup for progressive</span>
+<span class="c"> * enhancement.  Keys correspond to config attribute names and values</span>
+<span class="c"> * are selectors used to inspect the contentBox for an existing node</span>
+<span class="c"> * structure.</span>
+<span class="c"> *</span>
+<span class="c"> * @property AccordionItem.HTML_PARSER</span>
+<span class="c"> * @type Object</span>
+<span class="c"> * @protected</span>
+<span class="c"> * @static</span>
+<span class="c"> */</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">HTML_PARSER</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="k">label</span><span class="o">:</span> <span class="k">function</span> <span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_node</span><span class="o">,</span> <span class="nx">_class</span><span class="o">;</span>
+        
+        <span class="nx">_class</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd &gt; div.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_LABEL</span><span class="o">;</span>
+        <span class="nx">_node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">_class</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="nx">_node</span><span class="p">)</span> <span class="o">?</span> <span class="nx">_node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;innerHTML&quot;</span> <span class="p">)</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">icon</span><span class="o">:</span> <span class="k">function</span> <span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_node</span><span class="o">,</span> <span class="nx">_class</span><span class="o">;</span>
+        
+        <span class="nx">_class</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd &gt; div.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICON</span><span class="o">;</span>
+        <span class="nx">_node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">_class</span> <span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">_node</span> <span class="p">){</span>
+            <span class="nx">_class</span> <span class="o">=</span> <span class="nx">_node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;className&quot;</span> <span class="p">);</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="nx">_class</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span><span class="p">(</span> <span class="nx">_class</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">return</span> <span class="nx">_class</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">iconClose</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_node</span><span class="o">,</span> <span class="nx">_class</span><span class="o">;</span>
+
+        <span class="nx">_class</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd &gt; div.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONCLOSE</span><span class="o">;</span>
+        <span class="nx">_node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">_class</span> <span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">_node</span> <span class="p">){</span>
+            <span class="nx">_class</span> <span class="o">=</span> <span class="nx">_node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;className&quot;</span> <span class="p">);</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="nx">_class</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span><span class="p">(</span> <span class="nx">_class</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">return</span> <span class="nx">_class</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="p">}</span>    
+<span class="p">};</span>
+
+
+<span class="c">// AccordionItem extends Widget</span>
+
+<span class="nx">Y</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Widget</span><span class="o">,</span> <span class="p">{</span>
+
+    <span class="c">/**</span>
+<span class="c">     * Creates the header content of an AccordionItem</span>
+<span class="c">     *</span>
+<span class="c">     * @method _createHeader</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">_createHeader</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+        <span class="k">var</span> <span class="nx">_strings</span><span class="o">,</span> <span class="nx">_html</span><span class="o">,</span> <span class="nx">_node</span><span class="o">,</span> <span class="nx">_closable</span><span class="o">;</span>
+
+        <span class="k">function</span> <span class="nx">_setIcon</span><span class="p">(){</span>
+            <span class="k">var</span> <span class="nx">_icon</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;icon&quot;</span> <span class="p">);</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="nx">_icon</span> <span class="o">===</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">DEFAULT_ICON</span> <span class="p">){</span>
+                <span class="k">return</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICON</span><span class="o">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">_icon</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="nx">_strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;strings&quot;</span> <span class="p">);</span>
+        <span class="nx">_closable</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;closable&quot;</span> <span class="p">);</span>
+
+        <span class="nx">_html</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;&lt;TABLE selectable=&#39;no&#39; class=&#39;&quot;</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TABLE</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;&lt;TBODY&gt;&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;&lt;TR&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICON</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span> <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
+                    <span class="s2">&quot;&lt;div id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39; class=&#39;&quot;</span><span class="o">,</span> <span class="nx">_setIcon</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span> <span class="s2">&quot;&#39; align=&#39;middle&#39; &quot;</span><span class="o">,</span> <span class="s2">&quot;/&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_LABEL</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">,</span>
+                    <span class="s2">&quot;&lt;div class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_LABEL</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span> <span class="o">,</span>
+                       <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39; &quot;</span><span class="o">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="o">,</span>
+                       <span class="s2">&quot;&lt;a href=&#39;#&#39;&gt;&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;label&quot;</span> <span class="p">)</span><span class="o">,</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span><span class="o">,</span>
+                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONALWAYSVISIBLE</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">,</span>
+                    <span class="s2">&quot;&lt;div tabindex=&#39;0&#39; class=&#39;&quot;</span><span class="o">,</span>
+                        <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE</span><span class="o">,</span> <span class="s2">&quot; &quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
+                        <span class="s2">&quot; title=&#39;&quot;</span><span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_always_visible_off</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
+                        <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
+                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>                    
+                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONEXTENDED</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">,</span>
+                    <span class="s2">&quot;&lt;div tabindex=&#39;0&#39; class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED</span><span class="o">,</span> <span class="s2">&quot; &quot;</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_OFF</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
+                        <span class="s2">&quot; title=&#39;&quot;</span><span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_iconextended_off</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
+                        <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
+                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE</span><span class="o">,</span> <span class="s2">&quot; &quot;</span><span class="o">,</span> <span class="p">(</span><span class="o">!</span><span class="nx">_closable</span> <span class="o">?</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">,</span>
+                    <span class="s2">&quot;&lt;div tabindex=&#39;0&#39; class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONCLOSE</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
+                        <span class="s2">&quot; title=&#39;&quot;</span><span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_iconclose</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
+                        <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
+                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;&lt;/TR&gt;&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;&lt;/TBODY&gt;&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;&lt;/TABLE&gt;&quot;</span>
+        <span class="p">].</span><span class="nx">join</span><span class="p">(</span> <span class="s1">&#39;&#39;</span> <span class="p">);</span>
+
+        <span class="nx">_node</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">_html</span> <span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;headerContent&quot;</span><span class="o">,</span> <span class="nx">_node</span> <span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * Handles the change of &quot;iconChanged&quot; property. Set custom or default class for the icon</span>
+<span class="c">     * </span>
+<span class="c">     * @method _iconChanged</span>
+<span class="c">     * @protected</span>
+<span class="c">     * @param {EventFacade} _params The event facade for the attribute change</span>
+<span class="c">     */</span>
+    <span class="nx">_iconChanged</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_params</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_icon</span><span class="o">;</span>
+
+        <span class="nx">_icon</span> <span class="o">=</span> <span class="nx">_params</span><span class="p">.</span><span class="nx">newVal</span><span class="o">;</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;rendered&quot;</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">_icon</span> <span class="o">===</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">DEFAULT_ICON</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_icon</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;className&quot;</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICON</span> <span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_icon</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">_icon</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    
+    <span class="c">/**</span>
+<span class="c">     * Handles the change of &quot;labelChanged&quot; property. Updates item&#39;s UI with the label provided</span>
+<span class="c">     * </span>
+<span class="c">     * @method _labelChanged</span>
+<span class="c">     * @protected</span>
+<span class="c">     * @param {EventFacade} _params The event facade for the attribute change</span>
+<span class="c">     */</span>
+    <span class="nx">_labelChanged</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_params</span> <span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;rendered&quot;</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_label</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;innerHTML&quot;</span><span class="o">,</span> <span class="p">[</span><span class="s2">&quot;&lt;a href=&#39;#&#39;&gt;&quot;</span><span class="o">,</span> <span class="nx">_params</span><span class="p">.</span><span class="nx">newVal</span><span class="o">,</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span> <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * Handles the change of &quot;closableChanged&quot; property. Hides or shows close icon</span>
+<span class="c">     *</span>
+<span class="c">     * @method _closableChanged</span>
+<span class="c">     * @protected</span>
+<span class="c">     * @param {EventFacade} _params The event facade for the attribute change</span>
+<span class="c">     */</span>
+    <span class="nx">_closableChanged</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_params</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_class</span><span class="o">,</span> <span class="nx">_node</span><span class="o">,</span> <span class="nx">_contentBox</span><span class="o">;</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;rendered&quot;</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="nx">_contentBox</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;contentBox&#39;</span> <span class="p">);</span>
+        
+            <span class="nx">_class</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd .&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE</span><span class="o">;</span>
+            <span class="nx">_node</span> <span class="o">=</span> <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">_class</span> <span class="p">);</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="nx">_params</span><span class="p">.</span><span class="nx">newVal</span> <span class="p">){</span>
+                <span class="nx">_node</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">_node</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * Initializer lifecycle implementation for the AccordionItem class.</span>
+<span class="c">     *</span>
+<span class="c">     * @method initializer</span>
+<span class="c">     * @protected</span>
+<span class="c">     * @param  _config {Object} Configuration object literal for the AccordionItem</span>
+<span class="c">     */</span>
+    <span class="nx">initializer</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_config</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s1">&#39;render&#39;</span><span class="o">,</span> <span class="k">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+            <span class="k">var</span> <span class="nx">_contentBox</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;contentBox&#39;</span> <span class="p">);</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">_icon</span> <span class="o">=</span> <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICON</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_label</span> <span class="o">=</span> <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_LABEL</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span> <span class="o">=</span> <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span> <span class="o">=</span> <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_iconClose</span> <span class="o">=</span> <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONCLOSE</span> <span class="p">);</span>
+        <span class="p">}</span><span class="o">,</span> <span class="k">this</span> <span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;iconChange&quot;</span><span class="o">,</span>     <span class="k">this</span><span class="p">.</span><span class="nx">_iconChanged</span><span class="o">,</span>     <span class="k">this</span> <span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;labelChange&quot;</span><span class="o">,</span>    <span class="k">this</span><span class="p">.</span><span class="nx">_labelChanged</span><span class="o">,</span>    <span class="k">this</span> <span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;closableChange&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_closableChanged</span><span class="o">,</span> <span class="k">this</span> <span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    
+    <span class="c">/**</span>
+<span class="c">     * Destructor lifecycle implementation for the AccordionItem class.</span>
+<span class="c">     *</span>
+<span class="c">     * @method destructor</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">destructor</span> <span class="o">:</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c">// EMPTY</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    
+    <span class="c">/**</span>
+<span class="c">     * Creates AccordionItem&#39;s header.</span>
+<span class="c">     * </span>
+<span class="c">     * @method renderUI</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">renderUI</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">_createHeader</span><span class="p">();</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+   <span class="c">/**</span>
+<span class="c">    * Marks the item as always visible by adding class to always visible icon.</span>
+<span class="c">    * The icon will be updated only if needed.</span>
+<span class="c">    * </span>
+<span class="c">    * @method markAsAlwaysVisible</span>
+<span class="c">    * @param {Boolean} _alwaysVisible Whether or not the item should be marked as always visible</span>
+<span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
+<span class="c">    */</span>
+    <span class="nx">markAsAlwaysVisible</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_alwaysVisible</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;strings&quot;</span> <span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">_alwaysVisible</span> <span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_OFF</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;title&quot;</span><span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_always_visible_on</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_ON</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;title&quot;</span><span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_always_visible_off</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    
+    <span class="c">/**</span>
+<span class="c">    * Marks the item as expanded by adding class to expand icon.</span>
+<span class="c">    * The icon will be updated only if needed.</span>
+<span class="c">    * </span>
+<span class="c">    * @method markAsExpanded</span>
+<span class="c">    * @param {Boolean} _expanded Whether or not the item should be marked as expanded</span>
+<span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
+<span class="c">    */</span>
+    <span class="nx">markAsExpanded</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_expanded</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">_strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;strings&quot;</span> <span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">_expanded</span> <span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_OFF</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_ON</span> <span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;title&quot;</span> <span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_iconextended_on</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_ON</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_OFF</span> <span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;title&quot;</span> <span class="o">,</span> <span class="nx">_strings</span><span class="p">.</span><span class="nx">title_iconextended_off</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+   
+   <span class="c">/**</span>
+<span class="c">    * Marks the item as expanding by adding class to expand icon.</span>
+<span class="c">    * The method will update icon only if needed.</span>
+<span class="c">    * </span>
+<span class="c">    * @method markAsExpanding</span>
+<span class="c">    * @param {Boolean} _expanding Whether or not the item should be marked as expanding</span>
+<span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
+<span class="c">    */</span>
+    <span class="nx">markAsExpanding</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_expanding</span> <span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">_expanding</span> <span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    
+   <span class="c">/**</span>
+<span class="c">    * Marks the item as collapsing by adding class to expand icon.</span>
+<span class="c">    * The method will update icon only if needed.</span>
+<span class="c">    * </span>
+<span class="c">    * @method markAsCollapsing</span>
+<span class="c">    * @param {Boolean} _collapsing Whether or not the item should be marked as collapsing</span>
+<span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
+<span class="c">    */</span>
+    <span class="nx">markAsCollapsing</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_collapsing</span> <span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">_collapsing</span> <span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">);</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span>
+    
+<span class="p">});</span>
+
+<span class="c">// Add WidgetStdMod&#39;s functionality to AccordionItem</span>
+<span class="nx">Base</span><span class="p">.</span><span class="nx">build</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">NAME</span><span class="o">,</span> <span class="nx">AccordionItem</span><span class="o">,</span> <span class="p">[</span> <span class="nx">WidgetStdMod</span> <span class="p">]</span><span class="o">,</span> <span class="p">{</span>
+    <span class="nx">dynamic</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">});</span>
+
+<span class="nx">Y</span><span class="p">.</span><span class="nx">AccordionItem</span> <span class="o">=</span> <span class="nx">AccordionItem</span><span class="o">;</span>
+
+<span class="p">}());</span>
+</pre></div>

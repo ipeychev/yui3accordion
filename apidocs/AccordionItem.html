@@ -1,0 +1,1439 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: accordion  AccordionItem   (YUI Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css" />
+
+    <script type="text/javascript" src="assets/api-js"></script>
+    <script type="text/javascript" src="assets/ac-js"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://developer.yahoo.com/yui/" title="Yahoo! UI Library">Yahoo! UI Library</a></h1>
+        <h3>accordion&nbsp; <span class="subtitle">1.01</span></h3>
+        <a href="./index.html" title="Yahoo! UI Library">Yahoo! UI Library</a> 
+            &gt; <a href="./module_accordion.html" title="accordion">accordion</a>
+                 &gt; AccordionItem 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">AccordionItem</b>
+                        <span class="extends">
+                           - extends <a href="Widget.html" title="Widget">Widget</a>
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        Create an AccordionItem widget.
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">AccordionItem</strong>
+                                <code>
+                                    (
+  
+                                        
+                                                
+                                                _config
+                                    )
+                                </code>
+                                <div class="description">
+                                        <dl rel="yui:parameters">
+                                            <dt>Parameters:</dt>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">_config</span>
+                                                    &lt;<span property="yui:type">Object</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  Object literal specifying AccordionItem configuration properties.</span>
+                                                </dd>
+                                        </dl>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:property" resource="#property_Accordion.ATTRS">
+                                    <h4><a name="property_Accordion.ATTRS" property="yui:name">Accordion.ATTRS</a>
+                                        - <code>static <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Static property used to define the default attribute 
+configuration for the Accordion.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:property" resource="#property_AccordionItem.HTML_PARSER">
+                                    <h4><a name="property_AccordionItem.HTML_PARSER" property="yui:name">AccordionItem.HTML_PARSER</a>
+                                        - <code>protected static <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Static Object hash used to capture existing markup for progressive
+enhancement.  Keys correspond to config attribute names and values
+are selectors used to inspect the contentBox for an existing node
+structure.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_AccordionItem.NAME">
+                                    <h4><a name="property_AccordionItem.NAME" property="yui:name">AccordionItem.NAME</a>
+                                        - <code>static <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Static property provides a string to identify the class.
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="protected" rel="yui:method" resource="#method__closableChanged">
+                                    <h4>
+                                        <a name="method__closableChanged">_closableChanged</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_closableChanged</strong>
+                                           (
+                                                
+                                                        
+                                                         _params
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles the change of "closableChanged" property. Hides or shows close icon
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_params</span>
+                                                        &lt;<span property="yui:type">EventFacade</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The event facade for the attribute change</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__createHeader">
+                                    <h4>
+                                        <a name="method__createHeader">_createHeader</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_createHeader</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Creates the header content of an AccordionItem
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__iconChanged">
+                                    <h4>
+                                        <a name="method__iconChanged">_iconChanged</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_iconChanged</strong>
+                                           (
+                                                
+                                                        
+                                                         _params
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles the change of "iconChanged" property. Set custom or default class for the icon
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_params</span>
+                                                        &lt;<span property="yui:type">EventFacade</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The event facade for the attribute change</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__labelChanged">
+                                    <h4>
+                                        <a name="method__labelChanged">_labelChanged</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_labelChanged</strong>
+                                           (
+                                                
+                                                        
+                                                         _params
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Handles the change of "labelChanged" property. Updates item's UI with the label provided
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_params</span>
+                                                        &lt;<span property="yui:type">EventFacade</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The event facade for the attribute change</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_destructor">
+                                    <h4>
+                                        <a name="method_destructor">destructor</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">destructor</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Destructor lifecycle implementation for the AccordionItem class.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_initializer">
+                                    <h4>
+                                        <a name="method_initializer">initializer</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">initializer</strong>
+                                           (
+                                                
+                                                        
+                                                         _config
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Initializer lifecycle implementation for the AccordionItem class.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_config</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Configuration object literal for the AccordionItem</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_markAsAlwaysVisible">
+                                    <h4>
+                                        <a name="method_markAsAlwaysVisible">markAsAlwaysVisible</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">markAsAlwaysVisible</strong>
+                                           (
+                                                
+                                                        
+                                                         _alwaysVisible
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Marks the item as always visible by adding class to always visible icon.
+The icon will be updated only if needed.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_alwaysVisible</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Whether or not the item should be marked as always visible</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Boolean Return true if the icon has been updated, false if there was no need to update</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_markAsCollapsing">
+                                    <h4>
+                                        <a name="method_markAsCollapsing">markAsCollapsing</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">markAsCollapsing</strong>
+                                           (
+                                                
+                                                        
+                                                         _collapsing
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Marks the item as collapsing by adding class to expand icon.
+The method will update icon only if needed.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_collapsing</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Whether or not the item should be marked as collapsing</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Boolean Return true if the icon has been updated, false if there was no need to update</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_markAsExpanded">
+                                    <h4>
+                                        <a name="method_markAsExpanded">markAsExpanded</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">markAsExpanded</strong>
+                                           (
+                                                
+                                                        
+                                                         _expanded
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Marks the item as expanded by adding class to expand icon.
+The icon will be updated only if needed.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_expanded</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Whether or not the item should be marked as expanded</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Boolean Return true if the icon has been updated, false if there was no need to update</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_markAsExpanding">
+                                    <h4>
+                                        <a name="method_markAsExpanding">markAsExpanding</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">markAsExpanding</strong>
+                                           (
+                                                
+                                                        
+                                                         _expanding
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Marks the item as expanding by adding class to expand icon.
+The method will update icon only if needed.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">_expanding</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Whether or not the item should be marked as expanding</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Boolean Return true if the icon has been updated, false if there was no need to update</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_renderUI">
+                                    <h4>
+                                        <a name="method_renderUI">renderUI</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">renderUI</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Creates AccordionItem's header.
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+                        <div class="section method details">
+                            <h3 id="events">Events</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:event" resource="#event_alwaysVisibleChange">
+                                    <h4>
+                                        <a name="event_alwaysVisibleChange">alwaysVisibleChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">alwaysVisibleChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'alwaysVisible' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_animationChange">
+                                    <h4>
+                                        <a name="event_animationChange">animationChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">animationChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'animation' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_closableChange">
+                                    <h4>
+                                        <a name="event_closableChange">closableChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">closableChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'closable' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_contentHeightChange">
+                                    <h4>
+                                        <a name="event_contentHeightChange">contentHeightChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">contentHeightChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'contentHeight' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_expandedChange">
+                                    <h4>
+                                        <a name="event_expandedChange">expandedChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">expandedChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'expanded' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_iconAlwaysVisibleChange">
+                                    <h4>
+                                        <a name="event_iconAlwaysVisibleChange">iconAlwaysVisibleChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">iconAlwaysVisibleChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'iconAlwaysVisible' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_iconChange">
+                                    <h4>
+                                        <a name="event_iconChange">iconChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">iconChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'icon' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_iconCloseChange">
+                                    <h4>
+                                        <a name="event_iconCloseChange">iconCloseChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">iconCloseChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'iconClose' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_iconExtendedChange">
+                                    <h4>
+                                        <a name="event_iconExtendedChange">iconExtendedChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">iconExtendedChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'iconExtended' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_labelChange">
+                                    <h4>
+                                        <a name="event_labelChange">labelChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">labelChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'label' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_stringsChange">
+                                    <h4>
+                                        <a name="event_stringsChange">stringsChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">stringsChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'strings' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+                        <div class="section field details">
+                            <h3 id="configattributes">Configuration Attributes</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:attribute" resource="#config_alwaysVisible">
+                                    <h4><a name="config_alwaysVisible">alwaysVisible</a>
+                                        <code>- <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Get/Set the expanded status of the item
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: false
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_animation">
+                                    <h4><a name="config_animation">animation</a>
+                                        <code>- <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Get/Set the animaton specific settings. By default there are no any settings.
+If set, they will overwrite Accordion's animation settings
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: {}
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_closable">
+                                    <h4><a name="config_closable">closable</a>
+                                        <code>- <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Flag, indicated whether the item can be closed by user, or not
+If yes, there will be placed close icon, otherwise not
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: false
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_contentHeight">
+                                    <h4><a name="config_contentHeight">contentHeight</a>
+                                        <code>- <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Describe the method, which will be used when expanding/collapsing
+the item. The value should be an object with at least one property ("method"):
+<dl>
+<dt>method</dt>
+<dd>The method can be one of these: "auto", "fixed" and "stretch"</dd>
+<dt>height</dt>
+<dd>Must be set only if method's value is "fixed"</dd>
+</dl>
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: auto
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_expanded">
+                                    <h4><a name="config_expanded">expanded</a>
+                                        <code>- <span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Get/Set the expanded status of the item
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: false
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_icon">
+                                    <h4><a name="config_icon">icon</a>
+                                        <code>- <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The icon of the item. The value can be one of these:
+<dl>
+<dt>default</dt>
+<dd>The AccordionItem will use the default icon</dd>
+<dt>Custom class name</dt>
+<dd>A custom class to be added to icon's classes</dd>
+</dl>
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: "default"
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_iconAlwaysVisible">
+                                    <h4><a name="config_iconAlwaysVisible">iconAlwaysVisible</a>
+                                        <code>- <span property="yui:type">Node</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Icon always visible
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: null
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_iconClose">
+                                    <h4><a name="config_iconClose">iconClose</a>
+                                        <code>- <span property="yui:type">Node</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Icon close, or null if the item is not closable
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: null
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_iconExtended">
+                                    <h4><a name="config_iconExtended">iconExtended</a>
+                                        <code>- <span property="yui:type">Node</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Icon extended
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: null
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_label">
+                                    <h4><a name="config_label">label</a>
+                                        <code>- <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The label of the item
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: "&#160;"
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_strings">
+                                    <h4><a name="config_strings">strings</a>
+                                        <code>- <span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Provides client side string localization support.
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: Object English messages
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+
+                            </div>
+                        </div>
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_accordion.html" title="accordion">accordion</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="Accordion.html" title="Accordion">Accordion</a></li>
+                                <li class="selected"><a href="AccordionItem.html" title="AccordionItem">AccordionItem</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="accordion-item.js.html" title="accordion-item.js">accordion-item.js</a></li>
+                                <li class=""><a href="accordion.js.html" title="accordion.js">accordion.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="propertyList" class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#property_Accordion.ATTRS" title="Accordion.ATTRS">Accordion.ATTRS</a></li>
+                                <li class="protected"><a href="#property_AccordionItem.HTML_PARSER" title="AccordionItem.HTML_PARSER">AccordionItem.HTML_PARSER</a></li>
+                                <li class=""><a href="#property_AccordionItem.NAME" title="AccordionItem.NAME">AccordionItem.NAME</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class="protected"><a href="#method__closableChanged" title="_closableChanged">_closableChanged</a></li>
+                                <li class="protected"><a href="#method__createHeader" title="_createHeader">_createHeader</a></li>
+                                <li class="protected"><a href="#method__iconChanged" title="_iconChanged">_iconChanged</a></li>
+                                <li class="protected"><a href="#method__labelChanged" title="_labelChanged">_labelChanged</a></li>
+                                <li class="protected"><a href="#method_destructor" title="destructor">destructor</a></li>
+                                <li class="protected"><a href="#method_initializer" title="initializer">initializer</a></li>
+                                <li class=""><a href="#method_markAsAlwaysVisible" title="markAsAlwaysVisible">markAsAlwaysVisible</a></li>
+                                <li class=""><a href="#method_markAsCollapsing" title="markAsCollapsing">markAsCollapsing</a></li>
+                                <li class=""><a href="#method_markAsExpanded" title="markAsExpanded">markAsExpanded</a></li>
+                                <li class=""><a href="#method_markAsExpanding" title="markAsExpanding">markAsExpanding</a></li>
+                                <li class="protected"><a href="#method_renderUI" title="renderUI">renderUI</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="eventsList" class="module">
+                        <h4>Events</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#event_alwaysVisibleChange" title="alwaysVisibleChange">alwaysVisibleChange</a></li>
+                                <li class=""><a href="#event_animationChange" title="animationChange">animationChange</a></li>
+                                <li class=""><a href="#event_closableChange" title="closableChange">closableChange</a></li>
+                                <li class=""><a href="#event_contentHeightChange" title="contentHeightChange">contentHeightChange</a></li>
+                                <li class=""><a href="#event_expandedChange" title="expandedChange">expandedChange</a></li>
+                                <li class=""><a href="#event_iconAlwaysVisibleChange" title="iconAlwaysVisibleChange">iconAlwaysVisibleChange</a></li>
+                                <li class=""><a href="#event_iconChange" title="iconChange">iconChange</a></li>
+                                <li class=""><a href="#event_iconCloseChange" title="iconCloseChange">iconCloseChange</a></li>
+                                <li class=""><a href="#event_iconExtendedChange" title="iconExtendedChange">iconExtendedChange</a></li>
+                                <li class=""><a href="#event_labelChange" title="labelChange">labelChange</a></li>
+                                <li class=""><a href="#event_stringsChange" title="stringsChange">stringsChange</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="configList" class="module">
+                        <h4>Configuration Attributes</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#config_alwaysVisible" title="alwaysVisible">alwaysVisible</a></li>
+                                <li class=""><a href="#config_animation" title="animation">animation</a></li>
+                                <li class=""><a href="#config_closable" title="closable">closable</a></li>
+                                <li class=""><a href="#config_contentHeight" title="contentHeight">contentHeight</a></li>
+                                <li class=""><a href="#config_expanded" title="expanded">expanded</a></li>
+                                <li class=""><a href="#config_icon" title="icon">icon</a></li>
+                                <li class=""><a href="#config_iconAlwaysVisible" title="iconAlwaysVisible">iconAlwaysVisible</a></li>
+                                <li class=""><a href="#config_iconClose" title="iconClose">iconClose</a></li>
+                                <li class=""><a href="#config_iconExtended" title="iconExtended">iconExtended</a></li>
+                                <li class=""><a href="#config_label" title="label">label</a></li>
+                                <li class=""><a href="#config_strings" title="strings">strings</a></li>
+                        </ul>
+                    </div>
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_Accordion.ATTRS", "access": "", "host": "AccordionItem", "type": "property", "name": "Accordion.ATTRS"}, {"url": "Accordion.html#property_Accordion.C_PROXY_VISIBLE", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.C_PROXY_VISIBLE"}, {"url": "Accordion.html#property_Accordion.DRAGGROUP", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.DRAGGROUP"}, {"url": "Accordion.html#property_Accordion.EVENT_TYPES", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.EVENT_TYPES"}, {"url": "AccordionItem.html#property_AccordionItem.HTML_PARSER", "access": "protected", "host": "AccordionItem", "type": "property", "name": "AccordionItem.HTML_PARSER"}, {"url": "AccordionItem.html#property_AccordionItem.NAME", "access": "", "host": "AccordionItem", "type": "property", "name": "AccordionItem.NAME"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method__adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "AccordionItem.html#config_alwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "alwaysVisible"}, {"url": "AccordionItem.html#event_alwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "alwaysVisibleChange"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "AccordionItem.html#config_animation", "access": "", "host": "AccordionItem", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "AccordionItem.html#event_animationChange", "access": "", "host": "AccordionItem", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#config_closable", "access": "", "host": "AccordionItem", "type": "config", "name": "closable"}, {"url": "AccordionItem.html#event_closableChange", "access": "", "host": "AccordionItem", "type": "event", "name": "closableChange"}, {"url": "AccordionItem.html#method__closableChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_closableChanged"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "AccordionItem.html#config_contentHeight", "access": "", "host": "AccordionItem", "type": "config", "name": "contentHeight"}, {"url": "AccordionItem.html#event_contentHeightChange", "access": "", "host": "AccordionItem", "type": "event", "name": "contentHeightChange"}, {"url": "AccordionItem.html#method__createHeader", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_createHeader"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#method_destructor", "access": "protected", "host": "AccordionItem", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#config_expanded", "access": "", "host": "AccordionItem", "type": "config", "name": "expanded"}, {"url": "AccordionItem.html#event_expandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "expandedChange"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "AccordionItem.html#config_icon", "access": "", "host": "AccordionItem", "type": "config", "name": "icon"}, {"url": "AccordionItem.html#config_iconAlwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "iconAlwaysVisible"}, {"url": "AccordionItem.html#event_iconAlwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconAlwaysVisibleChange"}, {"url": "AccordionItem.html#event_iconChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconChange"}, {"url": "AccordionItem.html#method__iconChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_iconChanged"}, {"url": "AccordionItem.html#config_iconClose", "access": "", "host": "AccordionItem", "type": "config", "name": "iconClose"}, {"url": "AccordionItem.html#event_iconCloseChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconCloseChange"}, {"url": "AccordionItem.html#config_iconExtended", "access": "", "host": "AccordionItem", "type": "config", "name": "iconExtended"}, {"url": "AccordionItem.html#event_iconExtendedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconExtendedChange"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "AccordionItem.html#method_initializer", "access": "protected", "host": "AccordionItem", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "AccordionItem.html#config_label", "access": "", "host": "AccordionItem", "type": "config", "name": "label"}, {"url": "AccordionItem.html#event_labelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "labelChange"}, {"url": "AccordionItem.html#method__labelChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_labelChanged"}, {"url": "AccordionItem.html#method_markAsAlwaysVisible", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsAlwaysVisible"}, {"url": "AccordionItem.html#method_markAsCollapsing", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsCollapsing"}, {"url": "AccordionItem.html#method_markAsExpanded", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanded"}, {"url": "AccordionItem.html#method_markAsExpanding", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanding"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "AccordionItem.html#method_renderUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "AccordionItem.html#config_strings", "access": "", "host": "AccordionItem", "type": "config", "name": "strings"}, {"url": "AccordionItem.html#event_stringsChange", "access": "", "host": "AccordionItem", "type": "event", "name": "stringsChange"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}];
+</script>
+</body>
+</html>
