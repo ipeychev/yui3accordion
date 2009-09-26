@@ -259,6 +259,11 @@ AccordionItem.C_ICONALWAYSVISIBLE            = getCN( AccItemName, "iconalwaysvi
 AccordionItem.C_ICONEXTENDED                 = getCN( AccItemName, "iconextended" );
 AccordionItem.C_ICONCLOSE                    = getCN( AccItemName, "iconclose" );
 
+AccordionItem.C_EXPANDED                     =  getCN( AccItemName, "expanded" );
+AccordionItem.C_CLOSABLE                     =  getCN( AccItemName, "closable" );
+AccordionItem.C_ALWAYSVISIBLE                =  getCN( AccItemName, "alwaysvisible" );
+AccordionItem.C_CONTENTHEIGHT                =  getCN( AccItemName, "contentheight" );
+
 AccordionItem.C_ICONEXTENDED_ON              = getCN( AccItemName, "iconextended", "on" );
 AccordionItem.C_ICONEXTENDED_OFF             = getCN( AccItemName, "iconextended", "off" );
 
@@ -320,7 +325,76 @@ AccordionItem.HTML_PARSER = {
         }
 
         return null;
-    }    
+    },
+
+    expanded: function( contentBox ){
+        var _expanded;
+
+        _expanded = contentBox.hasClass( AccordionItem.C_EXPANDED );
+
+        return _expanded;
+    },
+
+    alwaysVisible: function( contentBox ){
+        var _alwaysVisible;
+
+        _alwaysVisible = contentBox.hasClass( AccordionItem.C_ALWAYSVISIBLE );
+
+        return _alwaysVisible;
+    },
+
+    closable: function( contentBox ){
+        var _closable;
+
+        _closable = contentBox.hasClass( AccordionItem.C_CLOSABLE );
+
+        return _closable;
+    },
+
+    contentHeight: function( contentBox ){
+        var _class, _classValue, _height = 0, i, _length, _index, _char;
+
+        _classValue = contentBox.get( "className" );
+
+        _class = AccordionItem.C_CONTENTHEIGHT + '-';
+
+        _index = _classValue.indexOf( _class, 0);
+
+        if( _index >= 0 ){
+            _length = _classValue.length;
+            _index += _class.length;
+
+            _classValue = _classValue.substring( _index );
+
+            if( _classValue.match( /^auto\s*/g ) ){
+                return {
+                    method: "auto"
+                };
+            } else if( _classValue.match( /^stretch\s*/g ) ){
+                return {
+                    method: "stretch"
+                };
+            } else if( _classValue.match( /^fixed-\d+/g )  ){
+                for( i = 6, _length = _classValue.length; i < _length; i++ ){ // 6 = "fixed-".length
+                    _char = _classValue.charAt(i);
+                    _char = parseInt( _char, 10 );
+
+                    if( Lang.isNumber( _char ) ){
+                        _height = (_height * 10) + _char;
+                    } else {
+                        break;
+                    }
+                }
+
+                return {
+                    method: "fixed",
+                    height: _height
+                };
+            }
+        }
+
+        return null;
+    }
 };
 
 
