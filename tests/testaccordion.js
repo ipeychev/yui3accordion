@@ -6,14 +6,14 @@ YUI( {
     filter:"RAW",
     modules: {
         'accordion': {
-			type: 'js',
-			fullpath: '../build/accordion/accordion.js',
+            type: 'js',
+            fullpath: '../build/accordion/accordion.js',
             requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
         },
-		'accordion-css' : {
-			type: 'css',
-			fullpath: '../build/accordion/assets/skins/sam/accordion.css'
-		}
+        'accordion-css' : {
+            type: 'css',
+            fullpath: '../build/accordion/assets/skins/sam/accordion.css'
+        }
     }
 } ).use("accordion", 'accordion-css', 'test', 'console', 'event-simulate', function(Y) {
     
