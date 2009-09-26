@@ -1,16 +1,16 @@
 <html>
   <head>
     <title>Accordion tests Quirks mode</title>
-    
+
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
-				
-				
+
+
     <style type="text/css">
         html, body {
             height:100%;
         }
-        
+
         #item1 .customiconclass {
             background-image: url("../assets/skins/sam/accordion_sprite.png");
             background-repeat: no-repeat;
@@ -20,13 +20,12 @@
 
      <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
      <script type="text/javascript" src="testaccordion.js"></script>
-     
 
   </head>
   <body class="yui-skin-sam">
       <div style="position: absolute; width:350px; height: 550px;">
-          <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles, the other browsers don't -->
-            <div id="item1" class="yui-accordion-item">
+          <div id="acc1">
+            <div id="item1" class="yui-accordion-item yui-accordion-item-alwaysvisible yui-accordion-item-closable yui-accordion-item-contentheight-fixed-150">
                 <div class="yui-widget-hd">
                     <div class="yui-accordion-item-icon customiconclass"></div>
                     <div class="yui-accordion-item-label">Label 1 from markup</div>
@@ -37,8 +36,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div id="item2" class="yui-accordion-item">
+
+            <div id="item2" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-alwaysvisible yui-accordion-item-contentheight-stretch">
                 <div class="yui-widget-hd">
                     <div class="yui-accordion-item-icon customiconclass"></div>
                 </div>
@@ -48,9 +47,10 @@
                     </div>
                 </div>
             </div>
-            
-            <div id="item3" class="yui-accordion-item">
+
+            <div id="item3" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-contentheight-auto">
                 <div class="yui-widget-hd">
+                    <div class="yui-accordion-item-label">Label 3</div>
                 </div>
                 <div id="bodyid3" class="yui-widget-bd">
                     <div id="pm3" style="position:relative;">
@@ -58,8 +58,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div id="item4" class="yui-accordion-item">
+
+            <div id="item4" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-alwaysvisible yui-accordion-item-contentheight-stretch">
                 <div class="yui-widget-hd">
                     <div class="yui-accordion-item-label">Label 4</div>
                 </div>

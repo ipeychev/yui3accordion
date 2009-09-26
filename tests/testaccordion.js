@@ -39,40 +39,10 @@ YUI( {
         _item = _attrs.item;
         _id = _item.get( "contentBox" ).get( "id" );
 
-        if( _id === "item1" ){
-            _item.set( "contentHeight",  {
-                    method: "fixed",
-                    height: 150
-                });
-
-            _item.set( "alwaysVisible", true );  // this means expanded will be also true
-
-            _item.set( "closable", true );
-        } else if( _id === "item2" ){
+        if( _id === "item2" ){
             _item.set( "label", "Label2" ); // there is no label in markup for this item, so we set it here
-
-            _item.set( "contentHeight",  {
-                    method: "stretch"
-                });
-           
-           _item.set( "expanded", true );
-           _item.set( "alwaysVisible", true );
         } else if( _id === "item3" ){
             _item.set( "label", "Label3, overwritten" ); // we overwrite the label from markup
-                
-            _item.set( "contentHeight",  {
-                    method: "auto"
-                });
-
-            _item.set( "expanded", true ); // does nothing, it is false by default
-        } else if( _id === "item4" ){
-                
-            _item.set( "contentHeight",  {
-                    method: "stretch"
-                });
-
-            _item.set( "expanded", true );
-            _item.set( "alwaysVisible", true );
         }
     }, this );
 
