@@ -1347,17 +1347,21 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     renderUI: function(){
-        var _cb, _items;
+        var _cb, _itemsDom;
 
         _cb = this.get( "contentBox" );
-        _items = _cb.queryAll( "> div." + Y.AccordionItem.C_ITEM );
+        _itemsDom = _cb.queryAll( "> div." + Y.AccordionItem.C_ITEM );
 
-        _items.each( function( _item, _index, _items ){
-            var _newItem = new Y.AccordionItem({
-                contentBox: _item
-            });
+        _itemsDom.each( function( _itemNode, _index, _itemsDom ){
+            var _newItem;
 
-            this.addItem( _newItem );
+            if( !this.getItem( _itemNode ) ){
+                _newItem = new Y.AccordionItem({
+                    contentBox: _itemNode
+                });
+
+                this.addItem( _newItem );
+            }
         }, this );
     },
 
