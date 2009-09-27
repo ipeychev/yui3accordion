@@ -43,6 +43,22 @@
                 top:0;
             }
 
+            h4 {
+                font-size:110%;
+                font-weight:bold;
+                margin:1.5em 0 0;
+                top:0;
+            }
+
+            li {
+                background: transparent url(images/arrow_right.png) no-repeat scroll 0px 0px;
+                list-style-image:none;
+                list-style-position:outside;
+                list-style-type:none;
+                margin:0;
+                padding:0 0 0 20px;
+            }
+
             #item2 .customiconclass {
                 background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
                 background-repeat: no-repeat;
@@ -109,22 +125,22 @@
 
 
         <pre class="brush: js;">
-		YUI({
-			combine: true,
-			modules: {
-				'accordion': {
-					type: 'js',
-					fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-					requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
-				},
-				'accordion-css' : {
-					type: 'css',
-					fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-				}
-			}
-		} ).use("accordion", 'accordion-css', function(Y) {
+        YUI({
+            combine: true,
+            modules: {
+                'accordion': {
+                    type: 'js',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                    requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
+                },
+                'accordion-css' : {
+                    type: 'css',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                }
+            }
+        } ).use("accordion", 'accordion-css', function(Y) {
 
-		});
+        });
         </pre>
     </div>
 
@@ -139,7 +155,7 @@
 	Accordion needs regular div for itself. We will set also position, height and "overflow:hidden" for IE in case of quirks mode.<br>
         </p>
         <pre class="brush: html">
-            <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
+            <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"></div> <!-- IE needs these styles in quirks mode -->
         </pre>
         <br>
 	For each item, we have to create standard markup as for regular widget, with some additional settings. These are:
@@ -149,25 +165,82 @@
 	........
 	</div>
         </pre>
-        <h3>2. Set markup for item's label (optionally)</h3>
+
+        <h3>1. Set class "yui-accordion-item" in the main item's div:</h3>
+        <pre class="brush: html;">
+	<div id="item1" class="yui-accordion-item">
+	........
+	</div>
+        </pre>
+
+        <h3>2. Set class "yui-accordion-item-expanded" in the main item's div to make this item expanded:</h3>
+        <pre class="brush: html;">
+	<div id="item1" class="yui-accordion-item yui-accordion-item-expanded">
+	........
+	</div>
+        </pre>
+
+        <h3>3. Set class "yui-accordion-item-alwaysvisible" to make this item always visible by default:</h3>
+        <pre class="brush: html;">
+	<div id="item1" class="yui-accordion-item yui-accordion-item-alwaysvisible">
+	........
+	</div>
+        </pre>
+
+        <h3>4. Setting class "yui-accordion-item-closable" will allow user to close this item:</h3>
+        <pre class="brush: html;">
+	<div id="item1" class="yui-accordion-item yui-accordion-item-closable">
+	........
+	</div>
+        </pre>
+
+        <h3>5. Define content height policy</h3>
+        <h4>You can set content height in three ways:</h4>
+        <ol>
+            <li>auto - this means the height will be as is being calculated from browser</li>
+            <li>fixed - the content height will be exactly X pixels</li>
+            <li>stretch - the height will be calculated, based on the height of the other items in the Accordion</li>
+        </ol>
+        <h4>You have to add three different classes to item for each possible content height value. These are:</h4>
+        <ol>
+            <li>for auto - yui-accordion-item-contentheight-auto</li>
+            <li>for fixed - yui-accordion-item-contentheight-fixed-[pixels], where "[pixels]" is number, for example 150</li>
+            <li>for stretch - yui-accordion-item-contentheight-stretch</li>
+        </ol>
+
+        <h4>Example1 - markup for expanded item with content height set as fixed, 200px</h4>
+        <pre class="brush: html;">
+	<div id="item1" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-contentheight-fixed-200">
+	........
+	</div>
+        </pre>
+
+        <h4>Example2 - markup for always visible item with content height set as stretch</h4>
+        <pre class="brush: html;">
+	<div id="item1" class="yui-accordion-item yui-accordion-item-alwaysvisible yui-accordion-item-contentheight-stretch">
+	........
+	</div>
+        </pre>
+
+        <h3>6. Set markup for item's label (optionally)</h3>
         <pre class="brush: html;">
 	<div class="yui-widget-hd">
-         <div class="yui-accordion-item-label">Label 1</div>
+            <div class="yui-accordion-item-label">Label 1</div>
         </div>
         </pre>
 
-        <h3>3. Set custom icon instead those, which the item provides by default (optionally):</h3>
+        <h3>7. Set custom icon instead those, which the item provides by default (optionally):</h3>
         <pre class="brush: html;">
 	<div class="yui-widget-hd">
-		<div class="yui-accordion-item-icon customiconclass"></div>
+            <div class="yui-accordion-item-icon customiconclass"></div>
 	</div>
         </pre>
 	The custom class is defined in this way:
         <pre class="brush: css;">
 	#item2 .customiconclass {
-		background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
-		background-repeat: no-repeat;
-		background-position: center -83px;
+            background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
+            background-repeat: no-repeat;
+            background-position: center -83px;
 	}
         </pre>
 
@@ -177,8 +250,7 @@
         <pre class="brush: html;">
             <!-- Accordion markup -->
 	    <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-                <!-- Item1 markup -->
-                <div id="item1" class="yui-accordion-item">
+                <div id="item1" class="yui-accordion-item yui-accordion-item-contentheight-fixed-150 yui-accordion-item-alwaysvisible yui-accordion-item-closable">
                     <div class="yui-widget-hd">
                         <div class="yui-accordion-item-label">Label 1</div>
                     </div>
@@ -189,10 +261,11 @@
                     </div>
                 </div>
 
-                <!-- Item2 markup -->
-                <div id="item2" class="yui-accordion-item">
+                <div id="item2" class="yui-accordion-item yui-accordion-item-contentheight-stretch yui-accordion-item-expanded">
                     <div class="yui-widget-hd">
-                        <div class="yui-accordion-item-icon customiconclass"></div>
+                        <div class="yui-accordion-item-label">Label 2</div>
+                        <div class="yui-accordion-item-icon customiconclass">
+                        </div>
                     </div>
                     <div id="bodyid2" class="yui-widget-bd">
                         <div id="pm2" style="position:relative">
@@ -201,19 +274,21 @@
                     </div>
                 </div>
 
-                <!-- Item3 markup -->
-                <div id="item3" class="yui-accordion-item">
+                <div id="item3" class="yui-accordion-item yui-accordion-item-contentheight-auto yui-accordion-item-expanded">
                     <div class="yui-widget-hd">
                         <div class="yui-accordion-item-label">Label 3 from markup</div>
                     </div>
                     <div id="bodyid3" class="yui-widget-bd">
                         <div id="pm3" style="position:relative;">
-                            Item3 content...
+                            Item3 content..
                         </div>
                     </div>
                 </div>
            </div>
         </pre>
+
+        <h3>Please note: In YUI3 you can set </h3>
+
     </div>
 
     <div class="step">
@@ -235,43 +310,41 @@
     <div class="step">
         <h1>Step four (optional): add/modify params of the items before add them to Accordion</h1>
 
-        <p>
-	If you would like to set other parameters to the items in addition to "label" and "icon" (set from markup), the best way is to subscribe for "beforeItemAdd" event:
-        </p>
+        <h4>If you subscribe to "beforeItemAdd" event, you will be able to overwrite all parameters, added from markup or to add new:</h4>
 
         <pre class="brush: js;">
 	_accordion.on( "beforeItemAdd", function( _attrs ){
-		var _item, _id;
+            var _item, _id;
 
-		_item = _attrs.item;
-		_id = _item.get( "contentBox" ).get( "id" );
+            _item = _attrs.item;
+            _id = _item.get( "contentBox" ).get( "id" );
 
-		if( _id === "item1" ){
-			_item.set( "contentHeight",  {
-					method: "fixed",
-					height: 150 <!-- In pixels -->
-				});
+            if( _id === "item1" ){
+                _item.set( "contentHeight",  {
+                    method: "fixed",
+                    height: 150 <!-- In pixels -->
+                });
 
-			_item.set( "alwaysVisible", true );  // this means that the item will be also expanded after render
+                _item.set( "alwaysVisible", true );  // this means that the item will be also expanded after render
 
-			_item.set( "closable", true );
-		} else if( _id === "item2" ){
-			_item.set( "label", "Label2" ); // there is no label in markup for this item, so we set it here
+                _item.set( "closable", true );
+            } else if( _id === "item2" ){
+                _item.set( "label", "Label2" ); // there is no label in markup for this item, so we set it here
 
-			_item.set( "contentHeight",  {
-					method: "stretch"
-				});
+                _item.set( "contentHeight",  {
+                    method: "stretch"
+                });
 
-		   _item.set( "expanded", true );
-		} else if( _id === "item3" ){
-			_item.set( "label", "Label3, overwritten" ); // we overwrite the label from markup
+               _item.set( "expanded", true );
+            } else if( _id === "item3" ){
+                _item.set( "label", "Label3, overwritten" ); // we overwrite the label from markup
 
-			_item.set( "contentHeight",  {
-					method: "auto"
-				});
+                _item.set( "contentHeight",  {
+                    method: "auto"
+                });
 
-			_item.set( "expanded", true );
-		}
+                _item.set( "expanded", true );
+            }
 	}, this );
         </pre>
     </div>

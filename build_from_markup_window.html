@@ -44,7 +44,9 @@ YUI({
             collapseOthersOnExpand: true
         });
 
-
+        /*
+         * You can subscribe to "beforeItemAdd" event and set all the properties just before render accordion
+         * 
 	_accordion.on( "beforeItemAdd", function( _attrs ){
             var _item, _id;
 
@@ -78,6 +80,7 @@ YUI({
                 _item.set( "expanded", true );
             }
         }, this );
+        */
 
         _accordion.render();
 });
@@ -89,7 +92,7 @@ YUI({
 <body class="yui-skin-sam">
     <div style="position: absolute; left: 50px; top: 50px; width: 350px; height: 420px;">
         <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-            <div id="item1" class="yui-accordion-item">
+            <div id="item1" class="yui-accordion-item yui-accordion-item-contentheight-fixed-150 yui-accordion-item-alwaysvisible yui-accordion-item-closable">
                 <div class="yui-widget-hd">
                     <div class="yui-accordion-item-label">Label 1</div>
                 </div>
@@ -100,8 +103,9 @@ YUI({
                 </div>
             </div>
             
-            <div id="item2" class="yui-accordion-item">
+            <div id="item2" class="yui-accordion-item yui-accordion-item-contentheight-stretch yui-accordion-item-expanded">
                 <div class="yui-widget-hd">
+                    <div class="yui-accordion-item-label">Label 2</div>
                     <div class="yui-accordion-item-icon customiconclass">
                     </div>
                 </div>
@@ -112,9 +116,9 @@ YUI({
                 </div>
             </div>
 
-            <div id="item3" class="yui-accordion-item">
+            <div id="item3" class="yui-accordion-item yui-accordion-item-contentheight-auto yui-accordion-item-expanded">
                 <div class="yui-widget-hd">
-					<div class="yui-accordion-item-label">Label 3 from markup</div>
+                    <div class="yui-accordion-item-label">Label 3 from markup</div>
                 </div>
                 <div id="bodyid3" class="yui-widget-bd">
                     <div id="pm3" style="position:relative;">
