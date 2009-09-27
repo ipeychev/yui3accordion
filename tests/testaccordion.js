@@ -5,17 +5,17 @@ YUI( {
     debug: true, 
     filter:"RAW",
     modules: {
-        'accordion': {
-            type: 'js',
-            fullpath: '../build/accordion/accordion.js',
-            requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
-        },
         'accordion-css' : {
             type: 'css',
             fullpath: '../build/accordion/assets/skins/sam/accordion.css'
+        },
+        'accordion': {
+            type: 'js',
+            fullpath: '../build/accordion/accordion.js',
+            requires: [ 'accordion-css', 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event' ]
         }
     }
-} ).use("accordion", 'accordion-css', 'test', 'console', 'event-simulate', function(Y) {
+} ).use("accordion", 'test', 'console', 'event-simulate', function(Y) {
     
     var _that = this;
 
