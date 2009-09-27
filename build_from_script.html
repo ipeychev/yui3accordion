@@ -66,17 +66,17 @@
             YUI({
                 combine: true,
                 modules: {
-                    'accordion': {
-                        type: 'js',
-                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                        requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
-                    },
                     'accordion-css' : {
                         type: 'css',
                         fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                    },
+                    'accordion': {
+                        type: 'js',
+                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                        requires: [ 'accordion-css', 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event' ]
                     }
                 }
-            } ).use("accordion", 'accordion-css', function(Y) {
+            } ).use( 'accordion', function(Y) {
 
 
             });
@@ -112,17 +112,17 @@
         YUI({
             combine: true,
             modules: {
-                'accordion': {
-                    type: 'js',
-                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                    requires: [ 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event-delegate' ]
-                },
                 'accordion-css' : {
                     type: 'css',
                     fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                },
+                'accordion': {
+                    type: 'js',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                    requires: [ 'accordion-css', 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event' ]
                 }
             }
-        } ).use("accordion", 'accordion-css', function(Y) {
+        } ).use( 'accordion', function(Y) {
 
         });
         </pre>

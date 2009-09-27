@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Add/remove items dynamically</title>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
+
+<style type="text/css">
+    html, body {
+        height:100%;
+    }
+
+    .item-container {
+        position:relative;
+        height: 100%;
+        overflow: auto;
+    }
+</style>
+
+<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+
+<script type="text/javascript"> 
+
+YUI({
+    combine: true,
+    modules: {
+        'accordion-css' : {
+            type: 'css',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+        },
+        'button-css' : {
+            type: 'css',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/button/assets/skins/sam/button.css'
+        },
+        'editor-css' : {
+            type: 'css',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/editor/assets/skins/sam/editor.css'
+        },
+        'accordion': {
+            type: 'js',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+            requires:[ 'accordion-css', "widget-stdmod", "event", "anim-easing","dd-constrain","dd-proxy","dd-drop" ]
+        },
+        'yde': {
+            type: 'js',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js'
+        },
+        'element': {
+            type: 'js',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/element/element-min.js',
+            requires: [ 'yde' ]
+        },
+        'container-core': {
+            type: 'js',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/container/container_core-min.js',
+            requires: [ 'yde', 'element' ]
+        },
+        'button': {
+            type: 'js',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/button/button-min.js',
+            requires: [ 'button-css', 'yde', 'container-core' ]
+        },
+        'simple-editor': {
+            type: 'js',
+            fullpath: 'http://yui.yahooapis.com/2.8.0r4/build/editor/simpleeditor-min.js',
+            requires: [ 'editor-css', 'yde', 'container-core', 'button' ]
+        }
+    }
+} ).use( 'accordion', 'yde', 'element', 'container-core', 'button', 'simple-editor', function(Y) {
+     var _accordion, _btnAdd, _btnRemove, _txtLabel, _editor,
+        _expanded, _alwaysVisisble, _closable;
+    
+    _btnAdd = new YAHOO.widget.Button( "additem" );
+    _btnRemove = new YAHOO.widget.Button( "removeitems" );
+    _txtLabel = Y.get( "#label" );
+
+    _editor = new YAHOO.widget.SimpleEditor( 'content', {
+        height: '200px',
+        width: '422px',
+        dompath: false,
+        animate: false
+    });
+
+    _editor.render();
+
+    _expanded = new YAHOO.widget.Button( "expanded" );
+    _alwaysVisisble = new YAHOO.widget.Button( "alwaysvisible" );
+    _closable = new YAHOO.widget.Button( "closable" );
+    
+    _btnAdd.on( "click", function(e){
+        var _item, _html, _el;
+
+        _item = new Y.AccordionItem( {
+            label: _txtLabel.get( "value" ),
+            expanded: _expanded.get( "checked" ),
+            alwaysVisible: _alwaysVisisble.get( "checked" ),
+            closable: _closable.get( "checked" ),
+            contentBox: Y.guid(),
+            contentHeight: {
+                method: "stretch"
+            }
+        } );
+
+        _editor.saveHTML();
+        _html = _editor.get('element').value;
+
+        _el = Y.Node.create( '<div>' );
+        _el.addClass( "item-container" );
+        _el.setContent( _html );
+
+        _item.setStdModContent( Y.WidgetStdMod.BODY, _el, Y.WidgetStdMod.REPLACE );
+
+        _accordion.addItem( _item );
+    }, this, true );
+    
+    _btnRemove.on( "click", function(e){
+        var _item, _items, i, _length;
+
+        _items = _accordion.get( "items" );
+        
+        _length = _items.length;
+        
+        for( i = _length; i>= 0; i-- ){
+            _item = _items[i];
+            _accordion.removeItem( _item );
+        }
+    }, this, true );
+    
+    _accordion = new Y.Accordion( {
+        contentBox: "#acc1",
+        useAnimation: true,
+        collapseOthersOnExpand: true
+    });
+
+    _accordion.render();
+});
+
+</script>
+
+</head>
+
+<body class="yui-skin-sam">
+    <div style="position: relative; top: 0px; left: 0px; width: 900px; height: 700px;">
+        <div style="position: relative; float: left; top: 20px; left: 20px; width: 450px; height: 500px;">
+            <div style="font-weight: bold;">Item label:</div>
+            <input id="label" value="Label" type="text"><br><br>
+
+            <div style="font-weight: bold;">Item content:</div>
+            <textarea id="content" rows="8" cols="30">Sample content</textarea><br/><br/>
+
+            <input id="expanded" type="checkbox" value="Expanded" checked />
+            <input id="closable" type="checkbox" value="Closable" checked />
+            <input id="alwaysvisible" type="checkbox" value="Always visible"/>
+
+            <br/><br/>
+            <input id="additem" value="Add item"/>
+            <input id="removeitems" value="Remove items"/>
+        </div>
+
+        <div style="position: relative; float: right; left: 20px; top: 20px; width: 450px; height: 520px;">
+            <div id="acc1" style="position: relative; height: 520px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

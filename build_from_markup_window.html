@@ -9,13 +9,13 @@
 
 <style type="text/css">
 	html, body {
-		height:100%;
+            height:100%;
 	}
 	
 	#item2 .customiconclass {
-		background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
-		background-repeat: no-repeat;
-		background-position: center -83px;
+            background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
+            background-repeat: no-repeat;
+            background-position: center -83px;
 	}
 </style>
 
@@ -26,17 +26,17 @@
 YUI({
     combine: true,
     modules: {
+        'accordion-css' : {
+            type: 'css',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+        },
         'accordion': {
             type: 'js',
             fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:["widget-stdmod","event-delegate","anim-easing","dd-constrain","dd-proxy","dd-drop"]
-        },
-        'accordion-css' : {
-                type: 'css',
-                fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+            requires:[ 'accordion-css','widget-stdmod','event','anim-easing','dd-constrain','dd-proxy','dd-drop' ]
         }
     }
-} ).use('accordion', 'accordion-css', function(Y) {
+} ).use( 'accordion', function(Y) {
 	
 	var _accordion = new Y.Accordion( {
             contentBox: "#acc1",
