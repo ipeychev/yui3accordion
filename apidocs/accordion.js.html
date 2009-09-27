@@ -1394,17 +1394,21 @@
 <span class="c">     * @protected</span>
 <span class="c">     */</span>
     <span class="nx">renderUI</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
-        <span class="k">var</span> <span class="nx">_cb</span><span class="o">,</span> <span class="nx">_items</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">_cb</span><span class="o">,</span> <span class="nx">_itemsDom</span><span class="o">;</span>
 
         <span class="nx">_cb</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;contentBox&quot;</span> <span class="p">);</span>
-        <span class="nx">_items</span> <span class="o">=</span> <span class="nx">_cb</span><span class="p">.</span><span class="nx">queryAll</span><span class="p">(</span> <span class="s2">&quot;&gt; div.&quot;</span> <span class="o">+</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ITEM</span> <span class="p">);</span>
+        <span class="nx">_itemsDom</span> <span class="o">=</span> <span class="nx">_cb</span><span class="p">.</span><span class="nx">queryAll</span><span class="p">(</span> <span class="s2">&quot;&gt; div.&quot;</span> <span class="o">+</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">C_ITEM</span> <span class="p">);</span>
 
-        <span class="nx">_items</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_item</span><span class="o">,</span> <span class="nx">_index</span><span class="o">,</span> <span class="nx">_items</span> <span class="p">){</span>
-            <span class="k">var</span> <span class="nx">_newItem</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">AccordionItem</span><span class="p">({</span>
-                <span class="nx">contentBox</span><span class="o">:</span> <span class="nx">_item</span>
-            <span class="p">});</span>
+        <span class="nx">_itemsDom</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span> <span class="k">function</span><span class="p">(</span> <span class="nx">_itemNode</span><span class="o">,</span> <span class="nx">_index</span><span class="o">,</span> <span class="nx">_itemsDom</span> <span class="p">){</span>
+            <span class="k">var</span> <span class="nx">_newItem</span><span class="o">;</span>
 
-            <span class="k">this</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span> <span class="nx">_newItem</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span> <span class="nx">_itemNode</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">_newItem</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">AccordionItem</span><span class="p">({</span>
+                    <span class="nx">contentBox</span><span class="o">:</span> <span class="nx">_itemNode</span>
+                <span class="p">});</span>
+
+                <span class="k">this</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span> <span class="nx">_newItem</span> <span class="p">);</span>
+            <span class="p">}</span>
         <span class="p">}</span><span class="o">,</span> <span class="k">this</span> <span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
