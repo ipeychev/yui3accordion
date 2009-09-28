@@ -21,6 +21,13 @@
 .yui-accordion-item-table {
     width: 100%;
     -moz-user-select: none;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+.yui-accordion-item-table td{
+    padding: 0px;
+    margin: 0px;
 }
 
 .yui-accordion-item-table DIV{
