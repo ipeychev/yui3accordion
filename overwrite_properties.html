@@ -1,0 +1,252 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>YUI3 Accordion widget - build from script</title>
+
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
+
+        <link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shCore.css">
+        <link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shThemeDefault.css">
+
+        <style type="text/css">
+            html, body {
+                height:100%;
+            }
+
+            .step {
+                position: relative;
+                border: 2px solid #E5ECF9;
+                background-color: #F2FBFF;
+                margin:0 0 0 0px;
+                padding: 1em 1em 2em 1em;
+            }
+
+            h1 {
+                font-size: 170%;
+                line-height: 130%;
+                margin:0 0 0 0px;
+                padding: 1em 0.5em 1em;
+            }
+
+            h2 {
+                font-size:150%;
+                font-weight:bold;
+                margin:1.5em 0 0;
+                top:0;
+            }
+
+            h3 {
+                font-size:130%;
+                font-weight:bold;
+                margin:1.5em 0 0;
+                top:0;
+            }
+            
+            h4 {
+                font-size:110%;
+                font-weight:bold;
+                margin:0.5em 0 0;
+                top:0;
+            }
+            
+            li {
+                background: transparent url(images/arrow_right.png) no-repeat scroll 0px 0px;
+                list-style-image:none;
+                list-style-position:outside;
+                list-style-type:none;
+                margin:0;
+                padding:0 0 0 20px;
+            }
+
+            #item2 .customiconclass {
+                background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
+                background-repeat: no-repeat;
+                background-position: center -83px;
+            }
+        </style>
+
+
+
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shCore.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCss.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJScript.js"></script>
+        <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushXml.js"></script>
+
+        <script type="text/javascript">
+            SyntaxHighlighter.config.clipboardSwf = 'syntaxhighlighter/scripts/clipboard.swf';
+            SyntaxHighlighter.all();
+
+            YUI({
+                combine: true,
+                modules: {
+                    'accordion-css' : {
+                        type: 'css',
+                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                    },
+                    'accordion': {
+                        type: 'js',
+                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                        requires: [ 'accordion-css', 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event' ]
+                    }
+                }
+            } ).use( 'accordion', function(Y) {
+
+
+            });
+
+            //////////////////////////////////////////////////////////////////////////////////////////
+
+        </script>
+    </head>
+    <body class="yui-skin-sam">
+
+        <div class="step">
+
+            <div style="float:right; position:relative;">
+                <h3>
+                    <a href="overwrite_properties_window.html" target="_blank">See the this example in new window.</a>
+                </h3>
+            </div>
+
+            <h1>Step one: create accordion module</h1>
+
+            <p>
+        In order to use Accordion widget, you have to add it as module in your YUI instance. You have to define two modules - one for JavaScript code and another for the CSS.
+        Let's name them 'accordion' and 'accordion-css'. You have to specify also the full path to accordion js file. Here we will load it from GitHub.
+        Of course, we must load YUI3 core file also.
+            </p>
+
+            <pre class="brush: html;">
+            <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+            </pre>
+
+
+        <pre class="brush: js;">
+        YUI({
+            combine: true,
+            modules: {
+                'accordion-css' : {
+                    type: 'css',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+                },
+                'accordion': {
+                    type: 'js',
+                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+                    requires: [ 'accordion-css', 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event' ]
+                }
+            }
+        } ).use( 'accordion', function(Y) {
+
+        });
+        </pre>
+    </div>
+
+    
+    <div class="step">
+        <h1>Step two: overwrite the default Accordion's properties and instantiate it</h1>
+        <p>
+    When YUI3 finishes loading scripts, it will execute a function, passed as last argument of YUI "use" function. This is the right place you have to start creating instances, including those of the Accordion.<br/>
+    Among with standard Widget properties, you can set Accordion properties also:
+        </p>
+
+        <pre class="brush: js;">
+var _accordion;
+
+_accordion = new Y.Accordion( {
+    contentBox: "#acc1",
+    useAnimation: false,
+    animation: {
+        duration: 1.5,
+        easing: Y.Easing.backIn
+    },
+    collapseOthersOnExpand: false,
+    reorderItems: true,
+    resizeEvent: "default"
+} );
+
+_accordion.render();
+        </pre>
+        
+        <h4>
+    Here are the meaning of these properties:
+        </h4>
+        
+        <ol>
+            <li>
+                <span style="font-weight:bold;">useAnimation</span> - if true, the item's expanding or collapsing process will be animated. True by default.
+            </li>
+            <li>
+                <span style="font-weight:bold;">animation</span> - contains animation settings - these are duration and easing. Here we overwrite Accordion's default settings with duration: 1.5 and  as easing: Y.Easing.backIn
+            </li>
+            <li>
+                <span style="font-weight:bold;">collapseOthersOnExpand</span> - if true, when Accordion expands some item, it will collapse all the others, which have <span style="font-style:italic;">alwaysVisible</span> property set to false. True by default.
+            </li>
+            <li>
+                <span style="font-weight:bold;">reorderItems</span> - if true, the user will be able to reorder the items by using drag and drop.
+            </li>
+            <li>
+                <span style="font-weight:bold;">resizeEvent</span> - its value must be one of these: string <span style="font-style:italic;">"default"</span> or object with two properties - <span style="font-style:italic;">sourceObject</span> and <span style="font-style:italic;">resizeEvent</span>. This is useful, when you have an object, already listening to resize event from browser. Such object is LayoutManager in 2.8 - you can provide an instance of LayoutManager as <span style="font-style:italic;">sourceObject</span> and "resize" for <span style="font-style:italic;">resizeEvent</span>.
+            </li>
+        </ol>
+        
+    </div>
+
+    <div class="step">
+        <h1>Step three: overwrite default item properties and instantiate it</h1>
+
+        <p>
+            <span style="font-style:italic;">Note: some of item's properties can be <a href="build_from_markup.html">overwritten from markup</a> also.</span>
+        </p>
+
+        <pre class="brush: js;">
+var _item1;
+
+_item1 = new Y.AccordionItem({
+    label: "Item, added from script",
+    expanded: true,
+    contentBox: "dynamicContentBox1",
+    contentHeight: {
+        method: "stretch"
+    },
+    alwaysVisible: true,
+    closable: true
+});
+
+_item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"stretch\"." );
+
+_accordion.addItem( _item1 );
+        </pre>
+        
+        <h4>
+    Here are the meaning of these properties:
+        </h4>
+        
+        <ol>
+            <li>
+                <span style="font-weight:bold;">label</span> - the label of the item.
+            </li>
+            <li>
+                <span style="font-weight:bold;">expanded</span> - if true, the item will be expanded after render.
+            </li>
+            <li>
+                <span style="font-weight:bold;">contentHeight</span> - set content height policy. In this case, <span style="font-style:italic;">stretch</span> means, that the height of the content is unknown and should be calculated later, depending on the height of the other items in Accordion and its total height.
+            </li>
+            <li>
+                <span style="font-weight:bold;">alwaysVisible</span> - if true, the item will be always visible after render. This means, if Accordion's property <span style="font-style:italic;">collapseOthersOnExpand</span> is set <span style="font-style:italic;">true</span> and some other item is being expanded, the items, which have <span style="font-style:italic;">alwaysVisible</span> property set to <span style="font-weight:bold;">true</span>, will <span style="font-weight:bold;">not</span> collapse.
+            </li>
+            <li>
+                <span style="font-weight:bold;">closable</span> - if true, the user will be able to close the item.
+            </li>
+        </ol>
+        
+    </div>
+
+
+<h3><a href="overwrite_properties_window.html" target="_blank">See the this example in new window.</a></h3>
+
+</body>
+
+</html>

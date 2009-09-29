@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>YUI3 Accordion widget</title>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssreset/reset-min.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0b1/build/cssfonts/fonts-min.css">
+
+<style type="text/css">
+    html, body {
+        height:100%;
+    }
+</style>
+
+<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+
+<script type="text/javascript"> 
+
+YUI({
+    combine: true,
+    modules: {
+        'accordion-css' : {
+            type: 'css',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
+        },
+        'accordion': {
+            type: 'js',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
+            requires:[ 'accordion-css', 'widget-stdmod','event','anim-easing','dd-constrain','dd-proxy','dd-drop']
+        }
+    }
+} ).use( 'accordion', function(Y) {
+    var _accordion, _item1;
+
+    _accordion = new Y.Accordion( {
+        contentBox: "#acc1",
+        useAnimation: false,
+        animation: {
+            duration: 1.5,
+            easing: Y.Easing.backIn
+        },
+        collapseOthersOnExpand: false,
+        reorderItems: true,
+        resizeEvent: "default"
+    } );
+
+    _accordion.render();
+
+    _item1 = new Y.AccordionItem({
+        label: "Item, added from script",
+        expanded: true,
+        contentBox: "dynamicContentBox1",
+        contentHeight: {
+            method: "stretch"
+        },
+        alwaysVisible: true,
+        closable: true
+    });
+
+    _item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"stretch\"." );
+
+    _accordion.addItem( _item1 );
+
+});
+
+</script>
+
+</head>
+
+<body class="yui-skin-sam">
+    <div style="position: absolute; left: 50px; top: 50px; width: 350px; height: 420px;">
+        <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"></div><!-- IE needs these styles in quirks mode -->
+    </div>
+
+</body>
