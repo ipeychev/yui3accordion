@@ -20,7 +20,7 @@ generator_out=apidocs
 template=$yuidoc_home/template
 
 # The version of your project to display within the documentation.
-version=1.01
+version=1.02
 
 # The version of YUI the project is using.  This effects the output for
 # YUI configuration attributes.  This should start with '2' or '3'.
