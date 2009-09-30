@@ -12,7 +12,7 @@ YUI( {
         'accordion': {
             type: 'js',
             fullpath: '../build/accordion/accordion.js',
-            requires: [ 'accordion-css', 'widget-stdmod', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'event' ]
+            requires: [ 'accordion-css', 'event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod' ]
         }
     }
 } ).use("accordion", 'test', 'console', 'event-simulate', function(Y) {

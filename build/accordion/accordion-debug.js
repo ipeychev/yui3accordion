@@ -2373,4 +2373,4 @@ Y.AccordionItem = AccordionItem;
 
 
 
-}, '1.01' ,{requires:['widget-stdmod', 'event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop']});
+}, '1.02' ,{requires:['event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod']});
