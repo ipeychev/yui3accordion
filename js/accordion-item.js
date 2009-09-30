@@ -579,11 +579,14 @@ Y.extend( AccordionItem, Y.Widget, {
      * @protected
      */
     bindUI: function(){
-        var _contentBox = this.get( 'contentBox' );
+        var _selector, _contentBox;
+        
+        _contentBox = this.get( 'contentBox' );
+        _selector = [ 'div.', AccordionItem.C_LABEL, ' a' ].join('');
 
         _contentBox.delegate( "click", function(e){
             e.preventDefault();
-        }, 'div.yui-accordion-item-label a', this );
+        }, _selector, this );
     },
     
    /**
