@@ -572,6 +572,20 @@ Y.extend( AccordionItem, Y.Widget, {
         this._createHeader();
     },
     
+    /**
+     * Configures/Sets up listeners to bind Widget State to UI/DOM
+     *
+     * @method bindUI
+     * @protected
+     */
+    bindUI: function(){
+        var _contentBox = this.get( 'contentBox' );
+
+        _contentBox.delegate( "click", function(e){
+            e.preventDefault();
+        }, 'div.yui-accordion-item-label a', this );
+    },
+    
    /**
     * Marks the item as always visible by adding class to always visible icon.
     * The icon will be updated only if needed.

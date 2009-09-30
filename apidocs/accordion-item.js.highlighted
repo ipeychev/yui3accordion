@@ -572,6 +572,20 @@
         <span class="k">this</span><span class="p">.</span><span class="nx">_createHeader</span><span class="p">();</span>
     <span class="p">}</span><span class="o">,</span>
     
+    <span class="c">/**</span>
+<span class="c">     * Configures/Sets up listeners to bind Widget State to UI/DOM</span>
+<span class="c">     *</span>
+<span class="c">     * @method bindUI</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">bindUI</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+        <span class="k">var</span> <span class="nx">_contentBox</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;contentBox&#39;</span> <span class="p">);</span>
+
+        <span class="nx">_contentBox</span><span class="p">.</span><span class="nx">delegate</span><span class="p">(</span> <span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="k">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+            <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+        <span class="p">}</span><span class="o">,</span> <span class="s1">&#39;div.yui-accordion-item-label a&#39;</span><span class="o">,</span> <span class="k">this</span> <span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+    
    <span class="c">/**</span>
 <span class="c">    * Marks the item as always visible by adding class to always visible icon.</span>
 <span class="c">    * The icon will be updated only if needed.</span>
