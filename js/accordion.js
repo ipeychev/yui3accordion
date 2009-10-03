@@ -10,14 +10,14 @@
  * Accordion creates an widget, consists of one or more items, which can be collapsed, expanded,
  * set as always visible and reordered by using Drag&Drop. Collapsing/expanding might be animated.
  * 
- * @param _config {Object} Object literal specifying Accordion configuration properties.
+ * @param config {Object} Object literal specifying Accordion configuration properties.
  *
  * @class Accordion
  * @constructor
  * @extends Widget
  */
 
-function Accordion( _config ){
+function Accordion( config ){
     Accordion.superclass.constructor.apply( this, arguments );
 }
 
@@ -103,8 +103,8 @@ Accordion.ATTRS = {
 
     resizeEvent: {
         value: "default",
-        validator: function( _value ){
-            return (Lang.isString(_value) || Lang.isObject(_value));
+        validator: function( value ){
+            return (Lang.isString(value) || Lang.isObject(value));
         }
     },
 
@@ -138,9 +138,9 @@ Accordion.ATTRS = {
             duration: 1,
             easing: Easing.easeOutStrong
         },
-        validator: function( _value ){
-            return Lang.isObject( _value ) && Lang.isNumber( _value.duration ) &&
-                Lang.isFunction( _value.easing );
+        validator: function( value ){
+            return Lang.isObject( value ) && Lang.isNumber( value.duration ) &&
+                Lang.isFunction( value.easing );
         }
     },
 
@@ -228,22 +228,22 @@ Y.extend( Accordion, Y.Widget, {
      *
      * @method initializer
      * @protected
-     * @param  _config {Object} Configuration object literal for the Accordion
+     * @param  config {Object} Configuration object literal for the Accordion
      */
-    initializer: function( _config ) {
+    initializer: function( config ) {
         this._initEvents();
 
         this._lastChild = null;
 
         this.after( "render", function(){
-            var _resizeEvent;
+            var resizeEvent;
 
-            _resizeEvent = this.get( "resizeEvent" );
+            resizeEvent = this.get( "resizeEvent" );
             
-            this._setUpResizing( _resizeEvent );
+            this._setUpResizing( resizeEvent );
             
-            this.after( "resizeEventChange", function( _data ) {
-                this._setUpResizing( _data.newVal );
+            this.after( "resizeEventChange", function( data ) {
+                this._setUpResizing( data.newVal );
             }, this );
         }, this );
 
@@ -261,19 +261,19 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     destructor: function() {
-        var _items, _item, i, _length;
+        var items, item, i, length;
         
-        _items = this.get( "items" );
-        _length = _items.length;
+        items = this.get( "items" );
+        length = items.length;
         
-        for( i = _length - 1; i >= 0; i-- ){
-            _item = _items[ i ];
+        for( i = length - 1; i >= 0; i-- ){
+            item = items[ i ];
             
-            _items.splice( i, 1 );
+            items.splice( i, 1 );
             
-            this._removeItemHandles( _item );
+            this._removeItemHandles( item );
             
-            _item.destroy();
+            item.destroy();
         }
     },
 
@@ -285,7 +285,7 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     _initEvents: function(){
-        var _events = Accordion.EVENT_TYPES;
+        var events = Accordion.EVENT_TYPES;
 
         /**
          * Signals the beginning of adding an item to the Accordion.
@@ -297,7 +297,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being added</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREITEMADD );
+        this.publish( events.BEFOREITEMADD );
         
         /**
          * Signals an item has been added to the Accordion.
@@ -309,7 +309,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been added</dd>
          *  </dl>
          */
-        this.publish( _events.ITEMADDED );
+        this.publish( events.ITEMADDED );
         
         /**
          * Signals the beginning of removing an item.
@@ -321,7 +321,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being removed</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREITEMREMOVE );
+        this.publish( events.BEFOREITEMREMOVE );
         
         /**
          * Signals an item has been removed from Accordion.
@@ -333,7 +333,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been removed</dd>
          *  </dl>
          */
-        this.publish( _events.ITEMREMOVED );
+        this.publish( events.ITEMREMOVED );
 
         /**
          * Signals the beginning of resizing an item.
@@ -345,7 +345,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being resized</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREITEMERESIZED );
+        this.publish( events.BEFOREITEMERESIZED );
         
         /**
          * Signals an item has been resized.
@@ -357,7 +357,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been resized</dd>
          *  </dl>
          */
-        this.publish( _events.ITEMERESIZED );
+        this.publish( events.ITEMERESIZED );
 
         /**
          * Signals the beginning of expanding an item
@@ -369,7 +369,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being expanded</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREITEMEXPAND );
+        this.publish( events.BEFOREITEMEXPAND );
         
         /**
          * Signals the beginning of collapsing an item
@@ -381,7 +381,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being collapsed</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREITEMCOLLAPSE );
+        this.publish( events.BEFOREITEMCOLLAPSE );
         
         
         /**
@@ -394,7 +394,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been expanded</dd>
          *  </dl>
          */
-        this.publish( _events.ITEMEXPANDED );
+        this.publish( events.ITEMEXPANDED );
         
         /**
          * Signals an item has been collapsed
@@ -406,7 +406,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been collapsed</dd>
          *  </dl>
          */
-        this.publish( _events.ITEMCOLLAPSED );
+        this.publish( events.ITEMCOLLAPSED );
         
         /**
          * Signals the beginning of reordering an item
@@ -418,7 +418,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being reordered</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREITEMREORDER );
+        this.publish( events.BEFOREITEMREORDER );
         
         /**
          * Fires before the end of item reordering
@@ -430,7 +430,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being reordered</dd>
          *  </dl>
          */
-        this.publish( _events.BEFOREENDITEMREORDER );
+        this.publish( events.BEFOREENDITEMREORDER );
         
         
         /**
@@ -443,7 +443,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been reordered</dd>
          *  </dl>
          */
-        this.publish( _events.ITEMREORDERED );
+        this.publish( events.ITEMREORDERED );
     },
 
     
@@ -462,21 +462,21 @@ Y.extend( Accordion, Y.Widget, {
      *
      * @method _removeItemHandles
      * @protected
-     * @param {Y.AccordionItem} _item The item, which handles to remove
+     * @param {Y.AccordionItem} item The item, which handles to remove
      */
-    _removeItemHandles: function( _item ){
-        var _itemHandles, _itemHandle;
+    _removeItemHandles: function( item ){
+        var itemHandles, itemHandle;
         
-        _itemHandles = this._itemsHandles[ _item ];
+        itemHandles = this._itemsHandles[ item ];
 
-        for( _itemHandle in _itemHandles ){
-            if( _itemHandles.hasOwnProperty( _itemHandle ) ){
-                _itemHandle = _itemHandles[ _itemHandle ];
-                _itemHandle.detach();
+        for( itemHandle in itemHandles ){
+            if( itemHandles.hasOwnProperty( itemHandle ) ){
+                itemHandle = itemHandles[ itemHandle ];
+                itemHandle.detach();
             }
         }
 
-        delete this._itemsHandles[ _item ];
+        delete this._itemsHandles[ item ];
     },
     
     /**
@@ -484,28 +484,28 @@ Y.extend( Accordion, Y.Widget, {
      *
      * @method _getNodeOffsetHeight
      * @protected
-     * @param {Node|HTMLElement} p_node The node to gather the height from
+     * @param {Node|HTMLElement} node The node to gather the height from
      * @return {Number} The calculated height or zero in case of failure
      */
-    _getNodeOffsetHeight: function( p_node ){
-        var _height, _preciseRegion;
+    _getNodeOffsetHeight: function( node ){
+        var height, preciseRegion;
 
-        if( p_node instanceof Node ){
-            if( p_node.hasMethod( "getBoundingClientRect" ) ){
-                _preciseRegion = p_node.invoke( "getBoundingClientRect" );
+        if( node instanceof Node ){
+            if( node.hasMethod( "getBoundingClientRect" ) ){
+                preciseRegion = node.invoke( "getBoundingClientRect" );
 
-                if( _preciseRegion ){
-                    _height = _preciseRegion.bottom - _preciseRegion.top;
+                if( preciseRegion ){
+                    height = preciseRegion.bottom - preciseRegion.top;
 
-                    return _height;
+                    return height;
                 }
             } else {
-                _height = p_node.get( "offsetHeight" );
-                return Y.Lang.isValue( _height ) ? _height : 0;
+                height = node.get( "offsetHeight" );
+                return Y.Lang.isValue( height ) ? height : 0;
             }
-        } else if( p_node ){
-            _height = p_node.offsetHeight;
-            return Y.Lang.isValue( _height ) ? _height : 0;
+        } else if( node ){
+            height = node.offsetHeight;
+            return Y.Lang.isValue( height ) ? height : 0;
         }
 
         return 0;
@@ -518,24 +518,24 @@ Y.extend( Accordion, Y.Widget, {
      *
      * @method _setItemProperties
      * @protected
-     * @param {Y.AccordionItem} _item The item, which properties should be updated
-     * @param {boolean} _expanding The new value of "expanded" property
-     * @param {boolean} _alwaysVisible The new value of "alwaysVisible" property
+     * @param {Y.AccordionItem} item The item, which properties should be updated
+     * @param {boolean} expanding The new value of "expanded" property
+     * @param {boolean} alwaysVisible The new value of "alwaysVisible" property
      */
-    _setItemProperties: function( _item, _expanding, _alwaysVisible ){
-        var _curAlwaysVisible, _curExpanded;
+    _setItemProperties: function( item, expanding, alwaysVisible ){
+        var curAlwaysVisible, curExpanded;
 
-        _curAlwaysVisible = _item.get( "alwaysVisible" );
-        _curExpanded = _item.get( "expanded" );
+        curAlwaysVisible = item.get( "alwaysVisible" );
+        curExpanded = item.get( "expanded" );
 
-        if( _expanding != _curExpanded ){
-            _item.set( "expanded", _expanding, {
+        if( expanding != curExpanded ){
+            item.set( "expanded", expanding, {
                 internalCall: true
             });
         }
 
-        if( _alwaysVisible !== _curAlwaysVisible ){
-            _item.set( "alwaysVisible", _alwaysVisible, {
+        if( alwaysVisible !== curAlwaysVisible ){
+            item.set( "alwaysVisible", alwaysVisible, {
                 internalCall: true
             });
         }
@@ -547,15 +547,15 @@ Y.extend( Accordion, Y.Widget, {
      *
      * @method _setItemUI
      * @protected
-     * @param {Y.AccordionItem} _item The item, which user interface should be updated
-     * @param {boolean} _expanding If true, the item will be marked as expanded.
+     * @param {Y.AccordionItem} item The item, which user interface should be updated
+     * @param {boolean} expanding If true, the item will be marked as expanded.
      * If false, the item will be marked as collapsed
-     * @param {boolean} _alwaysVisible If true, the item will be marked as always visible.
+     * @param {boolean} alwaysVisible If true, the item will be marked as always visible.
      * If false, the always visible mark will be removed
      */
-    _setItemUI: function( _item, _expanding, _alwaysVisible ){
-        _item.markAsExpanded( _expanding );
-        _item.markAsAlwaysVisible( _alwaysVisible );
+    _setItemUI: function( item, expanding, alwaysVisible ){
+        item.markAsExpanded( expanding );
+        item.markAsAlwaysVisible( alwaysVisible );
     },
 
     
@@ -568,64 +568,64 @@ Y.extend( Accordion, Y.Widget, {
      *
      * @method _onItemChosen
      * @protected
-     * @param _item {Y.AccordionItem} The item on which user has clicked or pressed key
-     * @param _item {Boolean} True if the user has clicked on always visible icon
-     * @param _item {Boolean} True if the user has clicked on close icon
+     * @param item {Y.AccordionItem} The item on which user has clicked or pressed key
+     * @param srcIconAlwaysVisible {Boolean} True if the user has clicked on always visible icon
+     * @param srcIconClose {Boolean} True if the user has clicked on close icon
      */
-    _onItemChosen: function( _item, _srcIconAlwaysVisible, _srcIconClose ){
-        var _toBeExcluded, _alwaysVisible, _expanded, _collapseOthersOnExpand;
+    _onItemChosen: function( item, srcIconAlwaysVisible, srcIconClose ){
+        var toBeExcluded, alwaysVisible, expanded, collapseOthersOnExpand;
 
-        _toBeExcluded = {};        
-        _collapseOthersOnExpand = this.get( "collapseOthersOnExpand" );
-        _alwaysVisible  = _item.get( "alwaysVisible" );
-        _expanded       = _item.get( "expanded" );
+        toBeExcluded = {};        
+        collapseOthersOnExpand = this.get( "collapseOthersOnExpand" );
+        alwaysVisible  = item.get( "alwaysVisible" );
+        expanded       = item.get( "expanded" );
 
-        if( _srcIconClose ){
-            this.removeItem( _item );
+        if( srcIconClose ){
+            this.removeItem( item );
             return;
-        } else if( _srcIconAlwaysVisible ){
-            if( _expanded ){
-                _alwaysVisible = !_alwaysVisible;
-                _expanded = _alwaysVisible ? true : _expanded;
+        } else if( srcIconAlwaysVisible ){
+            if( expanded ){
+                alwaysVisible = !alwaysVisible;
+                expanded = alwaysVisible ? true : expanded;
 
-                this._setItemProperties( _item, _expanded, _alwaysVisible );
-                this._setItemUI( _item, _expanded, _alwaysVisible );
+                this._setItemProperties( item, expanded, alwaysVisible );
+                this._setItemUI( item, expanded, alwaysVisible );
 
                 return;
             } else {
-                this._forExpanding[ _item ] = {
-                    item: _item,
+                this._forExpanding[ item ] = {
+                    'item': item,
                     alwaysVisible: true
                 };
 
-                if( _collapseOthersOnExpand ){
-                    _toBeExcluded[ _item ] = {
-                        item: _item
+                if( collapseOthersOnExpand ){
+                    toBeExcluded[ item ] = {
+                        'item': item
                     };
 
-                    this._storeItemsForCollapsing( _toBeExcluded );
+                    this._storeItemsForCollapsing( toBeExcluded );
                 }
             }
         } else {
             /*
              * Do the opposite
              */
-            if( _expanded ){
-                this._forCollapsing[ _item ] = {
-                    item: _item
+            if( expanded ){
+                this._forCollapsing[ item ] = {
+                    'item': item
                 };
             } else {
-                this._forExpanding[ _item ] = {
-                    item: _item,
-                    alwaysVisible: _alwaysVisible
+                this._forExpanding[ item ] = {
+                    'item': item,
+                    'alwaysVisible': alwaysVisible
                 };
 
-                if( _collapseOthersOnExpand ){
-                    _toBeExcluded[ _item ] = {
-                        item: _item
+                if( collapseOthersOnExpand ){
+                    toBeExcluded[ item ] = {
+                        'item': item
                     };
 
-                    this._storeItemsForCollapsing( _toBeExcluded );
+                    this._storeItemsForCollapsing( toBeExcluded );
                 }
             }
         }
@@ -638,41 +638,41 @@ Y.extend( Accordion, Y.Widget, {
      * Helper method to adjust the height of all items, which <code>contentHeight</code> property is set as "stretch".
      * If some item has animation running, it will be stopped before running another one.
      * 
-     * @method _adjustStretchItems
+     * @method adjustStretchItems
      * @protected
      * @return {Number} The calculated height per strech item
      */
     _adjustStretchItems: function(){
-        var _items = this.get( "items" ), _heightPerStretchItem;
+        var items = this.get( "items" ), heightPerStretchItem;
 
-        _heightPerStretchItem = this._getHeightPerStretchItem();
+        heightPerStretchItem = this._getHeightPerStretchItem();
         
-        Y.Array.each( _items, function( _item, _index, _items ){
-            var _body, _bodyHeight, _anim, _heightSettings, _expanded;
+        Y.Array.each( items, function( item, index, items ){
+            var body, bodyHeight, anim, heightSettings, expanded;
 
-            _heightSettings = _item.get( "contentHeight" );
-            _expanded       = _item.get( "expanded" );
+            heightSettings = item.get( "contentHeight" );
+            expanded       = item.get( "expanded" );
 
-            if( _heightSettings.method === "stretch" && _expanded ){
-                _anim = this._animations[ _item ];
+            if( heightSettings.method === "stretch" && expanded ){
+                anim = this._animations[ item ];
 
                 // stop waiting animation
-                if( _anim ){
-                    _anim.stop();
+                if( anim ){
+                    anim.stop();
                 }
 
-                _body = _item.getStdModNode( WidgetStdMod.BODY );
-                _bodyHeight = this._getNodeOffsetHeight( _body );
+                body = item.getStdModNode( WidgetStdMod.BODY );
+                bodyHeight = this._getNodeOffsetHeight( body );
 
-                if( _heightPerStretchItem < _bodyHeight ){
-                    this._processCollapsing( _item, _heightPerStretchItem );
-                } else if( _heightPerStretchItem > _bodyHeight ){
-                    this._processExpanding( _item, _heightPerStretchItem );
+                if( heightPerStretchItem < bodyHeight ){
+                    this._processCollapsing( item, heightPerStretchItem );
+                } else if( heightPerStretchItem > bodyHeight ){
+                    this._processExpanding( item, heightPerStretchItem );
                 }
             }
         }, this );
 
-        return _heightPerStretchItem;
+        return heightPerStretchItem;
     },
 
     /**
@@ -683,45 +683,44 @@ Y.extend( Accordion, Y.Widget, {
      * @return {Number} The calculated height per strech item
      */
     _getHeightPerStretchItem: function(){
-        var _height, _items, _stretchCounter = 0;
+        var height, items, stretchCounter = 0;
 
-        _items = this.get( "items" );
-        _height = this.get( "boundingBox" ).get( "clientHeight" );
+        items = this.get( "items" );
+        height = this.get( "boundingBox" ).get( "clientHeight" );
 
-        Y.Array.each( _items, function( _item, _index, _items ){
-            var _collapsed, _itemContentHeight, _header, _heightSettings,
-                _headerHeight;
+        Y.Array.each( items, function( item, index, items ){
+            var collapsed, itemContentHeight, header, heightSettings, headerHeight;
 
-            _header = _item.getStdModNode( WidgetStdMod.HEADER );
-            _heightSettings = _item.get( "contentHeight" );
+            header = item.getStdModNode( WidgetStdMod.HEADER );
+            heightSettings = item.get( "contentHeight" );
             
-            _headerHeight = this._getNodeOffsetHeight( _header );
+            headerHeight = this._getNodeOffsetHeight( header );
 
-            _height -= _headerHeight;
-            _collapsed = !_item.get( "expanded" );
+            height -= headerHeight;
+            collapsed = !item.get( "expanded" );
 
-            if( _collapsed ){
-                _height -= COLLAPSE_HEIGHT;
+            if( collapsed ){
+                height -= COLLAPSE_HEIGHT;
                 return;
             }
 
-            if( _heightSettings.method === "stretch" ){
-                _stretchCounter++;
+            if( heightSettings.method === "stretch" ){
+                stretchCounter++;
             } else {
-                _itemContentHeight = this._getItemContentHeight( _item );
-                _height -= _itemContentHeight;
+                itemContentHeight = this._getItemContentHeight( item );
+                height -= itemContentHeight;
             }
         }, this );
 
-        if( _stretchCounter > 0 ){
-            _height /= _stretchCounter;
+        if( stretchCounter > 0 ){
+            height /= stretchCounter;
         }
 
-        if( _height < 0 ){
-            _height = 0;
+        if( height < 0 ){
+            height = 0;
         }
 
-        return _height;
+        return height;
     },
 
     
@@ -730,25 +729,25 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _getItemContentHeight
      * @protected
-     * @param {Y.AccordionItem} The item, which height should be calculated
+     * @param item {Y.AccordionItem} The item, which height should be calculated
      * @return {Number} The calculated item's height
      */
-    _getItemContentHeight: function( _item ){
-        var _heightSettings, _height = 0, _body, _bodyContent;
+    _getItemContentHeight: function( item ){
+        var heightSettings, height = 0, body, bodyContent;
 
-        _heightSettings = _item.get( "contentHeight" );
+        heightSettings = item.get( "contentHeight" );
 
-        if( _heightSettings.method === "auto" ){
-            _body = _item.getStdModNode( WidgetStdMod.BODY );
-            _bodyContent = _body.get( "children" ).item(0);
-            _height = _bodyContent ? this._getNodeOffsetHeight( _bodyContent ) : 0;
-        } else if( _heightSettings.method === "fixed" ) {
-            _height = _heightSettings.height;
+        if( heightSettings.method === "auto" ){
+            body = item.getStdModNode( WidgetStdMod.BODY );
+            bodyContent = body.get( "children" ).item(0);
+            height = bodyContent ? this._getNodeOffsetHeight( bodyContent ) : 0;
+        } else if( heightSettings.method === "fixed" ) {
+            height = heightSettings.height;
         } else {
-            _height = this._getHeightPerStretchItem();
+            height = this._getHeightPerStretchItem();
         }
 
-        return _height;
+        return height;
     },
 
     
@@ -758,22 +757,24 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _storeItemsForCollapsing
      * @protected
-     * @param {Object} _itemsToBeExcluded (optional) Contains one or more <code>Y.AccordionItem</code> instances,
+     * @param {Object} itemsToBeExcluded (optional) Contains one or more <code>Y.AccordionItem</code> instances,
      * which should be not included in the list
      */
-    _storeItemsForCollapsing: function( _itemsToBeExcluded ){
-        _itemsToBeExcluded = _itemsToBeExcluded || {};
-        var _items = this.get( "items" );
+    _storeItemsForCollapsing: function( itemsToBeExcluded ){
+        var items;
 
-        Y.Array.each( _items, function( _item, _index, _items ){
-            var _expanded, _alwaysVisible;
+        itemsToBeExcluded = itemsToBeExcluded || {};
+        items = this.get( "items" );
 
-            _expanded = _item.get( "expanded" );
-            _alwaysVisible = _item.get( "alwaysVisible" );
+        Y.Array.each( items, function( item, index, items ){
+            var expanded, alwaysVisible;
 
-            if( _expanded && !_alwaysVisible && !_itemsToBeExcluded[ _item ] ){
-                this._forCollapsing[ _item ] = {
-                    item: _item
+            expanded = item.get( "expanded" );
+            alwaysVisible = item.get( "alwaysVisible" );
+
+            if( expanded && !alwaysVisible && !itemsToBeExcluded[ item ] ){
+                this._forCollapsing[ item ] = {
+                    'item': item
                 };
             }
         }, this );
@@ -785,104 +786,104 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _expandItem
      * @protected
-     * @param {Y.AccordionItem} _item The item, which should be expanded
-     * @param {Number} _height The height to which we should expand the item
+     * @param {Y.AccordionItem} item The item, which should be expanded
+     * @param {Number} height The height to which we should expand the item
      */
-    _expandItem: function( _item, _height ){
-        var _alwaysVisible = _item.get( "alwaysVisible" );
+    _expandItem: function( item, height ){
+        var alwaysVisible = item.get( "alwaysVisible" );
 
-        this._processExpanding( _item, _height );
-        this._setItemUI( _item, true, _alwaysVisible );
+        this._processExpanding( item, height );
+        this._setItemUI( item, true, alwaysVisible );
     },
 
     
     /**
      * Expands an item to given height. Depending on the <code>useAnimation</code> setting, 
-     * the process of expanding might be animated. This setting will be ignored, if <code>_forceSkipAnimation</code> param
+     * the process of expanding might be animated. This setting will be ignored, if <code>forceSkipAnimation</code> param
      * is <code>true</code>.
      * 
      * @method _processExpanding
      * @protected
-     * @param {Y.AccordionItem} _item An <code>Y.AccordionItem</code> instance to be expanded
-     * @param {Boolean} _forceSkipAnimation If true, the animation will be skipped, 
+     * @param {Y.AccordionItem} item An <code>Y.AccordionItem</code> instance to be expanded
+     * @param {Boolean} forceSkipAnimation If true, the animation will be skipped, 
      * without taking in consideration Accordion's <code>useAnimation</code> setting
-     * @param {Number} _height The height to which item should be expanded
+     * @param {Number} height The height to which item should be expanded
      */
-    _processExpanding: function( _item, _height, _forceSkipAnimation ){
-        var _anim, _curAnim, _animSettings, _expanding = false,
-            _events = Accordion.EVENT_TYPES,
-            _accAnimationSettings, _body;
+    _processExpanding: function( item, height, forceSkipAnimation ){
+        var anim, curAnim, animSettings, expanding = false,
+            events = Accordion.EVENT_TYPES,
+            accAnimationSettings, body;
 
         
-        function _onExpandComplete(){
-            delete this._animations[ _item ];
-            _anim = null;
+        function onExpandComplete(){
+            delete this._animations[ item ];
+            anim = null;
 
-            _item.markAsExpanding( false );
+            item.markAsExpanding( false );
 
-            this.fire( _events.ITEMERESIZED, {
-                item : _item
+            this.fire( events.ITEMERESIZED, {
+                'item': item
             });
 
-            if( _expanding ){
-                this.fire( _events.ITEMEXPANDED, {
-                    item: _item
+            if( expanding ){
+                this.fire( events.ITEMEXPANDED, {
+                    'item': item
                 });
             }
         }
 
         
-        _body = _item.getStdModNode( WidgetStdMod.BODY );
+        body = item.getStdModNode( WidgetStdMod.BODY );
 
-        this.fire( _events.BEFOREITEMERESIZED, {
-            item: _item
+        this.fire( events.BEFOREITEMERESIZED, {
+            'item': item
         });
 
-        if( _body.get( "clientHeight" ) <= 0 ){
-            _expanding = true;
-            this.fire( _events.BEFOREITEMEXPAND, {
-                item: _item
+        if( body.get( "clientHeight" ) <= 0 ){
+            expanding = true;
+            this.fire( events.BEFOREITEMEXPAND, {
+                'item': item
             });
         }
 
-        if( !_forceSkipAnimation && this.get( "useAnimation" ) ){
-            _animSettings = _item.get( "animation" ) || {};
+        if( !forceSkipAnimation && this.get( "useAnimation" ) ){
+            animSettings = item.get( "animation" ) || {};
 
-            _anim = new Anim( {
-                node: _body,
+            anim = new Anim( {
+                node: body,
                 to: {
-                    height: _height
+                    'height': height
                 }
             });
 
-            _anim.on( "end", _onExpandComplete, this );
+            anim.on( "end", onExpandComplete, this );
 
-            _accAnimationSettings = this.get( "animation" );
+            accAnimationSettings = this.get( "animation" );
 
-            _anim.set( "duration", _animSettings.duration || _accAnimationSettings.duration );
-            _anim.set( "easing"  , _animSettings.easing   || _accAnimationSettings.easing   );
+            anim.set( "duration", animSettings.duration || accAnimationSettings.duration );
+            anim.set( "easing"  , animSettings.easing   || accAnimationSettings.easing   );
             
-            _curAnim = this._animations[ _item ];
+            curAnim = this._animations[ item ];
             
-            if( _curAnim ){
-                _curAnim.stop();
+            if( curAnim ){
+                curAnim.stop();
             }
 
-            _item.markAsExpanding( true );
+            item.markAsExpanding( true );
 
-            this._animations[ _item ] = _anim;
+            this._animations[ item ] = anim;
 
-            _anim.run();
+            anim.run();
         } else {
-            _body.setStyle( "height", _height + "px" );
+            body.setStyle( "height", height + "px" );
 
-            this.fire( _events.ITEMERESIZED, {
-                item: _item
+            this.fire( events.ITEMERESIZED, {
+                'item': item
             });
 
-            if( _expanding ){
-                this.fire( _events.ITEMEXPANDED, {
-                    item: _item
+            if( expanding ){
+                this.fire( events.ITEMEXPANDED, {
+                    'item': item
                 });
             }
         }
@@ -894,100 +895,100 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _collapseItem
      * @protected
-     * @param {Y.AccordionItem} _item The item, which should be collapsed
+     * @param {Y.AccordionItem} item The item, which should be collapsed
      */
-    _collapseItem: function( _item ){
-        this._processCollapsing( _item, COLLAPSE_HEIGHT );
-        this._setItemUI( _item, false, false );
+    _collapseItem: function( item ){
+        this._processCollapsing( item, COLLAPSE_HEIGHT );
+        this._setItemUI( item, false, false );
     },
 
     
     /**
      * Collapse an item to given height. Depending on the <code>useAnimation</code> setting, 
-     * the process of collapsing might be animated. This setting will be ignored, if <code>_forceSkipAnimation</code> param
+     * the process of collapsing might be animated. This setting will be ignored, if <code>forceSkipAnimation</code> param
      * is <code>true</code>.
      * 
      * @method _processCollapsing
      * @protected
-     * @param {Y.AccordionItem} _item An <code>Y.AccordionItem</code> instance to be collapsed
-     * @param {Number} _height The height to which item should be collapsed
-     * @param {Boolean} _forceSkipAnimation If true, the animation will be skipped, 
+     * @param {Y.AccordionItem} item An <code>Y.AccordionItem</code> instance to be collapsed
+     * @param {Number} height The height to which item should be collapsed
+     * @param {Boolean} forceSkipAnimation If true, the animation will be skipped, 
      * without taking in consideration Accordion's <code>useAnimation</code> setting
      */
-    _processCollapsing: function( _item, _height, _forceSkipAnimation ){
-        var _anim, _curAnim, animSettings, _accAnimationSettings, _events, _body, 
-            _collapsing = (_height === COLLAPSE_HEIGHT);
+    _processCollapsing: function( item, height, forceSkipAnimation ){
+        var anim, curAnim, animSettings, accAnimationSettings, events, body, 
+            collapsing = (height === COLLAPSE_HEIGHT);
             
-        _events = Accordion.EVENT_TYPES;
-        _body = _item.getStdModNode( WidgetStdMod.BODY );
+        events = Accordion.EVENT_TYPES;
+        body = item.getStdModNode( WidgetStdMod.BODY );
         
 
-        function _onCollapseComplete(){
-            delete this._animations[ _item ];
-            _anim = null;
+        function onCollapseComplete(){
+            delete this._animations[ item ];
+            anim = null;
 
-            _item.markAsCollapsing( false );
+            item.markAsCollapsing( false );
 
-            this.fire( _events.ITEMERESIZED, {
-                item: _item
+            this.fire( events.ITEMERESIZED, {
+                item: item
             });
 
-            if( _collapsing ){
-                this.fire( _events.ITEMCOLLAPSED, {
-                    item: _item
+            if( collapsing ){
+                this.fire( events.ITEMCOLLAPSED, {
+                    'item': item
                 });
             }
         }
 
         
-        this.fire( _events.BEFOREITEMERESIZED, {
-            item: _item
+        this.fire( events.BEFOREITEMERESIZED, {
+            'item': item
         });
 
-        if( _collapsing ){
-            this.fire( _events.BEFOREITEMCOLLAPSE, {
-                item: _item
+        if( collapsing ){
+            this.fire( events.BEFOREITEMCOLLAPSE, {
+                'item': item
             });
         }
 
-        if( !_forceSkipAnimation && this.get( "useAnimation" ) ){
-            animSettings = _item.get( "animation" ) || {};
+        if( !forceSkipAnimation && this.get( "useAnimation" ) ){
+            animSettings = item.get( "animation" ) || {};
 
-            _anim = new Anim( {
-                node: _body,
+            anim = new Anim( {
+                node: body,
                 to: {
-                    height: _height
+                    'height': height
                 }
             });
 
-            _anim.on( "end", _onCollapseComplete, this );
+            anim.on( "end", onCollapseComplete, this );
 
-            _accAnimationSettings = this.get( "animation" );
+            accAnimationSettings = this.get( "animation" );
 
-            _anim.set( "duration", animSettings.duration || _accAnimationSettings.duration );
-            _anim.set( "easing"  , animSettings.easing   || _accAnimationSettings.easing );
+            anim.set( "duration", animSettings.duration || accAnimationSettings.duration );
+            anim.set( "easing"  , animSettings.easing   || accAnimationSettings.easing );
 
-            _curAnim = this._animations[ _item ];
+            curAnim = this._animations[ item ];
             
-            if( _curAnim ){
-                _curAnim.stop();
+            if( curAnim ){
+                curAnim.stop();
             }
             
-            _item.markAsCollapsing( true );
+            item.markAsCollapsing( true );
 
-            this._animations[ _item ] = _anim;
+            this._animations[ item ] = anim;
 
-            _anim.run();
+            anim.run();
         } else {
-            _body.setStyle( "height", _height + "px" );
+            body.setStyle( "height", height + "px" );
 
-            this.fire( _events.ITEMERESIZED, {
-                item: _item
+            this.fire( events.ITEMERESIZED, {
+                'item': item
             });
 
-            if( _height === 0 ){
-                this.fire( _events.ITEMCOLLAPSED, {
-                    item: _item
+            if( height === 0 ){
+                this.fire( events.ITEMCOLLAPSED, {
+                    'item': item
                 });
             }
         }
@@ -999,118 +1000,118 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _initItemDragDrop
      * @protected
-     * @param {Y.AccordionItem} _item An <code>Y.AccordionItem</code> instance to be set as draggable
+     * @param {Y.AccordionItem} item An <code>Y.AccordionItem</code> instance to be set as draggable
      */
-    _initItemDragDrop: function( _item ){
-        var _itemHeader, _dd, _bb, _itemBB, _ddrop;
+    _initItemDragDrop: function( item ){
+        var itemHeader, dd, bb, itemBB, ddrop;
 
-        _itemHeader = _item.getStdModNode( WidgetStdMod.HEADER );
+        itemHeader = item.getStdModNode( WidgetStdMod.HEADER );
 
-        if( _itemHeader.dd ){
+        if( itemHeader.dd ){
             return;
         }
 
 
-        _bb = this.get( "boundingBox" );
-        _itemBB = _item.get( "boundingBox" );
+        bb = this.get( "boundingBox" );
+        itemBB = item.get( "boundingBox" );
 
-        _dd = new Y.DD.Drag({
-            node: _itemHeader,
+        dd = new Y.DD.Drag({
+            node: itemHeader,
             groups: [ Accordion.DRAGGROUP ]
         }).plug(Y.Plugin.DDProxy, {
             moveOnEnd: false
         }).plug(Y.Plugin.DDConstrained, {
-            constrain2node: _bb
+            constrain2node: bb
         });
 
-        _ddrop = new Y.DD.Drop({
-            node: _itemBB,
+        ddrop = new Y.DD.Drop({
+            node: itemBB,
             groups: [ Accordion.DRAGGROUP ]
         });
 
-        _dd.on( "drag:start", function(e){
-            var _dragNode, _events, _item;
+        dd.on( "drag:start", function(e){
+            var dragNode, events, item;
             
-            _item = this.getItem( _dd.get( "node" ).get( "parentNode" ) );
-            _events = Accordion.EVENT_TYPES;
-            _dragNode = _dd.get( "dragNode" );
+            item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
+            events = Accordion.EVENT_TYPES;
+            dragNode = dd.get( "dragNode" );
 
-            _dragNode.addClass( Accordion.C_PROXY_VISIBLE );
-            _dragNode.set( "innerHTML", _item.get( "label" ) );
+            dragNode.addClass( Accordion.C_PROXY_VISIBLE );
+            dragNode.set( "innerHTML", item.get( "label" ) );
             
-            return this.fire( _events.BEFOREITEMREORDER, { item: _item } );
+            return this.fire( events.BEFOREITEMREORDER, { 'item': item } );
         }, this );
 
-        _dd.on( "drag:end", function(e){
-            var _dragNode, _events, _item;
+        dd.on( "drag:end", function(e){
+            var dragNode, events, item;
 
-             _events = Accordion.EVENT_TYPES;
-            _dragNode = _dd.get( "dragNode" );
+            events = Accordion.EVENT_TYPES;
+            dragNode = dd.get( "dragNode" );
 
-            _dragNode.removeClass( Accordion.C_PROXY_VISIBLE );
-            _dragNode.set( "innerHTML", "" );
+            dragNode.removeClass( Accordion.C_PROXY_VISIBLE );
+            dragNode.set( "innerHTML", "" );
             
-            _item = this.getItem( _dd.get( "node" ).get( "parentNode" ) );
-            return this.fire( _events.BEFOREENDITEMREORDER, { item: _item } );
+            item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
+            return this.fire( events.BEFOREENDITEMREORDER, { 'item': item } );
         }, this );
         
         
-        _dd.after( "drag:end", function(e){
-            var _events, _item, _data;
+        dd.after( "drag:end", function(e){
+            var events, item, data;
             
-            _events = Accordion.EVENT_TYPES;
+            events = Accordion.EVENT_TYPES;
 
-            _data = _dd.get( "data" );
+            data = dd.get( "data" );
             
-            if( _data.drophit ){
-                _item = this.getItem( _dd.get( "node" ).get( "parentNode" ) );
+            if( data.drophit ){
+                item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
 
-                _dd.set( "data", {
+                dd.set( "data", {
                     drophit: false
                 } );
 
-                return this.fire( _events.ITEMREORDERED, { item: _item } );
+                return this.fire( events.ITEMREORDERED, { 'item': item } );
             }
             
             return true;
         }, this );
 
 
-        _dd.on('drag:drophit', function(e) {
-            var _mineIndex, _targetItemIndex, _targetItemBB, _itemBB, _cb, 
-                _goingUp, _items, _targetItem;
+        dd.on('drag:drophit', function(e) {
+            var mineIndex, targetItemIndex, targetItemBB, itemBB, cb, 
+                goingUp, items, targetItem;
 
-            _targetItem = this.getItem( e.drop.get( "node" ) );
+            targetItem = this.getItem( e.drop.get( "node" ) );
 
-            if( _targetItem === _item ){
+            if( targetItem === item ){
                 return false;
             }
 
-            _mineIndex = this.getItemIndex( _item );
-            _targetItemIndex = this.getItemIndex( _targetItem );
-            _targetItemBB = _targetItem.get( "boundingBox" );
-            _itemBB = _item.get( "boundingBox" );
-            _cb = this.get( "contentBox" );
-            _goingUp = false;
-            _items = this.get( "items" );
+            mineIndex = this.getItemIndex( item );
+            targetItemIndex = this.getItemIndex( targetItem );
+            targetItemBB = targetItem.get( "boundingBox" );
+            itemBB = item.get( "boundingBox" );
+            cb = this.get( "contentBox" );
+            goingUp = false;
+            items = this.get( "items" );
 
-            if( _targetItemIndex < _mineIndex ){
-                _goingUp = true;
+            if( targetItemIndex < mineIndex ){
+                goingUp = true;
             }
 
-            _cb.removeChild( _itemBB );
+            cb.removeChild( itemBB );
 
-            if( _goingUp ){
-                _cb. insertBefore( _itemBB, _targetItemBB );
-                _items.splice( _mineIndex, 1 );
-                _items.splice( _targetItemIndex, 0, _item );
+            if( goingUp ){
+                cb. insertBefore( itemBB, targetItemBB );
+                items.splice( mineIndex, 1 );
+                items.splice( targetItemIndex, 0, item );
             } else {
-                _cb. insertBefore( _itemBB, _targetItemBB.next( Y.AccordionItem.C_ITEM ) );
-                _items.splice( _targetItemIndex + 1, 0, _item );
-                _items.splice( _mineIndex, 1 );
+                cb. insertBefore( itemBB, targetItemBB.next( Y.AccordionItem.C_ITEM ) );
+                items.splice( targetItemIndex + 1, 0, item );
+                items.splice( mineIndex, 1 );
             }
             
-            _dd.set( "data", {
+            dd.set( "data", {
                 drophit: true
             });
             
@@ -1132,36 +1133,36 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     _processItems: function(){
-        var _forCollapsing, _forExpanding, _itemCont, _heightPerStretchItem, 
-            _height, _heightSettings, _item;
+        var forCollapsing, forExpanding, itemCont, heightPerStretchItem, 
+            height, heightSettings, item;
 
-        _forCollapsing = this._forCollapsing;
-        _forExpanding  = this._forExpanding;
+        forCollapsing = this._forCollapsing;
+        forExpanding  = this._forExpanding;
 
         this._setItemsProperties();
 
-        for( _item in _forCollapsing ){
-            if( _forCollapsing.hasOwnProperty( _item ) ){
-                _itemCont = _forCollapsing[ _item ];
+        for( item in forCollapsing ){
+            if( forCollapsing.hasOwnProperty( item ) ){
+                itemCont = forCollapsing[ item ];
 
-                this._collapseItem( _itemCont.item );
+                this._collapseItem( itemCont.item );
             }
         }
 
-        _heightPerStretchItem = this._adjustStretchItems();
+        heightPerStretchItem = this._adjustStretchItems();
 
-        for( _item in _forExpanding ){
-            if( _forExpanding.hasOwnProperty( _item ) ){
-                _itemCont = _forExpanding[ _item ];
-                _item = _itemCont.item;
-                _height = _heightPerStretchItem;
-                _heightSettings = _item.get( "contentHeight" );
+        for( item in forExpanding ){
+            if( forExpanding.hasOwnProperty( item ) ){
+                itemCont = forExpanding[ item ];
+                item = itemCont.item;
+                height = heightPerStretchItem;
+                heightSettings = item.get( "contentHeight" );
 
-                if( _heightSettings.method !== "stretch" ){
-                    _height = this._getItemContentHeight( _item );
+                if( heightSettings.method !== "stretch" ){
+                    height = this._getItemContentHeight( item );
                 }
 
-                this._expandItem( _item, _height );
+                this._expandItem( item, height );
             }
         }
 
@@ -1177,22 +1178,22 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     _setItemsProperties: function (){
-        var _forCollapsing, _forExpanding, _itemData;
+        var forCollapsing, forExpanding, itemData;
 
-        _forCollapsing = this._forCollapsing;
-        _forExpanding = this._forExpanding;
+        forCollapsing = this._forCollapsing;
+        forExpanding = this._forExpanding;
 
-        for( _itemData in _forCollapsing ){
-            if( _forCollapsing.hasOwnProperty( _itemData ) ){
-                _itemData = _forCollapsing[_itemData];
-                this._setItemProperties( _itemData.item, false, false );
+        for( itemData in forCollapsing ){
+            if( forCollapsing.hasOwnProperty( itemData ) ){
+                itemData = forCollapsing[ itemData ];
+                this._setItemProperties( itemData.item, false, false );
             }
         }
 
-        for( _itemData in _forExpanding ){
-            if( _forExpanding.hasOwnProperty( _itemData ) ){
-                _itemData = _forExpanding[_itemData];
-                this._setItemProperties( _itemData.item, true, _itemData.alwaysVisible );
+        for( itemData in forExpanding ){
+            if( forExpanding.hasOwnProperty( itemData ) ){
+                itemData = forExpanding[ itemData ];
+                this._setItemProperties( itemData.item, true, itemData.alwaysVisible );
             }
         }
     },
@@ -1203,32 +1204,32 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _afterItemExpand
      * @protected
-     * @param {EventFacade} _params The event facade for the attribute change
+     * @param {EventFacade} params The event facade for the attribute change
      */
-    _afterItemExpand: function( _params ){
-        var _expanded, _item, _alwaysVisible, _collapseOthersOnExpand;
+    _afterItemExpand: function( params ){
+        var expanded, item, alwaysVisible, collapseOthersOnExpand;
 
-        if( _params.internalCall ){
+        if( params.internalCall ){
             return;
         }
         
-        _expanded = _params.newVal;
-        _item     = _params.currentTarget;
-        _alwaysVisible = _item.get( "alwaysVisible" );
-        _collapseOthersOnExpand = this.get( "collapseOthersOnExpand" );
+        expanded = params.newVal;
+        item     = params.currentTarget;
+        alwaysVisible = item.get( "alwaysVisible" );
+        collapseOthersOnExpand = this.get( "collapseOthersOnExpand" );
         
-        if( _expanded ){
-            this._forExpanding[ _item ] = {
-                item: _item,
-                alwaysVisible: _alwaysVisible
+        if( expanded ){
+            this._forExpanding[ item ] = {
+                'item': item,
+                'alwaysVisible': alwaysVisible
             };
             
-            if( _collapseOthersOnExpand ){
+            if( collapseOthersOnExpand ){
                 this._storeItemsForCollapsing();
             }
         } else {
-            this._forCollapsing[ _item ] = {
-                item: _item
+            this._forCollapsing[ item ] = {
+                'item': item
             };
         }
         
@@ -1240,35 +1241,35 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _afterItemAlwaysVisible
      * @protected
-     * @param {EventFacade} _params The event facade for the attribute change
+     * @param {EventFacade} params The event facade for the attribute change
      */
-    _afterItemAlwaysVisible: function( _params ){
-        var _item, _alwaysVisible, _expanded;
+    _afterItemAlwaysVisible: function( params ){
+        var item, alwaysVisible, expanded;
         
-        if( _params.internalCall ){
+        if( params.internalCall ){
             return;
         }
 
-        _alwaysVisible = _params.newVal;
-        _item          = _params.currentTarget;
-        _expanded      = _item.get( "expanded" );
+        alwaysVisible = params.newVal;
+        item          = params.currentTarget;
+        expanded      = item.get( "expanded" );
 
-        if( _alwaysVisible ){
-            if( _expanded ){
-                this._setItemProperties( _item, true, true );
-                this._setItemUI( _item, true, true );
+        if( alwaysVisible ){
+            if( expanded ){
+                this._setItemProperties( item, true, true );
+                this._setItemUI( item, true, true );
                 return;
             } else {
-                this._forExpanding[ _item ] = {
-                    item: _item,
-                    alwaysVisible: true
+                this._forExpanding[ item ] = {
+                    'item': item,
+                    'alwaysVisible': true
                 };
 
                 this._storeItemsForCollapsing();
             }
         } else {
-            if( _expanded ){
-                this._setItemUI( _item, true, false );
+            if( expanded ){
+                this._setItemUI( item, true, false );
                 return;
             } else {
                 return;
@@ -1284,26 +1285,26 @@ Y.extend( Accordion, Y.Widget, {
      * 
      * @method _afterContentHeight
      * @protected
-     * @param {EventFacade} _params The event facade for the attribute change
+     * @param {EventFacade} params The event facade for the attribute change
      */
-    _afterContentHeight: function( _params ){
-        var _item, _itemContentHeight, _body, _bodyHeight, _expanded;
+    _afterContentHeight: function( params ){
+        var item, itemContentHeight, body, bodyHeight, expanded;
         
-        _item = _params.currentTarget;
+        item = params.currentTarget;
         
         this._adjustStretchItems();
         
-        if( _params.newVal.method !== "stretch" ){
-            _expanded = _item.get( "expanded" );
-            _itemContentHeight = this._getItemContentHeight( _item );
+        if( params.newVal.method !== "stretch" ){
+            expanded = item.get( "expanded" );
+            itemContentHeight = this._getItemContentHeight( item );
             
-            _body = _item.getStdModNode( WidgetStdMod.BODY );
-            _bodyHeight = this._getNodeOffsetHeight( _body );
+            body = item.getStdModNode( WidgetStdMod.BODY );
+            bodyHeight = this._getNodeOffsetHeight( body );
             
-            if( _itemContentHeight < _bodyHeight ){
-                this._processCollapsing( _item, _itemContentHeight, !_expanded );
-            } else if( _itemContentHeight > _bodyHeight ){
-                this._processExpanding( _item, _itemContentHeight, !_expanded );
+            if( itemContentHeight < bodyHeight ){
+                this._processCollapsing( item, itemContentHeight, !expanded );
+            } else if( itemContentHeight > bodyHeight ){
+                this._processExpanding( item, itemContentHeight, !expanded );
             }
         }
     },
@@ -1325,15 +1326,15 @@ Y.extend( Accordion, Y.Widget, {
      *          <dd>The name of its resize event</dd>
      *  </dl>
      */
-    _setUpResizing: function( _value ){
+    _setUpResizing: function( value ){
         if( this._resizeEventHandle ){
             this._resizeEventHandle.detach();
         }
 
-        if( _value === "default" ){
+        if( value === "default" ){
             this._resizeEventHandle = Y.on( 'windowresize', this._adjustStretchItems, this );
         } else {
-            this._resizeEventHandle = _value.sourceObject.on( _value.resizeEvent, this._adjustStretchItems, this );
+            this._resizeEventHandle = value.sourceObject.on( value.resizeEvent, this._adjustStretchItems, this );
         }
     },
 
@@ -1345,20 +1346,20 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     renderUI: function(){
-        var _cb, _itemsDom;
+        var cb, itemsDom;
 
-        _cb = this.get( "contentBox" );
-        _itemsDom = _cb.queryAll( "> div." + Y.AccordionItem.C_ITEM );
+        cb = this.get( "contentBox" );
+        itemsDom = cb.queryAll( "> div." + Y.AccordionItem.C_ITEM );
 
-        _itemsDom.each( function( _itemNode, _index, _itemsDom ){
-            var _newItem;
+        itemsDom.each( function( itemNode, index, itemsDom ){
+            var newItem;
 
-            if( !this.getItem( _itemNode ) ){
-                _newItem = new Y.AccordionItem({
-                    contentBox: _itemNode
+            if( !this.getItem( itemNode ) ){
+                newItem = new Y.AccordionItem({
+                    contentBox: itemNode
                 });
 
-                this.addItem( _newItem );
+                this.addItem( newItem );
             }
         }, this );
     },
@@ -1371,48 +1372,48 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     bindUI: function(){
-        var _contentBox, _itemChosenEvent, _header, _itemNode, _item, _iconAlwaysVisible,
-            _iconClose, _srcIconAlwaysVisible, _srcIconExtended, _srcIconClose, _iconExtended;
+        var contentBox, itemChosenEvent, header, itemNode, item, iconAlwaysVisible,
+            iconClose, srcIconAlwaysVisible, srcIconExtended, srcIconClose, iconExtended;
 
-        _contentBox = this.get( 'contentBox' );
-        _itemChosenEvent = this.get( 'itemChosen' );
+        contentBox = this.get( 'contentBox' );
+        itemChosenEvent = this.get( 'itemChosen' );
         
-        _contentBox.delegate( _itemChosenEvent, function(e){
-            _header = e.currentTarget;
-            _itemNode = _header.get( "parentNode" );
-            _item = this.getItem( _itemNode );
-            _iconAlwaysVisible = _item.get( "iconAlwaysVisible" );
-            _iconClose = _item.get( "iconClose" );
-            _srcIconAlwaysVisible = (_iconAlwaysVisible === e.target);
-            _srcIconClose = (_iconClose === e.target);
+        contentBox.delegate( itemChosenEvent, function(e){
+            header = e.currentTarget;
+            itemNode = header.get( "parentNode" );
+            item = this.getItem( itemNode );
+            iconAlwaysVisible = item.get( "iconAlwaysVisible" );
+            iconClose = item.get( "iconClose" );
+            srcIconAlwaysVisible = (iconAlwaysVisible === e.target);
+            srcIconClose = (iconClose === e.target);
 
-            this._onItemChosen( _item, _srcIconAlwaysVisible, _srcIconClose );
+            this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
         }, 'div.yui-widget-hd', this );
 
 
-        _contentBox.delegate( "keypress", function(e){
-            var _charCode, _target = e.target;
+        contentBox.delegate( "keypress", function(e){
+            var charCode, target = e.target;
             
-            _charCode = e.charCode;
+            charCode = e.charCode;
 
-            if( _charCode === 13 ){
-                _header = e.currentTarget;
-                _itemNode = _header.get( "parentNode" );
-                _item = this.getItem( _itemNode );
+            if( charCode === 13 ){
+                header = e.currentTarget;
+                itemNode = header.get( "parentNode" );
+                item = this.getItem( itemNode );
 
-                _iconAlwaysVisible = _item.get( "iconAlwaysVisible" );
-                _iconExtended = _item.get( "iconExtended" );
-                _iconClose = _item.get( "iconClose" );
-                _srcIconAlwaysVisible = (_iconAlwaysVisible === _target);
-                _srcIconExtended = (_iconExtended === _target );
-                _srcIconClose = (_iconClose === e.target);
+                iconAlwaysVisible = item.get( "iconAlwaysVisible" );
+                iconExtended = item.get( "iconExtended" );
+                iconClose = item.get( "iconClose" );
+                srcIconAlwaysVisible = (iconAlwaysVisible === target);
+                srcIconExtended = (iconExtended === target );
+                srcIconClose = (iconClose === e.target);
 
                 /**
                  * Exclude label in order to avoid double function invocation.
                  * Label keypress will be managed in "click" listener.
                  */
-                if( _srcIconExtended || _srcIconAlwaysVisible  || _srcIconClose ){
-                    this._onItemChosen( _item, _srcIconAlwaysVisible, _srcIconClose );
+                if( srcIconExtended || srcIconAlwaysVisible  || srcIconClose ){
+                    this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
                 }
             }
         }, 'div.yui-widget-hd', this );
@@ -1427,132 +1428,125 @@ Y.extend( Accordion, Y.Widget, {
      * For example, if <code>alwaysVisible</code> is true, but <code>expanded</code>
      * property is false, it will be set to true also.
      * 
-     * If the second param, <code>_parentItem</code> is an <code>Y.AccordionItem</code> instance,
-     * registered in Accordion, the item will be added as child of the <code>_parentItem</code>
+     * If the second param, <code>parentItem</code> is an <code>Y.AccordionItem</code> instance,
+     * registered in Accordion, the item will be added as child of the <code>parentItem</code>
      * 
      * @method addItem
-     * @param {Y.AccordionItem} _item The item to be added in Accordion
-     * @param {Y.AccordionItem} _parentItem (optional) This item will be the parent of the item being added
+     * @param {Y.AccordionItem} item The item to be added in Accordion
+     * @param {Y.AccordionItem} parentItem (optional) This item will be the parent of the item being added
      * 
      * @return Boolean True in case of successfully added item, false otherwise
      */
-    addItem: function( _item, _parentItem ){
-        
-        function _addItem( _item ){
-            var _expanded, _alwaysVisible;
-            
-            _expanded = _item.get( "expanded" );
-            _alwaysVisible = _item.get( "alwaysVisible" );
+    addItem: function( item, parentItem ){
+        var expanded, alwaysVisible, bodyContent, itemIndex, items, contentBox,
+            itemHandles, itemContentBox, events, res, cb, children, itemBoundingBox;
 
-            _expanded = _expanded || _alwaysVisible;
+        events = Accordion.EVENT_TYPES;
 
-            if( _expanded ){
-                this._forExpanding[ _item ] = {
-                    item: _item,
-                    alwaysVisible: _alwaysVisible
-                };
-            } else {
-                this._forCollapsing[ _item ] = {
-                    item: _item
-                };
-            }
-
-            this._processItems();
-        }
-
-        var _bodyContent, _itemIndex, _items, _contentBox, _itemHandles,
-        _itemContentBox, _events, _res, _cb, _children, _itemBoundingBox;
-
-        _events = Accordion.EVENT_TYPES;
-
-        _res = this.fire( _events.BEFOREITEMADD, {
-            item: _item
+        res = this.fire( events.BEFOREITEMADD, {
+            'item': item
         });
 
-        if( !_res ){
+        if( !res ){
             return false;
         }
 
-        _items = this.get( "items" );
-        _contentBox = this.get( 'contentBox' );
+        items = this.get( "items" );
+        contentBox = this.get( 'contentBox' );
 
-        _itemContentBox   = _item.get( 'contentBox' );
-        _itemBoundingBox  = _item.get( 'boundingBox' );
+        itemContentBox   = item.get( 'contentBox' );
+        itemBoundingBox  = item.get( 'boundingBox' );
 
-        if( !_itemContentBox.inDoc() ){
-            if( _parentItem ){
-                _itemIndex = this.getItemIndex( _parentItem );
+        if( !itemContentBox.inDoc() ){
+            if( parentItem ){
+                itemIndex = this.getItemIndex( parentItem );
 
-                if( _itemIndex < 0 ){
+                if( itemIndex < 0 ){
                     return false;
                 }
 
-                _items.splice( _itemIndex, 0, _item );
+                items.splice( itemIndex, 0, item );
 
-                if( _item.get( "rendered" ) ){
-                    _contentBox.insertBefore( _itemBoundingBox, _parentItem.get( 'boundingBox' ) );
+                if( item.get( "rendered" ) ){
+                    contentBox.insertBefore( itemBoundingBox, parentItem.get( 'boundingBox' ) );
                 } else {
-                    _contentBox.insertBefore( _itemContentBox, _parentItem.get( 'boundingBox' ) );
+                    contentBox.insertBefore( itemContentBox, parentItem.get( 'boundingBox' ) );
                 }
             } else {
-                _items.push( _item );
+                items.push( item );
 
-                if( _item.get( "rendered" ) ){
-                    _contentBox.insertBefore( _itemBoundingBox, null );
+                if( item.get( "rendered" ) ){
+                    contentBox.insertBefore( itemBoundingBox, null );
                 } else {
-                    _contentBox.insertBefore( _itemContentBox, null );
+                    contentBox.insertBefore( itemContentBox, null );
                 }
             }
         } else {
-            _cb = this.get( "contentBox" );
-            _children = _cb.get( "children" );
+            cb = this.get( "contentBox" );
+            children = cb.get( "children" );
 
-            _res = _children.some( function( _node, _index, _nodeList ){
-                if( _node === _itemContentBox ){
-                    _items.splice( _index, 0, _item );
+            res = children.some( function( node, index, nodeList ){
+                if( node === itemContentBox ){
+                    items.splice( index, 0, item );
                     return true;
                 } else {
                     return false;
                 }
             }, this );
 
-            if( !_res ){
+            if( !res ){
                 return false;
             }
         }
 
-        _bodyContent = _item.get( "bodyContent" );
+        bodyContent = item.get( "bodyContent" );
 
-        if( !_bodyContent ){
-            _item.set( "bodyContent", "&nbsp;" );
+        if( !bodyContent ){
+            item.set( "bodyContent", "&nbsp;" );
         }
 
-        if( !_item.get( "rendered" ) ){
-            _item.render();
+        if( !item.get( "rendered" ) ){
+            item.render();
         }
         
-        _addItem.call( this, _item );
+        expanded = item.get( "expanded" );
+        alwaysVisible = item.get( "alwaysVisible" );
+
+        expanded = expanded || alwaysVisible;
+
+        if( expanded ){
+            this._forExpanding[ item ] = {
+                'item': item,
+                'alwaysVisible': alwaysVisible
+            };
+        } else {
+            this._forCollapsing[ item ] = {
+                'item': item
+            };
+        }
+
+        this._processItems();
 
         if( this.get( "reorderItems" ) ){
-            this._initItemDragDrop( _item );
+            this._initItemDragDrop( item );
         }
         
-        _itemHandles = this._itemsHandles[ _item ];
+        itemHandles = this._itemsHandles[ item ];
         
-        if( !_itemHandles ){
-            _itemHandles = {};
+        if( !itemHandles ){
+            itemHandles = {};
         }
         
-        _itemHandles = {
-            "expandedChange" : _item.after( "expandedChange", this._afterItemExpand, this ),
-            "alwaysVisibleChange" : _item.after( "alwaysVisibleChange", this._afterItemAlwaysVisible, this ),
-            "contentHeightChange" : _item.after( "contentHeightChange", this._afterContentHeight, this )
+        itemHandles = {
+            "expandedChange" : item.after( "expandedChange", this._afterItemExpand, this ),
+            "alwaysVisibleChange" : item.after( "alwaysVisibleChange", this._afterItemAlwaysVisible, this ),
+            "contentHeightChange" : item.after( "contentHeightChange", this._afterContentHeight, this )
         };
         
-        this._itemsHandles[ _item ] = _itemHandles;
+        this._itemsHandles[ item ] = itemHandles;
 
-        this.fire( _events.ITEMADDED, {
-            item: _item
+        this.fire( events.ITEMADDED, {
+            'item': item
         });
 
         return true;
@@ -1567,41 +1561,41 @@ Y.extend( Accordion, Y.Widget, {
      * @return Y.AccordionItem The removed item or null if not found
      */
     removeItem: function( p_item ){
-        var _items, _bb, _item = null, _itemIndex, _events;
+        var items, bb, item = null, itemIndex, events;
         
-         _events = Accordion.EVENT_TYPES;
+        events = Accordion.EVENT_TYPES;
         
-        _items = this.get( "items" );
+        items = this.get( "items" );
         
         if( Lang.isNumber( p_item ) ){
-            _itemIndex = p_item;
+            itemIndex = p_item;
         } else if( p_item instanceof Y.AccordionItem ){
-            _itemIndex = this.getItemIndex( p_item );
+            itemIndex = this.getItemIndex( p_item );
         } else {
             return null;
         }
 
-        if( _itemIndex >= 0 ){
+        if( itemIndex >= 0 ){
             
-            this.fire( _events.BEFOREITEMREMOVE, {
+            this.fire( events.BEFOREITEMREMOVE, {
                 item: p_item
             });
 
-            _item = _items.splice( _itemIndex, 1 )[0];
+            item = items.splice( itemIndex, 1 )[0];
 
-            this._removeItemHandles( _item );
+            this._removeItemHandles( item );
             
-            _bb = _item.get( "boundingBox" );
-            _bb.remove();
+            bb = item.get( "boundingBox" );
+            bb.remove();
 
             this._adjustStretchItems();
             
-            this.fire( _events.ITEMREMOVED, {
+            this.fire( events.ITEMREMOVED, {
                 item: p_item
             });
         }
 
-        return _item;
+        return item;
     },
 
     
@@ -1609,31 +1603,31 @@ Y.extend( Accordion, Y.Widget, {
      * Searching for item, previously registered in Accordion
      * 
      * @method getItem
-     * @param {Number|Y.Node} _param If number, this must be item's index.
+     * @param {Number|Y.Node} param If number, this must be item's index.
      * If Node, it should be the value of item's <code>contentBox</code> or <code>boundingBox</code> properties
      * 
      * @return Y.AccordionItem The found item or null
      */
-    getItem: function( _param ){
-        var _items = this.get( "items" ), _item = null;
+    getItem: function( param ){
+        var items = this.get( "items" ), item = null;
 
-        if( Lang.isNumber( _param ) ){
-            _item = _items[ _param ];
+        if( Lang.isNumber( param ) ){
+            item = items[ param ];
 
-            return (_item instanceof Y.AccordionItem) ? _item : null;
-        } else if( _param instanceof Node ){
+            return (item instanceof Y.AccordionItem) ? item : null;
+        } else if( param instanceof Node ){
 
-            Y.Array.some( _items, function( _tmpItem, _index, _items ){
-                var _contentBox, _boundingBox;
+            Y.Array.some( items, function( tmpItem, index, items ){
+                var contentBox, boundingBox;
                 
-                _contentBox = _tmpItem.get( "contentBox" );
-                _boundingBox = _tmpItem.get( "boundingBox" );
+                contentBox = tmpItem.get( "contentBox" );
+                boundingBox = tmpItem.get( "boundingBox" );
 
-                if( _contentBox === _param ){
-                    _item = _tmpItem;
+                if( contentBox === param ){
+                    item = tmpItem;
                     return true;
-                } else if( _boundingBox === _param ){
-                    _item = _tmpItem;
+                } else if( boundingBox === param ){
+                    item = tmpItem;
                     return true;
                 } else {
                     return false;
@@ -1641,7 +1635,7 @@ Y.extend( Accordion, Y.Widget, {
             }, this );
         }
 
-        return _item;
+        return item;
     },
 
     
@@ -1649,18 +1643,18 @@ Y.extend( Accordion, Y.Widget, {
      * Looking for the index of previously registered item
      * 
      * @method getItemIndex
-     * @param {Y.AccordionItem} _item The item which index should be returned
+     * @param {Y.AccordionItem} item The item which index should be returned
      * @return Number Item index or <code>-1</code> if item has been not found
      */
-    getItemIndex: function( _item ){
-        var _res = -1, _items;
+    getItemIndex: function( item ){
+        var res = -1, items;
 
-        if( _item instanceof Y.AccordionItem ){
-            _items = this.get( "items" );
+        if( item instanceof Y.AccordionItem ){
+            items = this.get( "items" );
 
-            Y.Array.some( _items, function( _tmpItem, _index, _items ){
-                if( _tmpItem === _item ){
-                    _res = _index;
+            Y.Array.some( items, function( tmpItem, index, items ){
+                if( tmpItem === item ){
+                    res = index;
                     return true;
                 } else {
                     return false;
@@ -1668,7 +1662,7 @@ Y.extend( Accordion, Y.Widget, {
             }, this );
         }
 
-        return _res;
+        return res;
     }
     
 });
