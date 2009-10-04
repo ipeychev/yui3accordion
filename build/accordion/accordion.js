@@ -237,17 +237,7 @@ Y.extend( Accordion, Y.Widget, {
 
         this._lastChild = null;
 
-        this.after( "render", function(){
-            var resizeEvent;
-
-            resizeEvent = this.get( "resizeEvent" );
-            
-            this._setUpResizing( resizeEvent );
-            
-            this.after( "resizeEventChange", function( data ) {
-                this._setUpResizing( data.newVal );
-            }, this );
-        }, this );
+        this.after( "render", Y.bind( this._afterRender, this ) );
 
         this._forCollapsing = {};
         this._forExpanding  = {};
@@ -560,6 +550,35 @@ Y.extend( Accordion, Y.Widget, {
         item.markAsAlwaysVisible( alwaysVisible );
     },
 
+
+    /**
+     * Sets listener to resize event
+     *
+     * @method _afterRender
+     * @protected
+     * @param e {Event} after render custom event
+     */
+    _afterRender: function( e ){
+        var resizeEvent;
+
+        resizeEvent = this.get( "resizeEvent" );
+
+        this._setUpResizing( resizeEvent );
+
+        this.after( "resizeEventChange", Y.bind( this._afterResizeEventChange, this ) );
+    },
+
+
+    /**
+     * Set up resizing with the new value provided
+     *
+     * @method _afterResizeEventChange
+     * @param params {Event} after resizeEventChange custom event
+     */
+    _afterResizeEventChange: function( params ){
+        this._setUpResizing( params.newValue );
+    },
+
     
     /**
      * Distributes the involved items as result of user interaction on item header.
@@ -812,28 +831,9 @@ Y.extend( Accordion, Y.Widget, {
      * @param {Number} height The height to which item should be expanded
      */
     _processExpanding: function( item, height, forceSkipAnimation ){
-        var anim, curAnim, animSettings, expanding = false,
+        var anim, curAnim, animSettings, notifyOthers = false,
             events = Accordion.EVENT_TYPES,
             accAnimationSettings, body;
-
-        
-        function onExpandComplete(){
-            delete this._animations[ item ];
-            anim = null;
-
-            item.markAsExpanding( false );
-
-            this.fire( events.ITEMERESIZED, {
-                'item': item
-            });
-
-            if( expanding ){
-                this.fire( events.ITEMEXPANDED, {
-                    'item': item
-                });
-            }
-        }
-
         
         body = item.getStdModNode( WidgetStdMod.BODY );
 
@@ -842,7 +842,7 @@ Y.extend( Accordion, Y.Widget, {
         });
 
         if( body.get( "clientHeight" ) <= 0 ){
-            expanding = true;
+            notifyOthers = true;
             this.fire( events.BEFOREITEMEXPAND, {
                 'item': item
             });
@@ -858,7 +858,7 @@ Y.extend( Accordion, Y.Widget, {
                 }
             });
 
-            anim.on( "end", onExpandComplete, this );
+            anim.on( "end", Y.bind( this._onExpandComplete, this, item, notifyOthers ) );
 
             accAnimationSettings = this.get( "animation" );
 
@@ -883,11 +883,38 @@ Y.extend( Accordion, Y.Widget, {
                 'item': item
             });
 
-            if( expanding ){
+            if( notifyOthers ){
                 this.fire( events.ITEMEXPANDED, {
                     'item': item
                 });
             }
+        }
+    },
+
+
+    /**
+     * Executes when animated expanding completes
+     *
+     * @method _onExpandComplete
+     * @protected
+     * @param {Y.AccordionItem} item An <code>Y.AccordionItem</code> instance which has been expanded
+     * @param {Boolean} notifyOthers If true, itemExpanded event will be fired
+     */
+    _onExpandComplete: function( item, notifyOthers ){
+        var events = Accordion.EVENT_TYPES;
+
+        delete this._animations[ item ];
+
+        item.markAsExpanding( false );
+
+        this.fire( events.ITEMERESIZED, {
+            'item': item
+        });
+
+        if( notifyOthers ){
+            this.fire( events.ITEMEXPANDED, {
+                'item': item
+            });
         }
     },
 
@@ -919,35 +946,17 @@ Y.extend( Accordion, Y.Widget, {
      */
     _processCollapsing: function( item, height, forceSkipAnimation ){
         var anim, curAnim, animSettings, accAnimationSettings, events, body, 
-            collapsing = (height === COLLAPSE_HEIGHT);
+            notifyOthers = (height === COLLAPSE_HEIGHT);
             
         events = Accordion.EVENT_TYPES;
         body = item.getStdModNode( WidgetStdMod.BODY );
-        
-
-        function onCollapseComplete(){
-            delete this._animations[ item ];
-            anim = null;
-
-            item.markAsCollapsing( false );
-
-            this.fire( events.ITEMERESIZED, {
-                item: item
-            });
-
-            if( collapsing ){
-                this.fire( events.ITEMCOLLAPSED, {
-                    'item': item
-                });
-            }
-        }
 
         
         this.fire( events.BEFOREITEMERESIZED, {
             'item': item
         });
 
-        if( collapsing ){
+        if( notifyOthers ){
             this.fire( events.BEFOREITEMCOLLAPSE, {
                 'item': item
             });
@@ -963,7 +972,7 @@ Y.extend( Accordion, Y.Widget, {
                 }
             });
 
-            anim.on( "end", onCollapseComplete, this );
+            anim.on( "end", Y.bind( this._onCollapseComplete, this, item, notifyOthers ) );
 
             accAnimationSettings = this.get( "animation" );
 
@@ -988,11 +997,38 @@ Y.extend( Accordion, Y.Widget, {
                 'item': item
             });
 
-            if( height === 0 ){
+            if( notifyOthers ){
                 this.fire( events.ITEMCOLLAPSED, {
                     'item': item
                 });
             }
+        }
+    },
+
+
+    /**
+     * Executes when animated collapsing completes
+     *
+     * @method _onCollapseComplete
+     * @protected
+     * @param {Y.AccordionItem} item An <code>Y.AccordionItem</code> instance which has been collapsed
+     * @param {Boolean} notifyOthers If true, itemCollapsed event will be fired
+     */
+    _onCollapseComplete: function( item, notifyOthers ){
+        var events = Accordion.EVENT_TYPES;
+
+        delete this._animations[ item ];
+
+        item.markAsCollapsing( false );
+
+        this.fire( events.ITEMERESIZED, {
+            item: item
+        });
+
+        if( notifyOthers ){
+            this.fire( events.ITEMCOLLAPSED, {
+                'item': item
+            });
         }
     },
 
@@ -1013,7 +1049,6 @@ Y.extend( Accordion, Y.Widget, {
             return;
         }
 
-
         bb = this.get( "boundingBox" );
         itemBB = item.get( "boundingBox" );
 
@@ -1031,95 +1066,135 @@ Y.extend( Accordion, Y.Widget, {
             groups: [ Accordion.DRAGGROUP ]
         });
 
-        dd.on( "drag:start", function(e){
-            var dragNode, events, item;
-            
+        dd.on   ( "drag:start",   Y.bind( this._onDragStart,  this, dd ) );
+        dd.on   ( "drag:end"  ,   Y.bind( this._onDragEnd,    this, dd ) );
+        dd.after( "drag:end"  ,   Y.bind( this._afterDragEnd, this, dd ) );
+        dd.on   ( 'drag:drophit', Y.bind( this._onDropHit,    this, dd ) );
+    },
+
+
+    /**
+     * Sets the label of the item being dragged on the drag proxy.
+     * Fires beforeItemReorder event - returning false will cancel reordering
+     *
+     * @method _onDragStart
+     * @protected
+     * @param {Y.DD.Drag} The drag instance of the item
+     * @param e {Event} the DD instance's drag:start custom event
+     */
+    _onDragStart: function( dd, e ){
+        var dragNode, events, item;
+
+        item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
+        events = Accordion.EVENT_TYPES;
+        dragNode = dd.get( "dragNode" );
+
+        dragNode.addClass( Accordion.C_PROXY_VISIBLE );
+        dragNode.set( "innerHTML", item.get( "label" ) );
+
+        return this.fire( events.BEFOREITEMREORDER, { 'item': item } );
+    },
+
+
+    /**
+     * Restores HTML structure of the drag proxy.
+     * Fires beforeEndItemReorder event - returning false will cancel reordering
+     *
+     * @method _onDragEnd
+     * @protected
+     * @param {Y.DD.Drag} The drag instance of the item
+     * @param e {Event} the DD instance's drag:end custom event
+     */
+    _onDragEnd: function( dd, e ){
+        var dragNode, events, item;
+
+        events = Accordion.EVENT_TYPES;
+        dragNode = dd.get( "dragNode" );
+
+        dragNode.removeClass( Accordion.C_PROXY_VISIBLE );
+        dragNode.set( "innerHTML", "" );
+
+        item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
+        return this.fire( events.BEFOREENDITEMREORDER, { 'item': item } );
+    },
+
+
+    /**
+     * Set drophit to false in dragdrop instance's custom value (if there has been drophit) and fires itemReordered event
+     *
+     * @method _afterDragEnd
+     * @protected
+     * @param {Y.DD.Drag} The drag instance of the item
+     * @param e {Event} the DD instance's drag:end custom event
+     */
+    _afterDragEnd: function( dd, e ){
+        var events, item, data;
+
+        events = Accordion.EVENT_TYPES;
+
+        data = dd.get( "data" );
+
+        if( data.drophit ){
             item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
-            events = Accordion.EVENT_TYPES;
-            dragNode = dd.get( "dragNode" );
 
-            dragNode.addClass( Accordion.C_PROXY_VISIBLE );
-            dragNode.set( "innerHTML", item.get( "label" ) );
-            
-            return this.fire( events.BEFOREITEMREORDER, { 'item': item } );
-        }, this );
-
-        dd.on( "drag:end", function(e){
-            var dragNode, events, item;
-
-            events = Accordion.EVENT_TYPES;
-            dragNode = dd.get( "dragNode" );
-
-            dragNode.removeClass( Accordion.C_PROXY_VISIBLE );
-            dragNode.set( "innerHTML", "" );
-            
-            item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
-            return this.fire( events.BEFOREENDITEMREORDER, { 'item': item } );
-        }, this );
-        
-        
-        dd.after( "drag:end", function(e){
-            var events, item, data;
-            
-            events = Accordion.EVENT_TYPES;
-
-            data = dd.get( "data" );
-            
-            if( data.drophit ){
-                item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
-
-                dd.set( "data", {
-                    drophit: false
-                } );
-
-                return this.fire( events.ITEMREORDERED, { 'item': item } );
-            }
-            
-            return true;
-        }, this );
-
-
-        dd.on('drag:drophit', function(e) {
-            var mineIndex, targetItemIndex, targetItemBB, itemBB, cb, 
-                goingUp, items, targetItem;
-
-            targetItem = this.getItem( e.drop.get( "node" ) );
-
-            if( targetItem === item ){
-                return false;
-            }
-
-            mineIndex = this.getItemIndex( item );
-            targetItemIndex = this.getItemIndex( targetItem );
-            targetItemBB = targetItem.get( "boundingBox" );
-            itemBB = item.get( "boundingBox" );
-            cb = this.get( "contentBox" );
-            goingUp = false;
-            items = this.get( "items" );
-
-            if( targetItemIndex < mineIndex ){
-                goingUp = true;
-            }
-
-            cb.removeChild( itemBB );
-
-            if( goingUp ){
-                cb. insertBefore( itemBB, targetItemBB );
-                items.splice( mineIndex, 1 );
-                items.splice( targetItemIndex, 0, item );
-            } else {
-                cb. insertBefore( itemBB, targetItemBB.next( Y.AccordionItem.C_ITEM ) );
-                items.splice( targetItemIndex + 1, 0, item );
-                items.splice( mineIndex, 1 );
-            }
-            
             dd.set( "data", {
-                drophit: true
-            });
-            
-            return true;
-        }, this );
+                drophit: false
+            } );
 
+            return this.fire( events.ITEMREORDERED, { 'item': item } );
+        }
+
+        return true;
+    },
+
+
+    /**
+     * Moves the source item before or after target item.
+     *
+     * @method _onDropHit
+     * @param {Y.DD.Drag} The drag instance of the item
+     * @param e {Event} the DD instance's drag:drophit custom event
+     */
+    _onDropHit: function( dd, e) {
+        var mineIndex, targetItemIndex, targetItemBB, itemBB, cb,
+            goingUp, items, targetItem, item;
+
+        item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
+        targetItem = this.getItem( e.drop.get( "node" ) );
+
+        if( targetItem === item ){
+            return false;
+        }
+
+        mineIndex = this.getItemIndex( item );
+        targetItemIndex = this.getItemIndex( targetItem );
+        targetItemBB = targetItem.get( "boundingBox" );
+        itemBB = item.get( "boundingBox" );
+        cb = this.get( "contentBox" );
+        goingUp = false;
+        items = this.get( "items" );
+
+        if( targetItemIndex < mineIndex ){
+            goingUp = true;
+        }
+
+        cb.removeChild( itemBB );
+
+        if( goingUp ){
+            cb. insertBefore( itemBB, targetItemBB );
+            items.splice( mineIndex, 1 );
+            items.splice( targetItemIndex, 0, item );
+        } else {
+            cb. insertBefore( itemBB, targetItemBB.next( Y.AccordionItem.C_ITEM ) );
+            items.splice( targetItemIndex + 1, 0, item );
+            items.splice( mineIndex, 1 );
+        }
+
+        dd.set( "data", {
+            drophit: true
+        });
+
+        return true;
     },
 
     
@@ -1334,9 +1409,9 @@ Y.extend( Accordion, Y.Widget, {
         }
 
         if( value === "default" ){
-            this._resizeEventHandle = Y.on( 'windowresize', this._adjustStretchItems, this );
+            this._resizeEventHandle = Y.on( 'windowresize', Y.bind( this._adjustStretchItems, this ) );
         } else {
-            this._resizeEventHandle = value.sourceObject.on( value.resizeEvent, this._adjustStretchItems, this );
+            this._resizeEventHandle = value.sourceObject.on( value.resizeEvent, Y.bind( this._adjustStretchItems, this ) );
         }
     },
 
@@ -1374,51 +1449,76 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     bindUI: function(){
-        var contentBox, itemChosenEvent, header, itemNode, item, iconAlwaysVisible,
-            iconClose, srcIconAlwaysVisible, srcIconExtended, srcIconClose, iconExtended;
+        var contentBox, itemChosenEvent;
 
         contentBox = this.get( 'contentBox' );
         itemChosenEvent = this.get( 'itemChosen' );
         
-        contentBox.delegate( itemChosenEvent, function(e){
+        contentBox.delegate( itemChosenEvent, Y.bind( this._onItemChosenEvent, this ), 'div.yui-widget-hd' );
+        contentBox.delegate( "keypress", Y.bind( this._onKeyPressEvent, this ), 'div.yui-widget-hd' );
+    },
+
+
+    /**
+     * Listening for itemChosen event, determines the source (is that iconClose, iconAlwaysVisisble, etc.) and
+     * invokes this._onItemChosen for further processing
+     *
+     * @method _onItemChosenEvent
+     * @protected
+     * 
+     * @param e {Event} The itemChosen event
+     */
+    _onItemChosenEvent: function(e){
+        var header, itemNode, item, iconAlwaysVisible,
+            iconClose, srcIconAlwaysVisible, srcIconClose;
+
+        header = e.currentTarget;
+        itemNode = header.get( "parentNode" );
+        item = this.getItem( itemNode );
+        iconAlwaysVisible = item.get( "iconAlwaysVisible" );
+        iconClose = item.get( "iconClose" );
+        srcIconAlwaysVisible = (iconAlwaysVisible === e.target);
+        srcIconClose = (iconClose === e.target);
+
+        this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
+    },
+
+
+    /**
+     * Listening for Enter key and process the item depending on the source (iconClose, iconAlwaysVisisble, etc.)
+     *
+     * @method _onKeyPressEvent
+     * @protected
+     *
+     * @param e {Event} The keypress event
+     */
+    _onKeyPressEvent: function(e){
+        var header, itemNode, item, iconAlwaysVisible,
+            iconClose, srcIconAlwaysVisible, srcIconClose,
+            charCode, target = e.target, srcIconExtended, iconExtended;
+
+        charCode = e.charCode;
+
+        if( charCode === 13 ){
             header = e.currentTarget;
             itemNode = header.get( "parentNode" );
             item = this.getItem( itemNode );
+
             iconAlwaysVisible = item.get( "iconAlwaysVisible" );
+            iconExtended = item.get( "iconExtended" );
             iconClose = item.get( "iconClose" );
-            srcIconAlwaysVisible = (iconAlwaysVisible === e.target);
+            srcIconAlwaysVisible = (iconAlwaysVisible === target);
+            srcIconExtended = (iconExtended === target );
             srcIconClose = (iconClose === e.target);
 
-            this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
-        }, 'div.yui-widget-hd', this );
-
-
-        contentBox.delegate( "keypress", function(e){
-            var charCode, target = e.target;
-            
-            charCode = e.charCode;
-
-            if( charCode === 13 ){
-                header = e.currentTarget;
-                itemNode = header.get( "parentNode" );
-                item = this.getItem( itemNode );
-
-                iconAlwaysVisible = item.get( "iconAlwaysVisible" );
-                iconExtended = item.get( "iconExtended" );
-                iconClose = item.get( "iconClose" );
-                srcIconAlwaysVisible = (iconAlwaysVisible === target);
-                srcIconExtended = (iconExtended === target );
-                srcIconClose = (iconClose === e.target);
-
-                /**
-                 * Exclude label in order to avoid double function invocation.
-                 * Label keypress will be managed in "click" listener.
-                 */
-                if( srcIconExtended || srcIconAlwaysVisible  || srcIconClose ){
-                    this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
-                }
+            /**
+             * Exclude label in order to avoid double function invocation.
+             * Label keypress will be managed in "click" listener.
+             */
+            if( srcIconExtended || srcIconAlwaysVisible  || srcIconClose ){
+                this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
             }
-        }, 'div.yui-widget-hd', this );
+        }
     },
 
     
@@ -1540,9 +1640,9 @@ Y.extend( Accordion, Y.Widget, {
         }
         
         itemHandles = {
-            "expandedChange" : item.after( "expandedChange", this._afterItemExpand, this ),
-            "alwaysVisibleChange" : item.after( "alwaysVisibleChange", this._afterItemAlwaysVisible, this ),
-            "contentHeightChange" : item.after( "contentHeightChange", this._afterContentHeight, this )
+            "expandedChange" : item.after( "expandedChange", Y.bind( this._afterItemExpand, this ) ),
+            "alwaysVisibleChange" : item.after( "alwaysVisibleChange", Y.bind( this._afterItemAlwaysVisible, this ) ),
+            "contentHeightChange" : item.after( "contentHeightChange", Y.bind( this._afterContentHeight, this ) )
         };
         
         this._itemsHandles[ item ] = itemHandles;
@@ -2210,21 +2310,30 @@ Y.extend( AccordionItem, Y.Widget, {
      * @param  config {Object} Configuration object literal for the AccordionItem
      */
     initializer: function( config ) {
-        this.after( 'render', function(e){
-            var contentBox = this.get( 'contentBox' );
-
-            this._icon = contentBox.query( "." + AccordionItem.C_ICON );
-            this._label = contentBox.query( "." + AccordionItem.C_LABEL );
-            this._iconAlwaysVisible = contentBox.query( "." + AccordionItem.C_ICONALWAYSVISIBLE );
-            this._iconExtended = contentBox.query( "." + AccordionItem.C_ICONEXTENDED );
-            this._iconClose = contentBox.query( "." + AccordionItem.C_ICONCLOSE );
-        }, this );
-
-        this.after( "iconChange",     this._iconChanged,     this );
-        this.after( "labelChange",    this._labelChanged,    this );
-        this.after( "closableChange", this._closableChanged, this );
+        this.after( 'render', Y.bind( this._afterRender, this ) );
+        this.after( "iconChange", Y.bind( this._iconChanged, this ) );
+        this.after( "labelChange",  Y.bind( this._labelChanged, this ) );
+        this.after( "closableChange", Y.bind( this._closableChanged, this ) );
     },
 
+
+    /**
+     * Get references to elements, which compose the header
+     *
+     * @method _afterRender
+     * @protected
+     * @param e {Event} after render custom event
+     */
+    _afterRender: function( e ){
+        var contentBox = this.get( 'contentBox' );
+
+        this._icon = contentBox.query( "." + AccordionItem.C_ICON );
+        this._label = contentBox.query( "." + AccordionItem.C_LABEL );
+        this._iconAlwaysVisible = contentBox.query( "." + AccordionItem.C_ICONALWAYSVISIBLE );
+        this._iconExtended = contentBox.query( "." + AccordionItem.C_ICONEXTENDED );
+        this._iconClose = contentBox.query( "." + AccordionItem.C_ICONCLOSE );
+    },
+    
     
     /**
      * Destructor lifecycle implementation for the AccordionItem class.
@@ -2259,9 +2368,21 @@ Y.extend( AccordionItem, Y.Widget, {
         contentBox = this.get( 'contentBox' );
         selector = [ 'div.', AccordionItem.C_LABEL, ' a' ].join('');
 
-        contentBox.delegate( "click", function(e){
-            e.preventDefault();
-        }, selector, this );
+        contentBox.delegate( "click", Y.bind( this._onLinkClick, this ), selector );
+    },
+
+
+
+    /**
+     * Prevent default action on clicking the link in the label
+     *
+     * @method _onLinkClick
+     * @protected
+     *
+     * @param e {Event} The click event
+     */
+    _onLinkClick: function( e ){
+        e.preventDefault();
     },
     
    /**

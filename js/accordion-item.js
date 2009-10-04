@@ -535,21 +535,30 @@ Y.extend( AccordionItem, Y.Widget, {
      * @param  config {Object} Configuration object literal for the AccordionItem
      */
     initializer: function( config ) {
-        this.after( 'render', function(e){
-            var contentBox = this.get( 'contentBox' );
-
-            this._icon = contentBox.query( "." + AccordionItem.C_ICON );
-            this._label = contentBox.query( "." + AccordionItem.C_LABEL );
-            this._iconAlwaysVisible = contentBox.query( "." + AccordionItem.C_ICONALWAYSVISIBLE );
-            this._iconExtended = contentBox.query( "." + AccordionItem.C_ICONEXTENDED );
-            this._iconClose = contentBox.query( "." + AccordionItem.C_ICONCLOSE );
-        }, this );
-
-        this.after( "iconChange",     this._iconChanged,     this );
-        this.after( "labelChange",    this._labelChanged,    this );
-        this.after( "closableChange", this._closableChanged, this );
+        this.after( 'render', Y.bind( this._afterRender, this ) );
+        this.after( "iconChange", Y.bind( this._iconChanged, this ) );
+        this.after( "labelChange",  Y.bind( this._labelChanged, this ) );
+        this.after( "closableChange", Y.bind( this._closableChanged, this ) );
     },
 
+
+    /**
+     * Get references to elements, which compose the header
+     *
+     * @method _afterRender
+     * @protected
+     * @param e {Event} after render custom event
+     */
+    _afterRender: function( e ){
+        var contentBox = this.get( 'contentBox' );
+
+        this._icon = contentBox.query( "." + AccordionItem.C_ICON );
+        this._label = contentBox.query( "." + AccordionItem.C_LABEL );
+        this._iconAlwaysVisible = contentBox.query( "." + AccordionItem.C_ICONALWAYSVISIBLE );
+        this._iconExtended = contentBox.query( "." + AccordionItem.C_ICONEXTENDED );
+        this._iconClose = contentBox.query( "." + AccordionItem.C_ICONCLOSE );
+    },
+    
     
     /**
      * Destructor lifecycle implementation for the AccordionItem class.
@@ -584,9 +593,21 @@ Y.extend( AccordionItem, Y.Widget, {
         contentBox = this.get( 'contentBox' );
         selector = [ 'div.', AccordionItem.C_LABEL, ' a' ].join('');
 
-        contentBox.delegate( "click", function(e){
-            e.preventDefault();
-        }, selector, this );
+        contentBox.delegate( "click", Y.bind( this._onLinkClick, this ), selector );
+    },
+
+
+
+    /**
+     * Prevent default action on clicking the link in the label
+     *
+     * @method _onLinkClick
+     * @protected
+     *
+     * @param e {Event} The click event
+     */
+    _onLinkClick: function( e ){
+        e.preventDefault();
     },
     
    /**
