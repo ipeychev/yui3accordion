@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Test static variables accross multiple YUI instances</title>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssreset/reset-min.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssfonts/fonts-min.css">
+
+<style type="text/css">
+    html, body {
+        height:100%;
+    }
+</style>
+
+<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui.js"></script>
+
+<script type="text/javascript">
+
+    var Y1, Y2;
+/**
+ * We change the name of the event in the first YUI instance
+ */
+YUI({
+    combine: false,
+    debug: true,
+    filter: "RAW",
+    modules: {
+        'accordion-css' : {
+            type: 'css',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/static-vars/build/accordion/assets/skins/sam/accordion.css'
+        },
+        'accordion': {
+            type: 'js',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/static-vars/build/accordion/accordion.js',
+            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+        }
+    }
+} ).use( 'accordion', 'node', 'console', function(Y) {
+    var _item1, _item2, _accordion1, _accordion2, _results = Y.get( "#results" );
+
+    new Y.Console({
+        newestOnTop:false,
+        logSource: Y.Global
+    }).render();
+
+    Y1 = Y;
+
+    Y.Accordion.EVENT_TYPES.BEFOREITEMADD = "my_new_event_name";
+    
+    _accordion1 = new Y.Accordion( {
+        contentBox: "#acc1",
+        useAnimation: true
+    });
+
+    _accordion1.on( Y.Accordion.EVENT_TYPES.BEFOREITEMADD, function(attrs){
+        Y.log("Accordion1, YUI1: the name of BEFOREITEMADD event in the first YUI instance is: " + attrs.type, "info",  "Accordion1, YUI1");
+    }, this );
+
+    _accordion1.render();
+        
+    _item1 = new Y.AccordionItem( {
+        label: "Label1",
+        contentBox: "dynamicContentBox1",
+        expanded: true
+    } );
+
+    _item1.set( "bodyContent", "<div style='position:relative;'>Accordion1, YUI instance 1</div>" );
+    
+    _accordion1.addItem( _item1 );
+
+    _accordion2 = new Y.Accordion( {
+        contentBox: "#acc2",
+        useAnimation: true
+    });
+
+    _accordion2.on( Y.Accordion.EVENT_TYPES.BEFOREITEMADD, function(attrs){
+        Y.log("Accordion2, YUI1: the name of BEFOREITEMADD event in the first YUI instance is: " + attrs.type, "info",  "Accordion2, YUI1");
+    }, this );
+
+    _accordion2.render();
+
+    _item2 = new Y.AccordionItem( {
+        label: "Labe2",
+        contentBox: "dynamicContentBox2",
+        expanded: true
+    } );
+
+    _item2.set( "bodyContent", "<div style='position:relative;'>Accordion2, YUI instance 1</div>" );
+
+    _accordion2.addItem( _item2 );
+});
+
+
+/**
+ * The name of BEFOREITEMADD event should be not changed in the second YUI instance
+ */
+YUI({
+    combine: false,
+    debug: true,
+    filter: "RAW",
+    modules: {
+        'accordion-css' : {
+            type: 'css',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/static-vars/build/accordion/assets/skins/sam/accordion.css'
+        },
+        'accordion': {
+            type: 'js',
+            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/static-vars/build/accordion/accordion.js',
+            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+        }
+    }
+} ).use( 'accordion', 'node', 'console', function(Y) {
+    var _item3, _item4, _accordion3, _accordion4;
+
+    Y2 = Y;
+
+    _accordion3 = new Y.Accordion( {
+        contentBox: "#acc3",
+        useAnimation: true
+    });
+
+    _accordion3.on( Y.Accordion.EVENT_TYPES.BEFOREITEMADD, function(attrs){
+        Y.log("Accordion3, YUI2: the name of BEFOREITEMADD event in the second YUI instance is: " + attrs.type, "info",  "Accordion3, YUI2");
+    }, this );
+
+    _accordion3.render();
+
+    _item3 = new Y.AccordionItem( {
+        label: "Labe3",
+        contentBox: "dynamicContentBox3",
+        expanded: true
+    } );
+
+    _item3.set( "bodyContent", "<div style='position:relative;'>Accordion3, YUI instance 2</div>" );
+
+    _accordion3.addItem( _item3 );
+
+
+
+    _accordion4 = new Y.Accordion( {
+        contentBox: "#acc4",
+        useAnimation: true
+    });
+
+    _accordion4.on( Y.Accordion.EVENT_TYPES.BEFOREITEMADD, function(attrs){
+        Y.log("Accordion4, YUI2: the name of BEFOREITEMADD event in the second YUI instance is: " + attrs.type, "info",  "Accordion2, YUI2");
+    }, this );
+
+    _accordion4.render();
+
+    _item4 = new Y.AccordionItem( {
+        label: "Labe4",
+        contentBox: "dynamicContentBox4",
+        expanded: true
+    } );
+
+    _item4.set( "bodyContent", "<div style='position:relative;'>Accordion4, YUI instance 2</div>" );
+
+    _accordion4.addItem( _item4 );
+});
+
+
+</script>
+
+</head>
+
+<body class="yui-skin-sam">
+    <div style="position: absolute; left: 20px; top: 20px; width: 200px; height: 200px;">
+        <div id="acc1" style="position: relative; height: 100px; overflow:hidden;"></div>
+    </div>
+
+    <div style="position: absolute; left: 250px; top: 20px; width: 200px; height: 200px;">
+        <div id="acc2" style="position: relative; height: 100px; overflow:hidden;"></div>
+    </div>
+
+    <div style="position: absolute; left: 20px; top: 250px; width: 200px; height: 200px;">
+        <div id="acc3" style="position: relative; height: 100px; overflow:hidden;"></div>
+    </div>
+
+    <div style="position: absolute; left: 250px; top: 250px; width: 200px; height: 200px;">
+        <div id="acc4" style="position: relative; height: 100px; overflow:hidden;"></div>
+    </div>
+</body>
