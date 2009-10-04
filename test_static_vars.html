@@ -37,7 +37,7 @@ YUI({
         }
     }
 } ).use( 'accordion', 'node', 'console', function(Y) {
-    var _item1, _item2, _accordion1, _accordion2, _results = Y.get( "#results" );
+    var _item1, _item2, _accordion1, _accordion2;
 
     new Y.Console({
         newestOnTop:false,
@@ -144,7 +144,7 @@ YUI({
     });
 
     _accordion4.on( Y.Accordion.EVENT_TYPES.BEFOREITEMADD, function(attrs){
-        Y.log("Accordion4, YUI2: the name of BEFOREITEMADD event in the second YUI instance is: " + attrs.type, "info",  "Accordion2, YUI2");
+        Y.log("Accordion4, YUI2: the name of BEFOREITEMADD event in the second YUI instance is: " + attrs.type, "info",  "Accordion4, YUI2");
     }, this );
 
     _accordion4.render();
