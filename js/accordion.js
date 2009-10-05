@@ -22,16 +22,56 @@ function Accordion( config ){
 }
 
 // Local constants
-var Lang  = Y.Lang,
-    Node  = Y.Node,
-    Anim  = Y.Anim,
+var Lang = Y.Lang,
+    Node = Y.Node,
+    Anim = Y.Anim,
     Easing = Y.Easing,
     AccName = "accordion",
     WidgetStdMod = Y.WidgetStdMod,
     QuirksMode = document.compatMode == "BackCompat",
     IEQuirksMode = QuirksMode && Y.UA.ie > 0,
     COLLAPSE_HEIGHT = IEQuirksMode ? 1 : 0,
-    getCN = Y.ClassNameManager.getClassName;
+    getCN = Y.ClassNameManager.getClassName,
+    
+    C_ITEM = "yui-accordion-item",
+    C_PROXY_VISIBLE = getCN( AccName, "proxyel", "visible" ),
+    DRAGGROUP = getCN( AccName, "graggroup" ),
+
+    BEFOREITEMADD = "beforeItemAdd",
+    ITEMADDED = "itemAdded",
+    BEFOREITEMREMOVE = "beforeItemRemove",
+    ITEMREMOVED = "itemRemoved",
+    BEFOREITEMERESIZED = "beforeItemResized",
+    ITEMERESIZED = "itemResized",
+
+    BEFOREITEMEXPAND  = "beforeItemExpand",
+    BEFOREITEMCOLLAPSE = "beforeItemCollapse",
+    ITEMEXPANDED = "itemExpanded",
+    ITEMCOLLAPSED = "itemCollapsed",
+
+    BEFOREITEMREORDER = "beforeItemReorder",
+    BEFOREENDITEMREORDER = "beforeEndItemReorder",
+    ITEMREORDERED = "itemReordered",
+    
+    DEFAULT = "default",
+    ANIMATION = "animation",
+    ALWAYSVISIBLE = "alwaysVisible",
+    EXPANDED = "expanded",
+    COLLAPSEOTHERSONEXPAND = "collapseOthersOnExpand",
+    ITEMS = "items",
+    CONTENT_HEIGHT = "contentHeight",
+    ICON_CLOSE = "iconClose",
+    ICON_ALWAYSVISIBLE = "iconAlwaysVisible",
+    STRETCH = "stretch",
+    PX = "px",
+    CONTENT_BOX = "contentBox",
+    BOUNDING_BOX = "boundingBox",
+    RENDERED = "rendered",
+    BODYCONTENT = "bodyContent",
+    CHILDREN = "children",
+    PARENT_NODE = "parentNode",
+    NODE = "node",
+    DATA = "data";
 
 
 /**
@@ -102,7 +142,7 @@ Accordion.ATTRS = {
      */
 
     resizeEvent: {
-        value: "default",
+        value: DEFAULT,
         validator: function( value ){
             return (Lang.isString(value) || Lang.isObject(value));
         }
@@ -170,54 +210,6 @@ Accordion.ATTRS = {
     }
 };
 
-/**
- *  Static property to indicate class which will be applied to dd proxy when item is being reordered
- *
- * @property Accordion.C_PROXY_VISIBLE
- * @type String
- * @static
- */
-Accordion.C_PROXY_VISIBLE = getCN( AccName, "proxyel", "visible" );
-
-
-/**
- * Static property, which contains the drag group for Accordion and its items
- *
- * @property Accordion.DRAGGROUP
- * @type String
- * @static
- */
-Accordion.DRAGGROUP = "y_accordion";
-
-/**
- * Static property; contains the events, which Accordion publishes
- *
- * @property Accordion.EVENT_TYPES
- * @type Object
- * @static
- */
-
-Accordion.EVENT_TYPES = {
-
-    BEFOREITEMADD: "beforeItemAdd",
-    ITEMADDED: "itemAdded",
-
-    BEFOREITEMREMOVE: "beforeItemRemove",
-    ITEMREMOVED: "itemRemoved",
-
-    BEFOREITEMERESIZED : "beforeItemResized",
-    ITEMERESIZED : "itemResized",
-
-    BEFOREITEMEXPAND  : "beforeItemExpand",
-    BEFOREITEMCOLLAPSE : "beforeItemCollapse",
-    ITEMEXPANDED : "itemExpanded",
-    ITEMCOLLAPSED : "itemCollapsed",    
-
-    BEFOREITEMREORDER : "beforeItemReorder",
-    BEFOREENDITEMREORDER : "beforeEndItemReorder",
-    ITEMREORDERED : "itemReordered"
-};
-
 // Accordion extends Widget
 
 Y.extend( Accordion, Y.Widget, {
@@ -238,8 +230,8 @@ Y.extend( Accordion, Y.Widget, {
         this.after( "render", Y.bind( this._afterRender, this ) );
 
         this._forCollapsing = {};
-        this._forExpanding  = {};
-        this._animations    = {};
+        this._forExpanding = {};
+        this._animations   = {};
     },
 
     
@@ -253,7 +245,7 @@ Y.extend( Accordion, Y.Widget, {
     destructor: function() {
         var items, item, i, length;
         
-        items = this.get( "items" );
+        items = this.get( ITEMS );
         length = items.length;
         
         for( i = length - 1; i >= 0; i-- ){
@@ -275,8 +267,7 @@ Y.extend( Accordion, Y.Widget, {
      * @protected
      */
     _initEvents: function(){
-        var events = Accordion.EVENT_TYPES;
-
+        
         /**
          * Signals the beginning of adding an item to the Accordion.
          *
@@ -287,7 +278,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being added</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREITEMADD );
+        this.publish( BEFOREITEMADD );
         
         /**
          * Signals an item has been added to the Accordion.
@@ -299,7 +290,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been added</dd>
          *  </dl>
          */
-        this.publish( events.ITEMADDED );
+        this.publish( ITEMADDED );
         
         /**
          * Signals the beginning of removing an item.
@@ -311,7 +302,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being removed</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREITEMREMOVE );
+        this.publish( BEFOREITEMREMOVE );
         
         /**
          * Signals an item has been removed from Accordion.
@@ -323,7 +314,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been removed</dd>
          *  </dl>
          */
-        this.publish( events.ITEMREMOVED );
+        this.publish( ITEMREMOVED );
 
         /**
          * Signals the beginning of resizing an item.
@@ -335,7 +326,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being resized</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREITEMERESIZED );
+        this.publish( BEFOREITEMERESIZED );
         
         /**
          * Signals an item has been resized.
@@ -347,7 +338,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been resized</dd>
          *  </dl>
          */
-        this.publish( events.ITEMERESIZED );
+        this.publish( ITEMERESIZED );
 
         /**
          * Signals the beginning of expanding an item
@@ -359,7 +350,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being expanded</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREITEMEXPAND );
+        this.publish( BEFOREITEMEXPAND );
         
         /**
          * Signals the beginning of collapsing an item
@@ -371,7 +362,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being collapsed</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREITEMCOLLAPSE );
+        this.publish( BEFOREITEMCOLLAPSE );
         
         
         /**
@@ -384,7 +375,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been expanded</dd>
          *  </dl>
          */
-        this.publish( events.ITEMEXPANDED );
+        this.publish( ITEMEXPANDED );
         
         /**
          * Signals an item has been collapsed
@@ -396,7 +387,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been collapsed</dd>
          *  </dl>
          */
-        this.publish( events.ITEMCOLLAPSED );
+        this.publish( ITEMCOLLAPSED );
         
         /**
          * Signals the beginning of reordering an item
@@ -408,7 +399,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being reordered</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREITEMREORDER );
+        this.publish( BEFOREITEMREORDER );
         
         /**
          * Fires before the end of item reordering
@@ -420,7 +411,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item being reordered</dd>
          *  </dl>
          */
-        this.publish( events.BEFOREENDITEMREORDER );
+        this.publish( BEFOREENDITEMREORDER );
         
         
         /**
@@ -433,7 +424,7 @@ Y.extend( Accordion, Y.Widget, {
          *          <dd>An <code>AccordionItem</code> instance of the item that has been reordered</dd>
          *  </dl>
          */
-        this.publish( events.ITEMREORDERED );
+        this.publish( ITEMREORDERED );
     },
 
     
@@ -515,17 +506,17 @@ Y.extend( Accordion, Y.Widget, {
     _setItemProperties: function( item, expanding, alwaysVisible ){
         var curAlwaysVisible, curExpanded;
 
-        curAlwaysVisible = item.get( "alwaysVisible" );
-        curExpanded = item.get( "expanded" );
+        curAlwaysVisible = item.get( ALWAYSVISIBLE );
+        curExpanded = item.get( EXPANDED );
 
         if( expanding != curExpanded ){
-            item.set( "expanded", expanding, {
+            item.set( EXPANDED, expanding, {
                 internalCall: true
             });
         }
 
         if( alwaysVisible !== curAlwaysVisible ){
-            item.set( "alwaysVisible", alwaysVisible, {
+            item.set( ALWAYSVISIBLE, alwaysVisible, {
                 internalCall: true
             });
         }
@@ -595,9 +586,9 @@ Y.extend( Accordion, Y.Widget, {
         var toBeExcluded, alwaysVisible, expanded, collapseOthersOnExpand;
 
         toBeExcluded = {};        
-        collapseOthersOnExpand = this.get( "collapseOthersOnExpand" );
-        alwaysVisible  = item.get( "alwaysVisible" );
-        expanded       = item.get( "expanded" );
+        collapseOthersOnExpand = this.get( COLLAPSEOTHERSONEXPAND );
+        alwaysVisible = item.get( ALWAYSVISIBLE );
+        expanded      = item.get( EXPANDED );
 
         if( srcIconClose ){
             this.removeItem( item );
@@ -662,17 +653,17 @@ Y.extend( Accordion, Y.Widget, {
      * @return {Number} The calculated height per strech item
      */
     _adjustStretchItems: function(){
-        var items = this.get( "items" ), heightPerStretchItem;
+        var items = this.get( ITEMS ), heightPerStretchItem;
 
         heightPerStretchItem = this._getHeightPerStretchItem();
         
         Y.Array.each( items, function( item, index, items ){
             var body, bodyHeight, anim, heightSettings, expanded;
 
-            heightSettings = item.get( "contentHeight" );
-            expanded       = item.get( "expanded" );
+            heightSettings = item.get( CONTENT_HEIGHT );
+            expanded      = item.get( EXPANDED );
 
-            if( heightSettings.method === "stretch" && expanded ){
+            if( heightSettings.method === STRETCH && expanded ){
                 anim = this._animations[ item ];
 
                 // stop waiting animation
@@ -704,26 +695,26 @@ Y.extend( Accordion, Y.Widget, {
     _getHeightPerStretchItem: function(){
         var height, items, stretchCounter = 0;
 
-        items = this.get( "items" );
-        height = this.get( "boundingBox" ).get( "clientHeight" );
+        items = this.get( ITEMS );
+        height = this.get( BOUNDING_BOX ).get( "clientHeight" );
 
         Y.Array.each( items, function( item, index, items ){
             var collapsed, itemContentHeight, header, heightSettings, headerHeight;
 
             header = item.getStdModNode( WidgetStdMod.HEADER );
-            heightSettings = item.get( "contentHeight" );
+            heightSettings = item.get( CONTENT_HEIGHT );
             
             headerHeight = this._getNodeOffsetHeight( header );
 
             height -= headerHeight;
-            collapsed = !item.get( "expanded" );
+            collapsed = !item.get( EXPANDED );
 
             if( collapsed ){
                 height -= COLLAPSE_HEIGHT;
                 return;
             }
 
-            if( heightSettings.method === "stretch" ){
+            if( heightSettings.method === STRETCH ){
                 stretchCounter++;
             } else {
                 itemContentHeight = this._getItemContentHeight( item );
@@ -754,11 +745,11 @@ Y.extend( Accordion, Y.Widget, {
     _getItemContentHeight: function( item ){
         var heightSettings, height = 0, body, bodyContent;
 
-        heightSettings = item.get( "contentHeight" );
+        heightSettings = item.get( CONTENT_HEIGHT );
 
         if( heightSettings.method === "auto" ){
             body = item.getStdModNode( WidgetStdMod.BODY );
-            bodyContent = body.get( "children" ).item(0);
+            bodyContent = body.get( CHILDREN ).item(0);
             height = bodyContent ? this._getNodeOffsetHeight( bodyContent ) : 0;
         } else if( heightSettings.method === "fixed" ) {
             height = heightSettings.height;
@@ -783,13 +774,13 @@ Y.extend( Accordion, Y.Widget, {
         var items;
 
         itemsToBeExcluded = itemsToBeExcluded || {};
-        items = this.get( "items" );
+        items = this.get( ITEMS );
 
         Y.Array.each( items, function( item, index, items ){
             var expanded, alwaysVisible;
 
-            expanded = item.get( "expanded" );
-            alwaysVisible = item.get( "alwaysVisible" );
+            expanded = item.get( EXPANDED );
+            alwaysVisible = item.get( ALWAYSVISIBLE );
 
             if( expanded && !alwaysVisible && !itemsToBeExcluded[ item ] ){
                 this._forCollapsing[ item ] = {
@@ -809,7 +800,7 @@ Y.extend( Accordion, Y.Widget, {
      * @param {Number} height The height to which we should expand the item
      */
     _expandItem: function( item, height ){
-        var alwaysVisible = item.get( "alwaysVisible" );
+        var alwaysVisible = item.get( ALWAYSVISIBLE );
 
         this._processExpanding( item, height );
         this._setItemUI( item, true, alwaysVisible );
@@ -830,24 +821,23 @@ Y.extend( Accordion, Y.Widget, {
      */
     _processExpanding: function( item, height, forceSkipAnimation ){
         var anim, curAnim, animSettings, notifyOthers = false,
-            events = Accordion.EVENT_TYPES,
             accAnimationSettings, body;
         
         body = item.getStdModNode( WidgetStdMod.BODY );
 
-        this.fire( events.BEFOREITEMERESIZED, {
+        this.fire( BEFOREITEMERESIZED, {
             'item': item
         });
 
         if( body.get( "clientHeight" ) <= 0 ){
             notifyOthers = true;
-            this.fire( events.BEFOREITEMEXPAND, {
+            this.fire( BEFOREITEMEXPAND, {
                 'item': item
             });
         }
 
         if( !forceSkipAnimation && this.get( "useAnimation" ) ){
-            animSettings = item.get( "animation" ) || {};
+            animSettings = item.get( ANIMATION ) || {};
 
             anim = new Anim( {
                 node: body,
@@ -858,7 +848,7 @@ Y.extend( Accordion, Y.Widget, {
 
             anim.on( "end", Y.bind( this._onExpandComplete, this, item, notifyOthers ) );
 
-            accAnimationSettings = this.get( "animation" );
+            accAnimationSettings = this.get( ANIMATION );
 
             anim.set( "duration", animSettings.duration || accAnimationSettings.duration );
             anim.set( "easing"  , animSettings.easing   || accAnimationSettings.easing   );
@@ -875,14 +865,14 @@ Y.extend( Accordion, Y.Widget, {
 
             anim.run();
         } else {
-            body.setStyle( "height", height + "px" );
+            body.setStyle( "height", height + PX );
 
-            this.fire( events.ITEMERESIZED, {
+            this.fire( ITEMERESIZED, {
                 'item': item
             });
 
             if( notifyOthers ){
-                this.fire( events.ITEMEXPANDED, {
+                this.fire( ITEMEXPANDED, {
                     'item': item
                 });
             }
@@ -899,18 +889,16 @@ Y.extend( Accordion, Y.Widget, {
      * @param {Boolean} notifyOthers If true, itemExpanded event will be fired
      */
     _onExpandComplete: function( item, notifyOthers ){
-        var events = Accordion.EVENT_TYPES;
-
         delete this._animations[ item ];
 
         item.markAsExpanding( false );
 
-        this.fire( events.ITEMERESIZED, {
+        this.fire( ITEMERESIZED, {
             'item': item
         });
 
         if( notifyOthers ){
-            this.fire( events.ITEMEXPANDED, {
+            this.fire( ITEMEXPANDED, {
                 'item': item
             });
         }
@@ -943,25 +931,24 @@ Y.extend( Accordion, Y.Widget, {
      * without taking in consideration Accordion's <code>useAnimation</code> setting
      */
     _processCollapsing: function( item, height, forceSkipAnimation ){
-        var anim, curAnim, animSettings, accAnimationSettings, events, body, 
+        var anim, curAnim, animSettings, accAnimationSettings, body, 
             notifyOthers = (height === COLLAPSE_HEIGHT);
             
-        events = Accordion.EVENT_TYPES;
         body = item.getStdModNode( WidgetStdMod.BODY );
 
         
-        this.fire( events.BEFOREITEMERESIZED, {
+        this.fire( BEFOREITEMERESIZED, {
             'item': item
         });
 
         if( notifyOthers ){
-            this.fire( events.BEFOREITEMCOLLAPSE, {
+            this.fire( BEFOREITEMCOLLAPSE, {
                 'item': item
             });
         }
 
         if( !forceSkipAnimation && this.get( "useAnimation" ) ){
-            animSettings = item.get( "animation" ) || {};
+            animSettings = item.get( ANIMATION ) || {};
 
             anim = new Anim( {
                 node: body,
@@ -972,7 +959,7 @@ Y.extend( Accordion, Y.Widget, {
 
             anim.on( "end", Y.bind( this._onCollapseComplete, this, item, notifyOthers ) );
 
-            accAnimationSettings = this.get( "animation" );
+            accAnimationSettings = this.get( ANIMATION );
 
             anim.set( "duration", animSettings.duration || accAnimationSettings.duration );
             anim.set( "easing"  , animSettings.easing   || accAnimationSettings.easing );
@@ -989,14 +976,14 @@ Y.extend( Accordion, Y.Widget, {
 
             anim.run();
         } else {
-            body.setStyle( "height", height + "px" );
+            body.setStyle( "height", height + PX );
 
-            this.fire( events.ITEMERESIZED, {
+            this.fire( ITEMERESIZED, {
                 'item': item
             });
 
             if( notifyOthers ){
-                this.fire( events.ITEMCOLLAPSED, {
+                this.fire( ITEMCOLLAPSED, {
                     'item': item
                 });
             }
@@ -1013,18 +1000,16 @@ Y.extend( Accordion, Y.Widget, {
      * @param {Boolean} notifyOthers If true, itemCollapsed event will be fired
      */
     _onCollapseComplete: function( item, notifyOthers ){
-        var events = Accordion.EVENT_TYPES;
-
         delete this._animations[ item ];
 
         item.markAsCollapsing( false );
 
-        this.fire( events.ITEMERESIZED, {
+        this.fire( ITEMERESIZED, {
             item: item
         });
 
         if( notifyOthers ){
-            this.fire( events.ITEMCOLLAPSED, {
+            this.fire( ITEMCOLLAPSED, {
                 'item': item
             });
         }
@@ -1047,12 +1032,12 @@ Y.extend( Accordion, Y.Widget, {
             return;
         }
 
-        bb = this.get( "boundingBox" );
-        itemBB = item.get( "boundingBox" );
+        bb = this.get( BOUNDING_BOX );
+        itemBB = item.get( BOUNDING_BOX );
 
         dd = new Y.DD.Drag({
             node: itemHeader,
-            groups: [ Accordion.DRAGGROUP ]
+            groups: [ DRAGGROUP ]
         }).plug(Y.Plugin.DDProxy, {
             moveOnEnd: false
         }).plug(Y.Plugin.DDConstrained, {
@@ -1061,13 +1046,13 @@ Y.extend( Accordion, Y.Widget, {
 
         ddrop = new Y.DD.Drop({
             node: itemBB,
-            groups: [ Accordion.DRAGGROUP ]
+            groups: [ DRAGGROUP ]
         });
 
         dd.on   ( "drag:start",   Y.bind( this._onDragStart,  this, dd ) );
         dd.on   ( "drag:end"  ,   Y.bind( this._onDragEnd,    this, dd ) );
         dd.after( "drag:end"  ,   Y.bind( this._afterDragEnd, this, dd ) );
-        dd.on   ( 'drag:drophit', Y.bind( this._onDropHit,    this, dd ) );
+        dd.on   ( "drag:drophit", Y.bind( this._onDropHit,    this, dd ) );
     },
 
 
@@ -1081,16 +1066,15 @@ Y.extend( Accordion, Y.Widget, {
      * @param e {Event} the DD instance's drag:start custom event
      */
     _onDragStart: function( dd, e ){
-        var dragNode, events, item;
+        var dragNode, item;
 
-        item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
-        events = Accordion.EVENT_TYPES;
+        item = this.getItem( dd.get( NODE ).get( PARENT_NODE ) );
         dragNode = dd.get( "dragNode" );
 
-        dragNode.addClass( Accordion.C_PROXY_VISIBLE );
+        dragNode.addClass( C_PROXY_VISIBLE );
         dragNode.set( "innerHTML", item.get( "label" ) );
 
-        return this.fire( events.BEFOREITEMREORDER, { 'item': item } );
+        return this.fire( BEFOREITEMREORDER, { 'item': item } );
     },
 
 
@@ -1104,16 +1088,15 @@ Y.extend( Accordion, Y.Widget, {
      * @param e {Event} the DD instance's drag:end custom event
      */
     _onDragEnd: function( dd, e ){
-        var dragNode, events, item;
+        var dragNode, item;
 
-        events = Accordion.EVENT_TYPES;
         dragNode = dd.get( "dragNode" );
 
-        dragNode.removeClass( Accordion.C_PROXY_VISIBLE );
+        dragNode.removeClass( C_PROXY_VISIBLE );
         dragNode.set( "innerHTML", "" );
 
-        item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
-        return this.fire( events.BEFOREENDITEMREORDER, { 'item': item } );
+        item = this.getItem( dd.get( NODE ).get( PARENT_NODE ) );
+        return this.fire( BEFOREENDITEMREORDER, { 'item': item } );
     },
 
 
@@ -1126,20 +1109,18 @@ Y.extend( Accordion, Y.Widget, {
      * @param e {Event} the DD instance's drag:end custom event
      */
     _afterDragEnd: function( dd, e ){
-        var events, item, data;
+        var item, data;
 
-        events = Accordion.EVENT_TYPES;
-
-        data = dd.get( "data" );
+        data = dd.get( DATA );
 
         if( data.drophit ){
-            item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
+            item = this.getItem( dd.get( NODE ).get( PARENT_NODE ) );
 
-            dd.set( "data", {
+            dd.set( DATA, {
                 drophit: false
             } );
 
-            return this.fire( events.ITEMREORDERED, { 'item': item } );
+            return this.fire( ITEMREORDERED, { 'item': item } );
         }
 
         return true;
@@ -1157,8 +1138,8 @@ Y.extend( Accordion, Y.Widget, {
         var mineIndex, targetItemIndex, targetItemBB, itemBB, cb,
             goingUp, items, targetItem, item;
 
-        item = this.getItem( dd.get( "node" ).get( "parentNode" ) );
-        targetItem = this.getItem( e.drop.get( "node" ) );
+        item = this.getItem( dd.get( NODE ).get( PARENT_NODE ) );
+        targetItem = this.getItem( e.drop.get( NODE ) );
 
         if( targetItem === item ){
             return false;
@@ -1166,11 +1147,11 @@ Y.extend( Accordion, Y.Widget, {
 
         mineIndex = this.getItemIndex( item );
         targetItemIndex = this.getItemIndex( targetItem );
-        targetItemBB = targetItem.get( "boundingBox" );
-        itemBB = item.get( "boundingBox" );
-        cb = this.get( "contentBox" );
+        targetItemBB = targetItem.get( BOUNDING_BOX );
+        itemBB = item.get( BOUNDING_BOX );
+        cb = this.get( CONTENT_BOX );
         goingUp = false;
-        items = this.get( "items" );
+        items = this.get( ITEMS );
 
         if( targetItemIndex < mineIndex ){
             goingUp = true;
@@ -1183,12 +1164,12 @@ Y.extend( Accordion, Y.Widget, {
             items.splice( mineIndex, 1 );
             items.splice( targetItemIndex, 0, item );
         } else {
-            cb. insertBefore( itemBB, targetItemBB.next( Y.AccordionItem.C_ITEM ) );
+            cb. insertBefore( itemBB, targetItemBB.next( C_ITEM ) );
             items.splice( targetItemIndex + 1, 0, item );
             items.splice( mineIndex, 1 );
         }
 
-        dd.set( "data", {
+        dd.set( DATA, {
             drophit: true
         });
 
@@ -1212,7 +1193,7 @@ Y.extend( Accordion, Y.Widget, {
             height, heightSettings, item;
 
         forCollapsing = this._forCollapsing;
-        forExpanding  = this._forExpanding;
+        forExpanding = this._forExpanding;
 
         this._setItemsProperties();
 
@@ -1231,9 +1212,9 @@ Y.extend( Accordion, Y.Widget, {
                 itemCont = forExpanding[ item ];
                 item = itemCont.item;
                 height = heightPerStretchItem;
-                heightSettings = item.get( "contentHeight" );
+                heightSettings = item.get( CONTENT_HEIGHT );
 
-                if( heightSettings.method !== "stretch" ){
+                if( heightSettings.method !== STRETCH ){
                     height = this._getItemContentHeight( item );
                 }
 
@@ -1242,7 +1223,7 @@ Y.extend( Accordion, Y.Widget, {
         }
 
         this._forCollapsing = {};
-        this._forExpanding  = {};
+        this._forExpanding = {};
     },
 
     
@@ -1289,9 +1270,9 @@ Y.extend( Accordion, Y.Widget, {
         }
         
         expanded = params.newVal;
-        item     = params.currentTarget;
-        alwaysVisible = item.get( "alwaysVisible" );
-        collapseOthersOnExpand = this.get( "collapseOthersOnExpand" );
+        item    = params.currentTarget;
+        alwaysVisible = item.get( ALWAYSVISIBLE );
+        collapseOthersOnExpand = this.get( COLLAPSEOTHERSONEXPAND );
         
         if( expanded ){
             this._forExpanding[ item ] = {
@@ -1326,8 +1307,8 @@ Y.extend( Accordion, Y.Widget, {
         }
 
         alwaysVisible = params.newVal;
-        item          = params.currentTarget;
-        expanded      = item.get( "expanded" );
+        item         = params.currentTarget;
+        expanded     = item.get( EXPANDED );
 
         if( alwaysVisible ){
             if( expanded ){
@@ -1369,8 +1350,8 @@ Y.extend( Accordion, Y.Widget, {
         
         this._adjustStretchItems();
         
-        if( params.newVal.method !== "stretch" ){
-            expanded = item.get( "expanded" );
+        if( params.newVal.method !== STRETCH ){
+            expanded = item.get( EXPANDED );
             itemContentHeight = this._getItemContentHeight( item );
             
             body = item.getStdModNode( WidgetStdMod.BODY );
@@ -1406,7 +1387,7 @@ Y.extend( Accordion, Y.Widget, {
             this._resizeEventHandle.detach();
         }
 
-        if( value === "default" ){
+        if( value === DEFAULT ){
             this._resizeEventHandle = Y.on( 'windowresize', Y.bind( this._adjustStretchItems, this ) );
         } else {
             this._resizeEventHandle = value.sourceObject.on( value.resizeEvent, Y.bind( this._adjustStretchItems, this ) );
@@ -1423,8 +1404,8 @@ Y.extend( Accordion, Y.Widget, {
     renderUI: function(){
         var cb, itemsDom;
 
-        cb = this.get( "contentBox" );
-        itemsDom = cb.queryAll( "> div." + Y.AccordionItem.C_ITEM );
+        cb = this.get( CONTENT_BOX );
+        itemsDom = cb.queryAll( "> div." + C_ITEM );
 
         itemsDom.each( function( itemNode, index, itemsDom ){
             var newItem;
@@ -1449,7 +1430,7 @@ Y.extend( Accordion, Y.Widget, {
     bindUI: function(){
         var contentBox, itemChosenEvent;
 
-        contentBox = this.get( 'contentBox' );
+        contentBox = this.get( CONTENT_BOX );
         itemChosenEvent = this.get( 'itemChosen' );
         
         contentBox.delegate( itemChosenEvent, Y.bind( this._onItemChosenEvent, this ), 'div.yui-widget-hd' );
@@ -1471,10 +1452,10 @@ Y.extend( Accordion, Y.Widget, {
             iconClose, srcIconAlwaysVisible, srcIconClose;
 
         header = e.currentTarget;
-        itemNode = header.get( "parentNode" );
+        itemNode = header.get( PARENT_NODE );
         item = this.getItem( itemNode );
-        iconAlwaysVisible = item.get( "iconAlwaysVisible" );
-        iconClose = item.get( "iconClose" );
+        iconAlwaysVisible = item.get( ICON_ALWAYSVISIBLE );
+        iconClose = item.get( ICON_CLOSE );
         srcIconAlwaysVisible = (iconAlwaysVisible === e.target);
         srcIconClose = (iconClose === e.target);
 
@@ -1499,12 +1480,12 @@ Y.extend( Accordion, Y.Widget, {
 
         if( charCode === 13 ){
             header = e.currentTarget;
-            itemNode = header.get( "parentNode" );
+            itemNode = header.get( PARENT_NODE );
             item = this.getItem( itemNode );
 
-            iconAlwaysVisible = item.get( "iconAlwaysVisible" );
+            iconAlwaysVisible = item.get( ICON_ALWAYSVISIBLE );
             iconExtended = item.get( "iconExtended" );
-            iconClose = item.get( "iconClose" );
+            iconClose = item.get( ICON_CLOSE );
             srcIconAlwaysVisible = (iconAlwaysVisible === target);
             srcIconExtended = (iconExtended === target );
             srcIconClose = (iconClose === e.target);
@@ -1539,11 +1520,9 @@ Y.extend( Accordion, Y.Widget, {
      */
     addItem: function( item, parentItem ){
         var expanded, alwaysVisible, bodyContent, itemIndex, items, contentBox,
-            itemHandles, itemContentBox, events, res, cb, children, itemBoundingBox;
+            itemHandles, itemContentBox, res, cb, children, itemBoundingBox;
 
-        events = Accordion.EVENT_TYPES;
-
-        res = this.fire( events.BEFOREITEMADD, {
+        res = this.fire( BEFOREITEMADD, {
             'item': item
         });
 
@@ -1551,11 +1530,11 @@ Y.extend( Accordion, Y.Widget, {
             return false;
         }
 
-        items = this.get( "items" );
-        contentBox = this.get( 'contentBox' );
+        items = this.get( ITEMS );
+        contentBox = this.get( CONTENT_BOX );
 
-        itemContentBox   = item.get( 'contentBox' );
-        itemBoundingBox  = item.get( 'boundingBox' );
+        itemContentBox  = item.get( CONTENT_BOX );
+        itemBoundingBox = item.get( BOUNDING_BOX );
 
         if( !itemContentBox.inDoc() ){
             if( parentItem ){
@@ -1567,23 +1546,23 @@ Y.extend( Accordion, Y.Widget, {
 
                 items.splice( itemIndex, 0, item );
 
-                if( item.get( "rendered" ) ){
-                    contentBox.insertBefore( itemBoundingBox, parentItem.get( 'boundingBox' ) );
+                if( item.get( RENDERED ) ){
+                    contentBox.insertBefore( itemBoundingBox, parentItem.get( BOUNDING_BOX ) );
                 } else {
-                    contentBox.insertBefore( itemContentBox, parentItem.get( 'boundingBox' ) );
+                    contentBox.insertBefore( itemContentBox, parentItem.get( BOUNDING_BOX ) );
                 }
             } else {
                 items.push( item );
 
-                if( item.get( "rendered" ) ){
+                if( item.get( RENDERED ) ){
                     contentBox.insertBefore( itemBoundingBox, null );
                 } else {
                     contentBox.insertBefore( itemContentBox, null );
                 }
             }
         } else {
-            cb = this.get( "contentBox" );
-            children = cb.get( "children" );
+            cb = this.get( CONTENT_BOX );
+            children = cb.get( CHILDREN );
 
             res = children.some( function( node, index, nodeList ){
                 if( node === itemContentBox ){
@@ -1599,18 +1578,18 @@ Y.extend( Accordion, Y.Widget, {
             }
         }
 
-        bodyContent = item.get( "bodyContent" );
+        bodyContent = item.get( BODYCONTENT );
 
         if( !bodyContent ){
-            item.set( "bodyContent", "&nbsp;" );
+            item.set( BODYCONTENT, "&nbsp;" );
         }
 
-        if( !item.get( "rendered" ) ){
+        if( !item.get( RENDERED ) ){
             item.render();
         }
         
-        expanded = item.get( "expanded" );
-        alwaysVisible = item.get( "alwaysVisible" );
+        expanded = item.get( EXPANDED );
+        alwaysVisible = item.get( ALWAYSVISIBLE );
 
         expanded = expanded || alwaysVisible;
 
@@ -1645,7 +1624,7 @@ Y.extend( Accordion, Y.Widget, {
         
         this._itemsHandles[ item ] = itemHandles;
 
-        this.fire( events.ITEMADDED, {
+        this.fire( ITEMADDED, {
             'item': item
         });
 
@@ -1661,11 +1640,9 @@ Y.extend( Accordion, Y.Widget, {
      * @return Y.AccordionItem The removed item or null if not found
      */
     removeItem: function( p_item ){
-        var items, bb, item = null, itemIndex, events;
+        var items, bb, item = null, itemIndex;
         
-        events = Accordion.EVENT_TYPES;
-        
-        items = this.get( "items" );
+        items = this.get( ITEMS );
         
         if( Lang.isNumber( p_item ) ){
             itemIndex = p_item;
@@ -1677,7 +1654,7 @@ Y.extend( Accordion, Y.Widget, {
 
         if( itemIndex >= 0 ){
             
-            this.fire( events.BEFOREITEMREMOVE, {
+            this.fire( BEFOREITEMREMOVE, {
                 item: p_item
             });
 
@@ -1685,12 +1662,12 @@ Y.extend( Accordion, Y.Widget, {
 
             this._removeItemHandles( item );
             
-            bb = item.get( "boundingBox" );
+            bb = item.get( BOUNDING_BOX );
             bb.remove();
 
             this._adjustStretchItems();
             
-            this.fire( events.ITEMREMOVED, {
+            this.fire( ITEMREMOVED, {
                 item: p_item
             });
         }
@@ -1709,7 +1686,7 @@ Y.extend( Accordion, Y.Widget, {
      * @return Y.AccordionItem The found item or null
      */
     getItem: function( param ){
-        var items = this.get( "items" ), item = null;
+        var items = this.get( ITEMS ), item = null;
 
         if( Lang.isNumber( param ) ){
             item = items[ param ];
@@ -1720,8 +1697,8 @@ Y.extend( Accordion, Y.Widget, {
             Y.Array.some( items, function( tmpItem, index, items ){
                 var contentBox, boundingBox;
                 
-                contentBox = tmpItem.get( "contentBox" );
-                boundingBox = tmpItem.get( "boundingBox" );
+                contentBox = tmpItem.get( CONTENT_BOX );
+                boundingBox = tmpItem.get( BOUNDING_BOX );
 
                 if( contentBox === param ){
                     item = tmpItem;
@@ -1750,7 +1727,7 @@ Y.extend( Accordion, Y.Widget, {
         var res = -1, items;
 
         if( item instanceof Y.AccordionItem ){
-            items = this.get( "items" );
+            items = this.get( ITEMS );
 
             Y.Array.some( items, function( tmpItem, index, items ){
                 if( tmpItem === item ){
