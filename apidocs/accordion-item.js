@@ -9,14 +9,14 @@
 /**
  * Create an AccordionItem widget.
  * 
- * @param _config {Object} Object literal specifying AccordionItem configuration properties.
+ * @param config {Object} Object literal specifying AccordionItem configuration properties.
  *
  * @class AccordionItem
  * @constructor
  * @extends Widget
  */
 
-function AccordionItem( _config ){
+function AccordionItem( config ){
     AccordionItem.superclass.constructor.apply( this, arguments );
 }
 
@@ -26,7 +26,47 @@ var Lang = Y.Lang,
     Node = Y.Node,
     WidgetStdMod = Y.WidgetStdMod,
     AccItemName = "accordion-item",
-    getCN = Y.ClassNameManager.getClassName;
+    getCN = Y.ClassNameManager.getClassName,
+    
+    DEFAULT_ICON = "default",
+
+    C_TABLE = getCN( AccItemName, "table" ),
+    C_TD_ICON = getCN( AccItemName, "td", "icon" ),
+    C_TD_LABEL = getCN( AccItemName, "td", "label" ),
+
+    C_TD_ICONALWAYSVISIBLE = getCN( AccItemName, "td", "iconalwaysvisible" ),
+    C_TD_ICONEXTENDED = getCN( AccItemName, "td", "iconextended" ),
+    C_TD_ICONCLOSE = getCN( AccItemName, "td", "iconclose" ),
+    C_TD_ICONCLOSE_HIDDEN = getCN( AccItemName, "td", "iconclose", "hidden" ),
+
+    C_ICONEXTENDED_EXPANDING = getCN( AccItemName, "iconextended", "expanding" ),
+    C_ICONEXTENDED_COLLAPSING = getCN( AccItemName, "iconextended", "collapsing" ),
+
+    C_ICON = getCN( AccItemName, "icon" ),
+    C_LABEL = getCN( AccItemName, "label" ),
+    C_ICONALWAYSVISIBLE = getCN( AccItemName, "iconalwaysvisible" ),
+    C_ICONEXTENDED = getCN( AccItemName, "iconextended" ),
+    C_ICONCLOSE = getCN( AccItemName, "iconclose" ),
+
+    C_EXPANDED =  getCN( AccItemName, "expanded" ),
+    C_CLOSABLE =  getCN( AccItemName, "closable" ),
+    C_ALWAYSVISIBLE =  getCN( AccItemName, "alwaysvisible" ),
+    C_CONTENTHEIGHT =  getCN( AccItemName, "contentheight" ),
+
+    C_ICONEXTENDED_ON = getCN( AccItemName, "iconextended", "on" ),
+    C_ICONEXTENDED_OFF = getCN( AccItemName, "iconextended", "off" ),
+
+    C_ICONALWAYSVISIBLE_ON = getCN( AccItemName, "iconalwaysvisible", "on" ),
+    C_ICONALWAYSVISIBLE_OFF = getCN( AccItemName, "iconalwaysvisible", "off" ),
+
+    TITLE = "title",
+    STRINGS = "strings",
+    CONTENT_BOX = "contentBox",
+    RENDERED = "rendered",
+    CLASS_NAME = "className",
+    AUTO = "auto",
+    STRETCH = "stretch",
+    FIXED = "fixed";
 
 /**
  *  Static property provides a string to identify the class.
@@ -86,8 +126,8 @@ AccordionItem.ATTRS = {
      */
     iconAlwaysVisible: {
         value: null,
-        validator: function( _value ){
-            return _value instanceof Node;
+        validator: function( value ){
+            return value instanceof Node;
         },
         getter: function(){
             return this._iconAlwaysVisible;
@@ -105,8 +145,8 @@ AccordionItem.ATTRS = {
      */
     iconExtended: {
         value: null,
-        validator: function( _value ){
-            return _value instanceof Node;
+        validator: function( value ){
+            return value instanceof Node;
         },
         getter: function(){
             return this._iconExtended;
@@ -125,8 +165,8 @@ AccordionItem.ATTRS = {
      */
     iconClose: {
         value: null,
-        validator: function( _value ){
-            return _value instanceof Node;
+        validator: function( value ){
+            return value instanceof Node;
         },
         getter: function(){
             return this._iconClose;
@@ -161,16 +201,16 @@ AccordionItem.ATTRS = {
      */
     contentHeight: {
         value: {
-            method: "auto"
+            method: AUTO
         },
-        validator: function( _value ){
-            if( Lang.isObject( _value ) ){
-                if( _value.method === "auto" ){
+        validator: function( value ){
+            if( Lang.isObject( value ) ){
+                if( value.method === AUTO ){
                     return true;
-                } else if( _value.method === "stretch" ){
+                } else if( value.method === STRETCH ){
                     return true;
-                } else if( _value.method === "fixed" && Lang.isNumber( _value.height ) && 
-                    _value.height >= 0 ){
+                } else if( value.method === FIXED && Lang.isNumber( value.height ) &&
+                    value.height >= 0 ){
                     return true;
                 }
             }
@@ -237,40 +277,6 @@ AccordionItem.ATTRS = {
 };
 
 
-// AccordionItem classes
-AccordionItem.C_ITEM                         = getCN( AccItemName );
-AccordionItem.DEFAULT_ICON                   = "default";
-
-AccordionItem.C_TABLE                        = getCN( AccItemName, "table" );
-AccordionItem.C_TD_ICON                      = getCN( AccItemName, "td", "icon" );
-AccordionItem.C_TD_LABEL                     = getCN( AccItemName, "td", "label" );
-
-AccordionItem.C_TD_ICONALWAYSVISIBLE         = getCN( AccItemName, "td", "iconalwaysvisible" );
-AccordionItem.C_TD_ICONEXTENDED              = getCN( AccItemName, "td", "iconextended" );
-AccordionItem.C_TD_ICONCLOSE                 = getCN( AccItemName, "td", "iconclose" );
-AccordionItem.C_TD_ICONCLOSE_HIDDEN          = getCN( AccItemName, "td", "iconclose", "hidden" );
-
-AccordionItem.C_ICONEXTENDED_EXPANDING       = getCN( AccItemName, "iconextended", "expanding" );
-AccordionItem.C_ICONEXTENDED_COLLAPSING      = getCN( AccItemName, "iconextended", "collapsing" );
-
-AccordionItem.C_ICON                         = getCN( AccItemName, "icon" );
-AccordionItem.C_LABEL                        = getCN( AccItemName, "label" );
-AccordionItem.C_ICONALWAYSVISIBLE            = getCN( AccItemName, "iconalwaysvisible" );
-AccordionItem.C_ICONEXTENDED                 = getCN( AccItemName, "iconextended" );
-AccordionItem.C_ICONCLOSE                    = getCN( AccItemName, "iconclose" );
-
-AccordionItem.C_EXPANDED                     =  getCN( AccItemName, "expanded" );
-AccordionItem.C_CLOSABLE                     =  getCN( AccItemName, "closable" );
-AccordionItem.C_ALWAYSVISIBLE                =  getCN( AccItemName, "alwaysvisible" );
-AccordionItem.C_CONTENTHEIGHT                =  getCN( AccItemName, "contentheight" );
-
-AccordionItem.C_ICONEXTENDED_ON              = getCN( AccItemName, "iconextended", "on" );
-AccordionItem.C_ICONEXTENDED_OFF             = getCN( AccItemName, "iconextended", "off" );
-
-AccordionItem.C_ICONALWAYSVISIBLE_ON         = getCN( AccItemName, "iconalwaysvisible", "on" );
-AccordionItem.C_ICONALWAYSVISIBLE_OFF        = getCN( AccItemName, "iconalwaysvisible", "off" );
-
-
 /**
  * Static Object hash used to capture existing markup for progressive
  * enhancement.  Keys correspond to config attribute names and values
@@ -285,25 +291,25 @@ AccordionItem.C_ICONALWAYSVISIBLE_OFF        = getCN( AccItemName, "iconalwaysvi
 AccordionItem.HTML_PARSER = {
 
     label: function ( contentBox ){
-        var _node, _class;
+        var node, labelClass;
         
-        _class = "> .yui-widget-hd > div." + AccordionItem.C_LABEL;
-        _node = contentBox.query( _class );
+        labelClass = "> .yui-widget-hd > div." + C_LABEL;
+        node = contentBox.query( labelClass );
 
-        return (_node) ? _node.get( "innerHTML" ) : null;
+        return (node) ? node.get( "innerHTML" ) : null;
     },
 
     icon: function ( contentBox ){
-        var _node, _class;
+        var node, iconClass;
         
-        _class = "> .yui-widget-hd > div." + AccordionItem.C_ICON;
-        _node = contentBox.query( _class );
+        iconClass = "> .yui-widget-hd > div." + C_ICON;
+        node = contentBox.query( iconClass );
 
-        if( _node ){
-            _class = _node.get( "className" );
+        if( node ){
+            iconClass = node.get( CLASS_NAME );
 
-            if( _class && Lang.isString( _class ) ){
-                return _class;
+            if( iconClass && Lang.isString( iconClass ) ){
+                return iconClass;
             }
         }
 
@@ -311,16 +317,16 @@ AccordionItem.HTML_PARSER = {
     },
 
     iconClose: function( contentBox ){
-        var _node, _class;
+        var node, iconCloseClass;
 
-        _class = "> .yui-widget-hd > div." + AccordionItem.C_ICONCLOSE;
-        _node = contentBox.query( _class );
+        iconCloseClass = "> .yui-widget-hd > div." + C_ICONCLOSE;
+        node = contentBox.query( iconCloseClass );
 
-        if( _node ){
-            _class = _node.get( "className" );
+        if( node ){
+            iconCloseClass = node.get( CLASS_NAME );
 
-            if( _class && Lang.isString( _class ) ){
-                return _class;
+            if( iconCloseClass && Lang.isString( iconCloseClass ) ){
+                return iconCloseClass;
             }
         }
 
@@ -328,67 +334,67 @@ AccordionItem.HTML_PARSER = {
     },
 
     expanded: function( contentBox ){
-        var _expanded;
+        var expanded;
 
-        _expanded = contentBox.hasClass( AccordionItem.C_EXPANDED );
+        expanded = contentBox.hasClass( C_EXPANDED );
 
-        return _expanded;
+        return expanded;
     },
 
     alwaysVisible: function( contentBox ){
-        var _alwaysVisible;
+        var alwaysVisible;
 
-        _alwaysVisible = contentBox.hasClass( AccordionItem.C_ALWAYSVISIBLE );
+        alwaysVisible = contentBox.hasClass( C_ALWAYSVISIBLE );
 
-        return _alwaysVisible;
+        return alwaysVisible;
     },
 
     closable: function( contentBox ){
-        var _closable;
+        var closable;
 
-        _closable = contentBox.hasClass( AccordionItem.C_CLOSABLE );
+        closable = contentBox.hasClass( C_CLOSABLE );
 
-        return _closable;
+        return closable;
     },
 
     contentHeight: function( contentBox ){
-        var _class, _classValue, _height = 0, i, _length, _index, _char;
+        var contentHeightClass, classValue, height = 0, i, length, index, chr;
 
-        _classValue = contentBox.get( "className" );
+        classValue = contentBox.get( CLASS_NAME );
 
-        _class = AccordionItem.C_CONTENTHEIGHT + '-';
+        contentHeightClass = C_CONTENTHEIGHT + '-';
 
-        _index = _classValue.indexOf( _class, 0);
+        index = classValue.indexOf( contentHeightClass, 0);
 
-        if( _index >= 0 ){
-            _length = _classValue.length;
-            _index += _class.length;
+        if( index >= 0 ){
+            length = classValue.length;
+            index += contentHeightClass.length;
 
-            _classValue = _classValue.substring( _index );
+            classValue = classValue.substring( index );
 
-            if( _classValue.match( /^auto\s*/g ) ){
+            if( classValue.match( /^auto\s*/g ) ){
                 return {
-                    method: "auto"
+                    method: AUTO
                 };
-            } else if( _classValue.match( /^stretch\s*/g ) ){
+            } else if( classValue.match( /^stretch\s*/g ) ){
                 return {
-                    method: "stretch"
+                    method: STRETCH
                 };
-            } else if( _classValue.match( /^fixed-\d+/g )  ){
-                for( i = 6, _length = _classValue.length; i < _length; i++ ){ // 6 = "fixed-".length
-                    _char = _classValue.charAt(i);
-                    _char = parseInt( _char, 10 );
+            } else if( classValue.match( /^fixed-\d+/g )  ){
+                for( i = 6, length = classValue.length; i < length; i++ ){ // 6 = "fixed-".length
+                    chr = classValue.charAt(i);
+                    chr = parseInt( chr, 10 );
 
-                    if( Lang.isNumber( _char ) ){
-                        _height = (_height * 10) + _char;
+                    if( Lang.isNumber( chr ) ){
+                        height = (height * 10) + chr;
                     } else {
                         break;
                     }
                 }
 
                 return {
-                    method: "fixed",
-                    height: _height
+                    method: FIXED,
+                    height: height
                 };
             }
         }
@@ -409,50 +415,50 @@ Y.extend( AccordionItem, Y.Widget, {
      * @protected
      */
     _createHeader: function(){
-        var _strings, _html, _node, _closable;
+        var strings, html, node, closable;
 
-        function _setIcon(){
-            var _icon = this.get( "icon" );
+        function setIcon(){
+            var icon = this.get( "icon" );
 
-            if( _icon === AccordionItem.DEFAULT_ICON ){
-                return AccordionItem.C_ICON;
+            if( icon === DEFAULT_ICON ){
+                return C_ICON;
             } else {
-                return _icon;
+                return icon;
             }
         }
 
-        _strings = this.get( "strings" );
-        _closable = this.get( "closable" );
+        strings = this.get( STRINGS );
+        closable = this.get( "closable" );
 
-        _html = [
-            "<TABLE selectable='no' class='", AccordionItem.C_TABLE, "'>",
+        html = [
+            "<TABLE selectable='no' class='", C_TABLE, "'>",
             "<TBODY>",
             "<TR>",
-                "<TD class='", AccordionItem.C_TD_ICON, "'", " id='", Y.guid(), "'>",
-                    "<div id='", Y.guid(), "' class='", _setIcon.call(this), "' align='middle' ", "/>",
+                "<TD class='", C_TD_ICON, "'", " id='", Y.guid(), "'>",
+                    "<div id='", Y.guid(), "' class='", setIcon.call(this), "' align='middle' ", "/>",
                 "</TD>",
-                "<TD class='" , AccordionItem.C_TD_LABEL, "'>" ,
-                    "<div class='" , AccordionItem.C_LABEL, "'" ,
+                "<TD class='" , C_TD_LABEL, "'>" ,
+                    "<div class='" , C_LABEL, "'" ,
                        " id='", Y.guid(), "' ", ">",
                        "<a href='#'>", this.get( "label" ), "</a>",
                     "</div>",
                 "</TD>",
-                "<TD class='", AccordionItem.C_TD_ICONALWAYSVISIBLE, "'", ">" ,
+                "<TD class='", C_TD_ICONALWAYSVISIBLE, "'", ">" ,
                     "<div tabindex='0' class='",
-                        AccordionItem.C_ICONALWAYSVISIBLE, " " , AccordionItem.C_ICONALWAYSVISIBLE_OFF , "'",
-                        " title='", _strings.title_always_visible_off, "'",
+                        C_ICONALWAYSVISIBLE, " " , C_ICONALWAYSVISIBLE_OFF , "'",
+                        " title='", strings.title_always_visible_off, "'",
                         " id='", Y.guid(), "'>",
                     "</div>",                    
                 "</TD>",
-                "<TD class='" , AccordionItem.C_TD_ICONEXTENDED, "'>" ,
-                    "<div tabindex='0' class='" , AccordionItem.C_ICONEXTENDED, " ", AccordionItem.C_ICONEXTENDED_OFF, "'",
-                        " title='", _strings.title_iconextended_off, "'",
+                "<TD class='" , C_TD_ICONEXTENDED, "'>" ,
+                    "<div tabindex='0' class='" , C_ICONEXTENDED, " ", C_ICONEXTENDED_OFF, "'",
+                        " title='", strings.title_iconextended_off, "'",
                         " id='", Y.guid(), "'>",
                     "</div>",
                 "</TD>",
-                "<TD class='" , AccordionItem.C_TD_ICONCLOSE, " ", (!_closable ? AccordionItem.C_TD_ICONCLOSE_HIDDEN : ""), "'>" ,
-                    "<div tabindex='0' class='" , AccordionItem.C_ICONCLOSE, "'",
-                        " title='", _strings.title_iconclose, "'",
+                "<TD class='" , C_TD_ICONCLOSE, " ", (!closable ? C_TD_ICONCLOSE_HIDDEN : ""), "'>" ,
+                    "<div tabindex='0' class='" , C_ICONCLOSE, "'",
+                        " title='", strings.title_iconclose, "'",
                         " id='", Y.guid(), "'>",
                     "</div>",
                 "</TD>",
@@ -461,8 +467,8 @@ Y.extend( AccordionItem, Y.Widget, {
             "</TABLE>"
         ].join( '' );
 
-        _node = Node.create( _html );
-        this.set( "headerContent", _node );
+        node = Node.create( html );
+        this.set( "headerContent", node );
     },
 
 
@@ -471,18 +477,18 @@ Y.extend( AccordionItem, Y.Widget, {
      * 
      * @method _iconChanged
      * @protected
-     * @param {EventFacade} _params The event facade for the attribute change
+     * @param {EventFacade} params The event facade for the attribute change
      */
-    _iconChanged: function( _params ){
-        var _icon;
+    _iconChanged: function( params ){
+        var icon;
 
-        _icon = _params.newVal;
+        icon = params.newVal;
 
-        if( this.get( "rendered" ) ){
-            if( _icon === AccordionItem.DEFAULT_ICON ){
-                this._icon.set( "className", AccordionItem.C_ICON );
+        if( this.get( RENDERED ) ){
+            if( icon === DEFAULT_ICON ){
+                this._icon.set( CLASS_NAME, C_ICON );
             } else {
-                this._icon.addClass( _icon );
+                this._icon.addClass( icon );
             }
         }
     },
@@ -493,11 +499,11 @@ Y.extend( AccordionItem, Y.Widget, {
      * 
      * @method _labelChanged
      * @protected
-     * @param {EventFacade} _params The event facade for the attribute change
+     * @param {EventFacade} params The event facade for the attribute change
      */
-    _labelChanged: function( _params ){
-        if( this.get( "rendered" ) ){
-            this._label.set( "innerHTML", ["<a href='#'>", _params.newVal, "</a>" ].join('') );
+    _labelChanged: function( params ){
+        if( this.get( RENDERED ) ){
+            this._label.set( "innerHTML", ["<a href='#'>", params.newVal, "</a>" ].join('') );
         }
     },
 
@@ -507,21 +513,21 @@ Y.extend( AccordionItem, Y.Widget, {
      *
      * @method _closableChanged
      * @protected
-     * @param {EventFacade} _params The event facade for the attribute change
+     * @param {EventFacade} params The event facade for the attribute change
      */
-    _closableChanged: function( _params ){
-        var _class, _node, _contentBox;
+    _closableChanged: function( params ){
+        var selector, node, contentBox;
 
-        if( this.get( "rendered" ) ){
-            _contentBox = this.get( 'contentBox' );
+        if( this.get( RENDERED ) ){
+            contentBox = this.get( CONTENT_BOX );
         
-            _class = "> .yui-widget-hd ." + AccordionItem.C_TD_ICONCLOSE;
-            _node = _contentBox.query( _class );
+            selector = "> .yui-widget-hd ." + C_TD_ICONCLOSE;
+            node = contentBox.query( selector );
 
-            if( _params.newVal ){
-                _node.removeClass( AccordionItem.C_TD_ICONCLOSE_HIDDEN );
+            if( params.newVal ){
+                node.removeClass( C_TD_ICONCLOSE_HIDDEN );
             } else {
-                _node.addClass( AccordionItem.C_TD_ICONCLOSE_HIDDEN );
+                node.addClass( C_TD_ICONCLOSE_HIDDEN );
             }
         }
     },
@@ -532,24 +538,33 @@ Y.extend( AccordionItem, Y.Widget, {
      *
      * @method initializer
      * @protected
-     * @param  _config {Object} Configuration object literal for the AccordionItem
+     * @param  config {Object} Configuration object literal for the AccordionItem
      */
-    initializer: function( _config ) {
-        this.after( 'render', function(e){
-            var _contentBox = this.get( 'contentBox' );
-
-            this._icon = _contentBox.query( "." + AccordionItem.C_ICON );
-            this._label = _contentBox.query( "." + AccordionItem.C_LABEL );
-            this._iconAlwaysVisible = _contentBox.query( "." + AccordionItem.C_ICONALWAYSVISIBLE );
-            this._iconExtended = _contentBox.query( "." + AccordionItem.C_ICONEXTENDED );
-            this._iconClose = _contentBox.query( "." + AccordionItem.C_ICONCLOSE );
-        }, this );
-
-        this.after( "iconChange",     this._iconChanged,     this );
-        this.after( "labelChange",    this._labelChanged,    this );
-        this.after( "closableChange", this._closableChanged, this );
+    initializer: function( config ) {
+        this.after( "render", Y.bind( this._afterRender, this ) );
+        this.after( "iconChange", Y.bind( this._iconChanged, this ) );
+        this.after( "labelChange",  Y.bind( this._labelChanged, this ) );
+        this.after( "closableChange", Y.bind( this._closableChanged, this ) );
     },
 
+
+    /**
+     * Get references to elements, which compose the header
+     *
+     * @method _afterRender
+     * @protected
+     * @param e {Event} after render custom event
+     */
+    _afterRender: function( e ){
+        var contentBox = this.get( CONTENT_BOX );
+
+        this._icon = contentBox.query( "." + C_ICON );
+        this._label = contentBox.query( "." + C_LABEL );
+        this._iconAlwaysVisible = contentBox.query( "." + C_ICONALWAYSVISIBLE );
+        this._iconExtended = contentBox.query( "." + C_ICONEXTENDED );
+        this._iconClose = contentBox.query( "." + C_ICONCLOSE );
+    },
+    
     
     /**
      * Destructor lifecycle implementation for the AccordionItem class.
@@ -579,11 +594,26 @@ Y.extend( AccordionItem, Y.Widget, {
      * @protected
      */
     bindUI: function(){
-        var _contentBox = this.get( 'contentBox' );
+        var selector, contentBox;
+        
+        contentBox = this.get( CONTENT_BOX );
+        selector = [ 'div.', C_LABEL, ' a' ].join('');
 
-        _contentBox.delegate( "click", function(e){
-            e.preventDefault();
-        }, 'div.yui-accordion-item-label a', this );
+        contentBox.delegate( "click", Y.bind( this._onLinkClick, this ), selector );
+    },
+
+
+
+    /**
+     * Prevent default action on clicking the link in the label
+     *
+     * @method _onLinkClick
+     * @protected
+     *
+     * @param e {Event} The click event
+     */
+    _onLinkClick: function( e ){
+        e.preventDefault();
     },
     
    /**
@@ -591,22 +621,22 @@ Y.extend( AccordionItem, Y.Widget, {
     * The icon will be updated only if needed.
     * 
     * @method markAsAlwaysVisible
-    * @param {Boolean} _alwaysVisible Whether or not the item should be marked as always visible
+    * @param {Boolean} alwaysVisible Whether or not the item should be marked as always visible
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
-    markAsAlwaysVisible: function( _alwaysVisible ){
-        var _strings = this.get( "strings" );
+    markAsAlwaysVisible: function( alwaysVisible ){
+        var strings = this.get( STRINGS );
 
-        if( _alwaysVisible ){
-            if( !this._iconAlwaysVisible.hasClass( AccordionItem.C_ICONALWAYSVISIBLE_ON ) ){
-                this._iconAlwaysVisible.replaceClass( AccordionItem.C_ICONALWAYSVISIBLE_OFF, AccordionItem.C_ICONALWAYSVISIBLE_ON );
-                this._iconAlwaysVisible.set( "title", _strings.title_always_visible_on );
+        if( alwaysVisible ){
+            if( !this._iconAlwaysVisible.hasClass( C_ICONALWAYSVISIBLE_ON ) ){
+                this._iconAlwaysVisible.replaceClass( C_ICONALWAYSVISIBLE_OFF, C_ICONALWAYSVISIBLE_ON );
+                this._iconAlwaysVisible.set( TITLE, strings.title_always_visible_on );
                 return true;
             }
         } else {
-            if( this._iconAlwaysVisible.hasClass( AccordionItem.C_ICONALWAYSVISIBLE_ON ) ){
-                this._iconAlwaysVisible.replaceClass( AccordionItem.C_ICONALWAYSVISIBLE_ON, AccordionItem.C_ICONALWAYSVISIBLE_OFF );
-                this._iconAlwaysVisible.set( "title", _strings.title_always_visible_off );
+            if( this._iconAlwaysVisible.hasClass( C_ICONALWAYSVISIBLE_ON ) ){
+                this._iconAlwaysVisible.replaceClass( C_ICONALWAYSVISIBLE_ON, C_ICONALWAYSVISIBLE_OFF );
+                this._iconAlwaysVisible.set( TITLE, strings.title_always_visible_off );
                 return true;
             }
         }
@@ -620,22 +650,22 @@ Y.extend( AccordionItem, Y.Widget, {
     * The icon will be updated only if needed.
     * 
     * @method markAsExpanded
-    * @param {Boolean} _expanded Whether or not the item should be marked as expanded
+    * @param {Boolean} expanded Whether or not the item should be marked as expanded
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
-    markAsExpanded: function( _expanded ){
-        var _strings = this.get( "strings" );
+    markAsExpanded: function( expanded ){
+        var strings = this.get( STRINGS );
 
-        if( _expanded ){
-            if( !this._iconExtended.hasClass( AccordionItem.C_ICONEXTENDED_ON ) ){
-                this._iconExtended.replaceClass( AccordionItem.C_ICONEXTENDED_OFF, AccordionItem.C_ICONEXTENDED_ON );
-                this._iconExtended.set( "title" , _strings.title_iconextended_on );
+        if( expanded ){
+            if( !this._iconExtended.hasClass( C_ICONEXTENDED_ON ) ){
+                this._iconExtended.replaceClass( C_ICONEXTENDED_OFF, C_ICONEXTENDED_ON );
+                this._iconExtended.set( TITLE , strings.title_iconextended_on );
                 return true;
             }
         } else {
-            if( this._iconExtended.hasClass( AccordionItem.C_ICONEXTENDED_ON ) ){
-                this._iconExtended.replaceClass( AccordionItem.C_ICONEXTENDED_ON, AccordionItem.C_ICONEXTENDED_OFF );
-                this._iconExtended.set( "title" , _strings.title_iconextended_off );
+            if( this._iconExtended.hasClass( C_ICONEXTENDED_ON ) ){
+                this._iconExtended.replaceClass( C_ICONEXTENDED_ON, C_ICONEXTENDED_OFF );
+                this._iconExtended.set( TITLE , strings.title_iconextended_off );
                 return true;
             }
         }
@@ -649,18 +679,18 @@ Y.extend( AccordionItem, Y.Widget, {
     * The method will update icon only if needed.
     * 
     * @method markAsExpanding
-    * @param {Boolean} _expanding Whether or not the item should be marked as expanding
+    * @param {Boolean} expanding Whether or not the item should be marked as expanding
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
-    markAsExpanding: function( _expanding ){
-        if( _expanding ){
-            if( !this._iconExtended.hasClass( AccordionItem.C_ICONEXTENDED_EXPANDING ) ){
-                this._iconExtended.addClass( AccordionItem.C_ICONEXTENDED_EXPANDING );
+    markAsExpanding: function( expanding ){
+        if( expanding ){
+            if( !this._iconExtended.hasClass( C_ICONEXTENDED_EXPANDING ) ){
+                this._iconExtended.addClass( C_ICONEXTENDED_EXPANDING );
                 return true;
             }
         } else {
-            if( this._iconExtended.hasClass( AccordionItem.C_ICONEXTENDED_EXPANDING ) ){
-                this._iconExtended.removeClass( AccordionItem.C_ICONEXTENDED_EXPANDING );
+            if( this._iconExtended.hasClass( C_ICONEXTENDED_EXPANDING ) ){
+                this._iconExtended.removeClass( C_ICONEXTENDED_EXPANDING );
                 return true;
             }
         }
@@ -674,18 +704,18 @@ Y.extend( AccordionItem, Y.Widget, {
     * The method will update icon only if needed.
     * 
     * @method markAsCollapsing
-    * @param {Boolean} _collapsing Whether or not the item should be marked as collapsing
+    * @param {Boolean} collapsing Whether or not the item should be marked as collapsing
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
-    markAsCollapsing: function( _collapsing ){
-        if( _collapsing ){
-            if( !this._iconExtended.hasClass( AccordionItem.C_ICONEXTENDED_COLLAPSING ) ){
-                this._iconExtended.addClass( AccordionItem.C_ICONEXTENDED_COLLAPSING );
+    markAsCollapsing: function( collapsing ){
+        if( collapsing ){
+            if( !this._iconExtended.hasClass( C_ICONEXTENDED_COLLAPSING ) ){
+                this._iconExtended.addClass( C_ICONEXTENDED_COLLAPSING );
                 return true;
             }
         } else {
-            if( this._iconExtended.hasClass( AccordionItem.C_ICONEXTENDED_COLLAPSING ) ){
-                this._iconExtended.removeClass( AccordionItem.C_ICONEXTENDED_COLLAPSING );
+            if( this._iconExtended.hasClass( C_ICONEXTENDED_COLLAPSING ) ){
+                this._iconExtended.removeClass( C_ICONEXTENDED_COLLAPSING );
                 return true;
             }
         }

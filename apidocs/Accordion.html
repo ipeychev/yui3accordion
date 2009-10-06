@@ -74,14 +74,14 @@ set as always visible and reordered by using Drag&Drop. Collapsing/expanding mig
   
                                         
                                                 
-                                                _config
+                                                config
                                     )
                                 </code>
                                 <div class="description">
                                         <dl rel="yui:parameters">
                                             <dt>Parameters:</dt>
                                                 <dd rel="yui:parameter">
-                                                    <code><span property="yui:name">_config</span>
+                                                    <code><span property="yui:name">config</span>
                                                     &lt;<span property="yui:type">Object</span>&gt;
                                                     </code>
                                                     <span property="yui:description">  Object literal specifying Accordion configuration properties.</span>
@@ -114,51 +114,6 @@ configuration for the Accordion.
 
                                     <hr />
                                     </div>
-                                    <div class="" rel="yui:property" resource="#property_Accordion.C_PROXY_VISIBLE">
-                                    <h4><a name="property_Accordion.C_PROXY_VISIBLE" property="yui:name">Accordion.C_PROXY_VISIBLE</a>
-                                        - <code>static <span property="yui:type">String</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Static property to indicate class which will be applied to dd proxy when item is being reordered
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:property" resource="#property_Accordion.DRAGGROUP">
-                                    <h4><a name="property_Accordion.DRAGGROUP" property="yui:name">Accordion.DRAGGROUP</a>
-                                        - <code>static <span property="yui:type">String</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Static property, which contains the drag group for Accordion and its items
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:property" resource="#property_Accordion.EVENT_TYPES">
-                                    <h4><a name="property_Accordion.EVENT_TYPES" property="yui:name">Accordion.EVENT_TYPES</a>
-                                        - <code>static <span property="yui:type">Object</span></code>
-                                    </h4>
-                                    <div class="detail">
-                                        <div class="description" property="yui:description">
-                                            Static property; contains the events, which Accordion publishes
-                                        </div>
-                                    </div>
-     
-                                        
-
-
-                                    <hr />
-                                    </div>
                                     <div class="" rel="yui:property" resource="#property_Accordion.NAME">
                                     <h4><a name="property_Accordion.NAME" property="yui:name">Accordion.NAME</a>
                                         - <code>static <span property="yui:type">String</span></code>
@@ -183,44 +138,6 @@ configuration for the Accordion.
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
-                                    <div class="protected" rel="yui:method" resource="#method__adjustStretchItems">
-                                    <h4>
-                                        <a name="method__adjustStretchItems">_adjustStretchItems</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                         protected 
-                                        
-                                        
-                                        Number
-                                            <strong property="yui:name">_adjustStretchItems</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Helper method to adjust the height of all items, which <code>contentHeight</code> property is set as "stretch".
-If some item has animation running, it will be stopped before running another one.
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                            Number
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo">The calculated height per strech item</dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
                                     <div class="protected" rel="yui:method" resource="#method__afterContentHeight">
                                     <h4>
                                         <a name="method__afterContentHeight">_afterContentHeight</a></h4>
@@ -234,7 +151,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _params
+                                                         params
                                                     
                                                 
                                             )
@@ -249,10 +166,64 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_params</span>
+                                                        <code><span property="yui:name">params</span>
                                                         &lt;<span property="yui:type">EventFacade</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The event facade for the attribute change</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__afterDragEnd">
+                                    <h4>
+                                        <a name="method__afterDragEnd">_afterDragEnd</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_afterDragEnd</strong>
+                                           (
+                                                
+                                                        
+                                                         The
+                                                    
+                                                
+                                                        , 
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Set drophit to false in dragdrop instance's custom value (if there has been drophit) and fires itemReordered event
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">The</span>
+                                                        &lt;<span property="yui:type">Y.DD.Drag</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> drag instance of the item</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  the DD instance's drag:end custom event</span>
                                                         </dd>
                                                 </dl>
 
@@ -278,7 +249,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _params
+                                                         params
                                                     
                                                 
                                             )
@@ -293,7 +264,7 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_params</span>
+                                                        <code><span property="yui:name">params</span>
                                                         &lt;<span property="yui:type">EventFacade</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The event facade for the attribute change</span>
@@ -322,7 +293,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _params
+                                                         params
                                                     
                                                 
                                             )
@@ -337,10 +308,98 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_params</span>
+                                                        <code><span property="yui:name">params</span>
                                                         &lt;<span property="yui:type">EventFacade</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The event facade for the attribute change</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__afterRender">
+                                    <h4>
+                                        <a name="method__afterRender">_afterRender</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_afterRender</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets listener to resize event
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  after render custom event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method__afterResizeEventChange">
+                                    <h4>
+                                        <a name="method__afterResizeEventChange">_afterResizeEventChange</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_afterResizeEventChange</strong>
+                                           (
+                                                
+                                                        
+                                                         params
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Set up resizing with the new value provided
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">params</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  after resizeEventChange custom event</span>
                                                         </dd>
                                                 </dl>
 
@@ -366,7 +425,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                             )
@@ -381,7 +440,7 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item, which should be collapsed</span>
@@ -410,11 +469,11 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                                         , 
-                                                         _height
+                                                         height
                                                     
                                                 
                                             )
@@ -429,13 +488,13 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item, which should be expanded</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_height</span>
+                                                        <code><span property="yui:name">height</span>
                                                         &lt;<span property="yui:type">Number</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The height to which we should expand the item</span>
@@ -501,7 +560,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         The
+                                                         item
                                                     
                                                 
                                             )
@@ -516,10 +575,10 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">The</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
-                                                        <span property="yui:description"> item, which height should be calculated</span>
+                                                        <span property="yui:description">  The item, which height should be calculated</span>
                                                         </dd>
                                                 </dl>
 
@@ -552,7 +611,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         p_node
+                                                         node
                                                     
                                                 
                                             )
@@ -567,7 +626,7 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">p_node</span>
+                                                        <code><span property="yui:name">node</span>
                                                         &lt;<span property="yui:type">Node|HTMLElement</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The node to gather the height from</span>
@@ -633,7 +692,7 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                             )
@@ -648,10 +707,282 @@ If some item has animation running, it will be stopped before running another on
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> An <code>Y.AccordionItem</code> instance to be set as draggable</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__onCollapseComplete">
+                                    <h4>
+                                        <a name="method__onCollapseComplete">_onCollapseComplete</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onCollapseComplete</strong>
+                                           (
+                                                
+                                                        
+                                                         item
+                                                    
+                                                
+                                                        , 
+                                                         notifyOthers
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Executes when animated collapsing completes
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">item</span>
+                                                        &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> An <code>Y.AccordionItem</code> instance which has been collapsed</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">notifyOthers</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> If true, itemCollapsed event will be fired</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__onDragEnd">
+                                    <h4>
+                                        <a name="method__onDragEnd">_onDragEnd</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onDragEnd</strong>
+                                           (
+                                                
+                                                        
+                                                         The
+                                                    
+                                                
+                                                        , 
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Restores HTML structure of the drag proxy.
+Fires beforeEndItemReorder event - returning false will cancel reordering
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">The</span>
+                                                        &lt;<span property="yui:type">Y.DD.Drag</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> drag instance of the item</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  the DD instance's drag:end custom event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__onDragStart">
+                                    <h4>
+                                        <a name="method__onDragStart">_onDragStart</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onDragStart</strong>
+                                           (
+                                                
+                                                        
+                                                         The
+                                                    
+                                                
+                                                        , 
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets the label of the item being dragged on the drag proxy.
+Fires beforeItemReorder event - returning false will cancel reordering
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">The</span>
+                                                        &lt;<span property="yui:type">Y.DD.Drag</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> drag instance of the item</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  the DD instance's drag:start custom event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method__onDropHit">
+                                    <h4>
+                                        <a name="method__onDropHit">_onDropHit</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onDropHit</strong>
+                                           (
+                                                
+                                                        
+                                                         The
+                                                    
+                                                
+                                                        , 
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Moves the source item before or after target item.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">The</span>
+                                                        &lt;<span property="yui:type">Y.DD.Drag</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> drag instance of the item</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  the DD instance's drag:drophit custom event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__onExpandComplete">
+                                    <h4>
+                                        <a name="method__onExpandComplete">_onExpandComplete</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onExpandComplete</strong>
+                                           (
+                                                
+                                                        
+                                                         item
+                                                    
+                                                
+                                                        , 
+                                                         notifyOthers
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Executes when animated expanding completes
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">item</span>
+                                                        &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> An <code>Y.AccordionItem</code> instance which has been expanded</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">notifyOthers</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> If true, itemExpanded event will be fired</span>
                                                         </dd>
                                                 </dl>
 
@@ -677,12 +1008,16 @@ If some item has animation running, it will be stopped before running another on
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
-
+                                                        , 
+                                                         srcIconAlwaysVisible
+                                                    
                                                 
-
+                                                        , 
+                                                         srcIconClose
+                                                    
                                                 
                                             )
                                         </code>
@@ -700,22 +1035,111 @@ If the user clicked on close icon, the item will be closed.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  The item on which user has clicked or pressed key</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">srcIconAlwaysVisible</span>
                                                         &lt;<span property="yui:type">Boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  True if the user has clicked on always visible icon</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">srcIconClose</span>
                                                         &lt;<span property="yui:type">Boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  True if the user has clicked on close icon</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__onItemChosenEvent">
+                                    <h4>
+                                        <a name="method__onItemChosenEvent">_onItemChosenEvent</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onItemChosenEvent</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Listening for itemChosen event, determines the source (is that iconClose, iconAlwaysVisisble, etc.) and
+invokes this._onItemChosen for further processing
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The itemChosen event</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method__onKeyPressEvent">
+                                    <h4>
+                                        <a name="method__onKeyPressEvent">_onKeyPressEvent</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_onKeyPressEvent</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Listening for Enter key and process the item depending on the source (iconClose, iconAlwaysVisisble, etc.)
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The keypress event</span>
                                                         </dd>
                                                 </dl>
 
@@ -741,15 +1165,15 @@ If the user clicked on close icon, the item will be closed.
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                                         , 
-                                                         _height
+                                                         height
                                                     
                                                 
                                                         , 
-                                                         _forceSkipAnimation
+                                                         forceSkipAnimation
                                                     
                                                 
                                             )
@@ -757,7 +1181,7 @@ If the user clicked on close icon, the item will be closed.
                                         
                                         <div class="description" property="yui:description">
                                             Collapse an item to given height. Depending on the <code>useAnimation</code> setting, 
-the process of collapsing might be animated. This setting will be ignored, if <code>_forceSkipAnimation</code> param
+the process of collapsing might be animated. This setting will be ignored, if <code>forceSkipAnimation</code> param
 is <code>true</code>.
                                         </div>
 
@@ -766,19 +1190,19 @@ is <code>true</code>.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> An <code>Y.AccordionItem</code> instance to be collapsed</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_height</span>
+                                                        <code><span property="yui:name">height</span>
                                                         &lt;<span property="yui:type">Number</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The height to which item should be collapsed</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_forceSkipAnimation</span>
+                                                        <code><span property="yui:name">forceSkipAnimation</span>
                                                         &lt;<span property="yui:type">Boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> If true, the animation will be skipped, 
@@ -808,15 +1232,15 @@ without taking in consideration Accordion's <code>useAnimation</code> setting</s
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                                         , 
-                                                         _forceSkipAnimation
+                                                         forceSkipAnimation
                                                     
                                                 
                                                         , 
-                                                         _height
+                                                         height
                                                     
                                                 
                                             )
@@ -824,7 +1248,7 @@ without taking in consideration Accordion's <code>useAnimation</code> setting</s
                                         
                                         <div class="description" property="yui:description">
                                             Expands an item to given height. Depending on the <code>useAnimation</code> setting, 
-the process of expanding might be animated. This setting will be ignored, if <code>_forceSkipAnimation</code> param
+the process of expanding might be animated. This setting will be ignored, if <code>forceSkipAnimation</code> param
 is <code>true</code>.
                                         </div>
 
@@ -833,20 +1257,20 @@ is <code>true</code>.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> An <code>Y.AccordionItem</code> instance to be expanded</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_forceSkipAnimation</span>
+                                                        <code><span property="yui:name">forceSkipAnimation</span>
                                                         &lt;<span property="yui:type">Boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> If true, the animation will be skipped, 
 without taking in consideration Accordion's <code>useAnimation</code> setting</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_height</span>
+                                                        <code><span property="yui:name">height</span>
                                                         &lt;<span property="yui:type">Number</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The height to which item should be expanded</span>
@@ -910,7 +1334,7 @@ This includes four steps:
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                             )
@@ -925,7 +1349,7 @@ This includes four steps:
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item, which handles to remove</span>
@@ -954,15 +1378,15 @@ This includes four steps:
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                                         , 
-                                                         _expanding
+                                                         expanding
                                                     
                                                 
                                                         , 
-                                                         _alwaysVisible
+                                                         alwaysVisible
                                                     
                                                 
                                             )
@@ -978,19 +1402,19 @@ The properties will be updated only if needed.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item, which properties should be updated</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_expanding</span>
+                                                        <code><span property="yui:name">expanding</span>
                                                         &lt;<span property="yui:type">boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The new value of "expanded" property</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_alwaysVisible</span>
+                                                        <code><span property="yui:name">alwaysVisible</span>
                                                         &lt;<span property="yui:type">boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The new value of "alwaysVisible" property</span>
@@ -1049,15 +1473,15 @@ The properties will be updated only if needed.
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                                         , 
-                                                         _expanding
+                                                         expanding
                                                     
                                                 
                                                         , 
-                                                         _alwaysVisible
+                                                         alwaysVisible
                                                     
                                                 
                                             )
@@ -1072,20 +1496,20 @@ The properties will be updated only if needed.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item, which user interface should be updated</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_expanding</span>
+                                                        <code><span property="yui:name">expanding</span>
                                                         &lt;<span property="yui:type">boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> If true, the item will be marked as expanded.
 If false, the item will be marked as collapsed</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_alwaysVisible</span>
+                                                        <code><span property="yui:name">alwaysVisible</span>
                                                         &lt;<span property="yui:type">boolean</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> If true, the item will be marked as always visible.
@@ -1167,7 +1591,7 @@ instead to those, which browser provides.
                                            (
                                                 
                                                         
-                                                         _itemsToBeExcluded
+                                                         itemsToBeExcluded
                                                     
                                                 
                                             )
@@ -1183,7 +1607,7 @@ in order to be collapsed later.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_itemsToBeExcluded</span>
+                                                        <code><span property="yui:name">itemsToBeExcluded</span>
                                                         &lt;<span property="yui:type">Object</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> (optional) Contains one or more <code>Y.AccordionItem</code> instances,
@@ -1213,11 +1637,11 @@ which should be not included in the list</span>
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                                         , 
-                                                         _parentItem
+                                                         parentItem
                                                     
                                                 
                                             )
@@ -1230,8 +1654,8 @@ The item will be expanded, collapsed, or set as always visible depending on the
 settings. Item's properties will be also updated, if they are incomplete.
 For example, if <code>alwaysVisible</code> is true, but <code>expanded</code>
 property is false, it will be set to true also.
-If the second param, <code>_parentItem</code> is an <code>Y.AccordionItem</code> instance,
-registered in Accordion, the item will be added as child of the <code>_parentItem</code>
+If the second param, <code>parentItem</code> is an <code>Y.AccordionItem</code> instance,
+registered in Accordion, the item will be added as child of the <code>parentItem</code>
                                         </div>
 
                                         <div class="description">
@@ -1239,13 +1663,13 @@ registered in Accordion, the item will be added as child of the <code>_parentIte
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item to be added in Accordion</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_parentItem</span>
+                                                        <code><span property="yui:name">parentItem</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> (optional) This item will be the parent of the item being added</span>
@@ -1257,6 +1681,44 @@ registered in Accordion, the item will be added as child of the <code>_parentIte
                                                     <code property="yui:return">
                                                     </code></dt>
                                                     <dd property="yui:returnInfo">Boolean True in case of successfully added item, false otherwise</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_adjustStretchItems">
+                                    <h4>
+                                        <a name="method_adjustStretchItems">adjustStretchItems</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        Number
+                                            <strong property="yui:name">adjustStretchItems</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Helper method to adjust the height of all items, which <code>contentHeight</code> property is set as "stretch".
+If some item has animation running, it will be stopped before running another one.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                            Number
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The calculated height per strech item</dd>
                                                 </dl>
 
 
@@ -1341,7 +1803,7 @@ Removes and destroys all registered items.
                                            (
                                                 
                                                         
-                                                         _param
+                                                         param
                                                     
                                                 
                                             )
@@ -1356,7 +1818,7 @@ Removes and destroys all registered items.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_param</span>
+                                                        <code><span property="yui:name">param</span>
                                                         &lt;<span property="yui:type">Number|Y.Node</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> If number, this must be item's index.
@@ -1392,7 +1854,7 @@ If Node, it should be the value of item's <code>contentBox</code> or <code>bound
                                            (
                                                 
                                                         
-                                                         _item
+                                                         item
                                                     
                                                 
                                             )
@@ -1407,7 +1869,7 @@ If Node, it should be the value of item's <code>contentBox</code> or <code>bound
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_item</span>
+                                                        <code><span property="yui:name">item</span>
                                                         &lt;<span property="yui:type">Y.AccordionItem</span>&gt;
                                                         </code>
                                                         <span property="yui:description"> The item which index should be returned</span>
@@ -1442,7 +1904,7 @@ If Node, it should be the value of item's <code>contentBox</code> or <code>bound
                                            (
                                                 
                                                         
-                                                         _config
+                                                         config
                                                     
                                                 
                                             )
@@ -1458,7 +1920,7 @@ initializes internal properties and subscribes for resize event.
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">_config</span>
+                                                        <code><span property="yui:name">config</span>
                                                         &lt;<span property="yui:type">Object</span>&gt;
                                                         </code>
                                                         <span property="yui:description">  Configuration object literal for the Accordion</span>
@@ -2682,9 +3144,6 @@ The animation in Accordion is slow in IE6
                         <h4>Properties</h4>
                         <ul class="content">        
                                 <li class=""><a href="#property_Accordion.ATTRS" title="Accordion.ATTRS">Accordion.ATTRS</a></li>
-                                <li class=""><a href="#property_Accordion.C_PROXY_VISIBLE" title="Accordion.C_PROXY_VISIBLE">Accordion.C_PROXY_VISIBLE</a></li>
-                                <li class=""><a href="#property_Accordion.DRAGGROUP" title="Accordion.DRAGGROUP">Accordion.DRAGGROUP</a></li>
-                                <li class=""><a href="#property_Accordion.EVENT_TYPES" title="Accordion.EVENT_TYPES">Accordion.EVENT_TYPES</a></li>
                                 <li class=""><a href="#property_Accordion.NAME" title="Accordion.NAME">Accordion.NAME</a></li>
                         </ul>
                     </div>
@@ -2692,10 +3151,12 @@ The animation in Accordion is slow in IE6
                     <div id="methodsList" class="module">
                         <h4>Methods</h4>
                         <ul class="content">        
-                                <li class="protected"><a href="#method__adjustStretchItems" title="_adjustStretchItems">_adjustStretchItems</a></li>
                                 <li class="protected"><a href="#method__afterContentHeight" title="_afterContentHeight">_afterContentHeight</a></li>
+                                <li class="protected"><a href="#method__afterDragEnd" title="_afterDragEnd">_afterDragEnd</a></li>
                                 <li class="protected"><a href="#method__afterItemAlwaysVisible" title="_afterItemAlwaysVisible">_afterItemAlwaysVisible</a></li>
                                 <li class="protected"><a href="#method__afterItemExpand" title="_afterItemExpand">_afterItemExpand</a></li>
+                                <li class="protected"><a href="#method__afterRender" title="_afterRender">_afterRender</a></li>
+                                <li class=""><a href="#method__afterResizeEventChange" title="_afterResizeEventChange">_afterResizeEventChange</a></li>
                                 <li class="protected"><a href="#method__collapseItem" title="_collapseItem">_collapseItem</a></li>
                                 <li class="protected"><a href="#method__expandItem" title="_expandItem">_expandItem</a></li>
                                 <li class="protected"><a href="#method__getHeightPerStretchItem" title="_getHeightPerStretchItem">_getHeightPerStretchItem</a></li>
@@ -2703,7 +3164,14 @@ The animation in Accordion is slow in IE6
                                 <li class="protected"><a href="#method__getNodeOffsetHeight" title="_getNodeOffsetHeight">_getNodeOffsetHeight</a></li>
                                 <li class="protected"><a href="#method__initEvents" title="_initEvents">_initEvents</a></li>
                                 <li class="protected"><a href="#method__initItemDragDrop" title="_initItemDragDrop">_initItemDragDrop</a></li>
+                                <li class="protected"><a href="#method__onCollapseComplete" title="_onCollapseComplete">_onCollapseComplete</a></li>
+                                <li class="protected"><a href="#method__onDragEnd" title="_onDragEnd">_onDragEnd</a></li>
+                                <li class="protected"><a href="#method__onDragStart" title="_onDragStart">_onDragStart</a></li>
+                                <li class=""><a href="#method__onDropHit" title="_onDropHit">_onDropHit</a></li>
+                                <li class="protected"><a href="#method__onExpandComplete" title="_onExpandComplete">_onExpandComplete</a></li>
                                 <li class="protected"><a href="#method__onItemChosen" title="_onItemChosen">_onItemChosen</a></li>
+                                <li class="protected"><a href="#method__onItemChosenEvent" title="_onItemChosenEvent">_onItemChosenEvent</a></li>
+                                <li class="protected"><a href="#method__onKeyPressEvent" title="_onKeyPressEvent">_onKeyPressEvent</a></li>
                                 <li class="protected"><a href="#method__processCollapsing" title="_processCollapsing">_processCollapsing</a></li>
                                 <li class="protected"><a href="#method__processExpanding" title="_processExpanding">_processExpanding</a></li>
                                 <li class="protected"><a href="#method__processItems" title="_processItems">_processItems</a></li>
@@ -2714,6 +3182,7 @@ The animation in Accordion is slow in IE6
                                 <li class="protected"><a href="#method__setUpResizing" title="_setUpResizing">_setUpResizing</a></li>
                                 <li class="protected"><a href="#method__storeItemsForCollapsing" title="_storeItemsForCollapsing">_storeItemsForCollapsing</a></li>
                                 <li class=""><a href="#method_addItem" title="addItem">addItem</a></li>
+                                <li class="protected"><a href="#method_adjustStretchItems" title="adjustStretchItems">adjustStretchItems</a></li>
                                 <li class="protected"><a href="#method_bindUI" title="bindUI">bindUI</a></li>
                                 <li class="protected"><a href="#method_destructor" title="destructor">destructor</a></li>
                                 <li class=""><a href="#method_getItem" title="getItem">getItem</a></li>
@@ -2772,7 +3241,7 @@ The animation in Accordion is slow in IE6
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "Accordion.html#property_Accordion.C_PROXY_VISIBLE", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.C_PROXY_VISIBLE"}, {"url": "Accordion.html#property_Accordion.DRAGGROUP", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.DRAGGROUP"}, {"url": "Accordion.html#property_Accordion.EVENT_TYPES", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.EVENT_TYPES"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method__adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}];
+    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method_adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterDragEnd"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "Accordion.html#method__afterRender", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterRender"}, {"url": "Accordion.html#method__afterResizeEventChange", "access": "", "host": "Accordion", "type": "method", "name": "_afterResizeEventChange"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "Accordion.html#method__onCollapseComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onCollapseComplete"}, {"url": "Accordion.html#method__onDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragEnd"}, {"url": "Accordion.html#method__onDragStart", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragStart"}, {"url": "Accordion.html#method__onDropHit", "access": "", "host": "Accordion", "type": "method", "name": "_onDropHit"}, {"url": "Accordion.html#method__onExpandComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onExpandComplete"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__onItemChosenEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosenEvent"}, {"url": "Accordion.html#method__onKeyPressEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onKeyPressEvent"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}];
 </script>
 </body>
 </html>
