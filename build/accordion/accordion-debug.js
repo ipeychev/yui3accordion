@@ -227,8 +227,6 @@ Y.extend( Accordion, Y.Widget, {
     initializer: function( config ) {
         this._initEvents();
 
-        this._lastChild = null;
-
         this.after( "render", Y.bind( this._afterRender, this ) );
 
         this._forCollapsing = {};
@@ -564,6 +562,7 @@ Y.extend( Accordion, Y.Widget, {
      * Set up resizing with the new value provided
      *
      * @method _afterResizeEventChange
+     * @protected
      * @param params {Event} after resizeEventChange custom event
      */
     _afterResizeEventChange: function( params ){
@@ -1133,6 +1132,7 @@ Y.extend( Accordion, Y.Widget, {
      * Moves the source item before or after target item.
      *
      * @method _onDropHit
+     * @protected
      * @param {Y.DD.Drag} The drag instance of the item
      * @param e {Event} the DD instance's drag:drophit custom event
      */
@@ -1424,7 +1424,7 @@ Y.extend( Accordion, Y.Widget, {
 
     
     /**
-     * Add listener to <code>itemChosen</code> and <code>keypress</code> events in Accordion's content box
+     * Add listener to <code>itemChosen</code> event in Accordion's content box
      * 
      * @method bindUI
      * @protected
@@ -1436,7 +1436,6 @@ Y.extend( Accordion, Y.Widget, {
         itemChosenEvent = this.get( 'itemChosen' );
         
         contentBox.delegate( itemChosenEvent, Y.bind( this._onItemChosenEvent, this ), 'div.yui-widget-hd' );
-        contentBox.delegate( "keypress", Y.bind( this._onKeyPressEvent, this ), 'div.yui-widget-hd' );
     },
 
 
@@ -1465,44 +1464,6 @@ Y.extend( Accordion, Y.Widget, {
     },
 
 
-    /**
-     * Listening for Enter key and process the item depending on the source (iconClose, iconAlwaysVisisble, etc.)
-     *
-     * @method _onKeyPressEvent
-     * @protected
-     *
-     * @param e {Event} The keypress event
-     */
-    _onKeyPressEvent: function(e){
-        var header, itemNode, item, iconAlwaysVisible,
-            iconClose, srcIconAlwaysVisible, srcIconClose,
-            charCode, target = e.target, srcIconExtended, iconExtended;
-
-        charCode = e.charCode;
-
-        if( charCode === 13 ){
-            header = e.currentTarget;
-            itemNode = header.get( PARENT_NODE );
-            item = this.getItem( itemNode );
-
-            iconAlwaysVisible = item.get( ICON_ALWAYSVISIBLE );
-            iconExtended = item.get( "iconExtended" );
-            iconClose = item.get( ICON_CLOSE );
-            srcIconAlwaysVisible = (iconAlwaysVisible === target);
-            srcIconExtended = (iconExtended === target );
-            srcIconClose = (iconClose === e.target);
-
-            /**
-             * Exclude label in order to avoid double function invocation.
-             * Label keypress will be managed in "click" listener.
-             */
-            if( srcIconExtended || srcIconAlwaysVisible  || srcIconClose ){
-                this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
-            }
-        }
-    },
-
-    
     /**
      * Add an item to Accordion. Items could be added/removed multiple times and they
      * will be rendered in the process of adding, if not.
@@ -1776,40 +1737,32 @@ function AccordionItem( config ){
 var Lang = Y.Lang,
     Base = Y.Base,
     Node = Y.Node,
+    JSON = Y.JSON,
     WidgetStdMod = Y.WidgetStdMod,
     AccItemName = "accordion-item",
     getCN = Y.ClassNameManager.getClassName,
     
-    DEFAULT_ICON = "default",
-
-    C_TABLE = getCN( AccItemName, "table" ),
-    C_TD_ICON = getCN( AccItemName, "td", "icon" ),
-    C_TD_LABEL = getCN( AccItemName, "td", "label" ),
-
-    C_TD_ICONALWAYSVISIBLE = getCN( AccItemName, "td", "iconalwaysvisible" ),
-    C_TD_ICONEXTENDED = getCN( AccItemName, "td", "iconextended" ),
-    C_TD_ICONCLOSE = getCN( AccItemName, "td", "iconclose" ),
-    C_TD_ICONCLOSE_HIDDEN = getCN( AccItemName, "td", "iconclose", "hidden" ),
-
-    C_ICONEXTENDED_EXPANDING = getCN( AccItemName, "iconextended", "expanding" ),
-    C_ICONEXTENDED_COLLAPSING = getCN( AccItemName, "iconextended", "collapsing" ),
+    C_ICONEXPANDED_EXPANDING = getCN( AccItemName, "iconexpanded", "expanding" ),
+    C_ICONEXPANDED_COLLAPSING = getCN( AccItemName, "iconexpanded", "collapsing" ),
 
     C_ICON = getCN( AccItemName, "icon" ),
     C_LABEL = getCN( AccItemName, "label" ),
     C_ICONALWAYSVISIBLE = getCN( AccItemName, "iconalwaysvisible" ),
-    C_ICONEXTENDED = getCN( AccItemName, "iconextended" ),
+    C_ICONSCONTAINER = getCN( AccItemName, "icons" ),
+    C_ICONEXPANDED = getCN( AccItemName, "iconexpanded" ),
     C_ICONCLOSE = getCN( AccItemName, "iconclose" ),
+    C_ICONCLOSE_HIDDEN = getCN( AccItemName, "iconclose", "hidden" ),
+
+    C_ICONEXPANDED_ON = getCN( AccItemName, "iconexpanded", "on" ),
+    C_ICONEXPANDED_OFF = getCN( AccItemName, "iconexpanded", "off" ),
+
+    C_ICONALWAYSVISIBLE_ON = getCN( AccItemName, "iconalwaysvisible", "on" ),
+    C_ICONALWAYSVISIBLE_OFF = getCN( AccItemName, "iconalwaysvisible", "off" ),
 
     C_EXPANDED =  getCN( AccItemName, "expanded" ),
     C_CLOSABLE =  getCN( AccItemName, "closable" ),
     C_ALWAYSVISIBLE =  getCN( AccItemName, "alwaysvisible" ),
     C_CONTENTHEIGHT =  getCN( AccItemName, "contentheight" ),
-
-    C_ICONEXTENDED_ON = getCN( AccItemName, "iconextended", "on" ),
-    C_ICONEXTENDED_OFF = getCN( AccItemName, "iconextended", "off" ),
-
-    C_ICONALWAYSVISIBLE_ON = getCN( AccItemName, "iconalwaysvisible", "on" ),
-    C_ICONALWAYSVISIBLE_OFF = getCN( AccItemName, "iconalwaysvisible", "off" ),
 
     TITLE = "title",
     STRINGS = "strings",
@@ -1818,7 +1771,21 @@ var Lang = Y.Lang,
     CLASS_NAME = "className",
     AUTO = "auto",
     STRETCH = "stretch",
-    FIXED = "fixed";
+    FIXED = "fixed",
+    HEADER_SELECTOR = ".yui-widget-hd",
+    DOT = ".",
+    HEADER_SELECTOR_SUB = ".yui-widget-hd " + DOT,
+    INNER_HTML = "innerHTML",
+    ICONS_CONTAINER = "iconsContainer",
+    ICON = "icon",
+    NODE_LABEL = "nodeLabel",
+    ICON_ALWAYSVISIBLE = "iconAlwaysVisible",
+    ICON_EXPANDED = "iconExpanded",
+    ICON_CLOSE = "iconClose",
+    HREF = "href",
+    HREF_VALUE = "#",
+    YUICONFIG = "yuiConfig",
+    HEADER_CONTENT = "headerContent";
 
 /**
  *  Static property provides a string to identify the class.
@@ -1838,22 +1805,19 @@ AccordionItem.NAME = AccItemName;
  * @static
  */
 AccordionItem.ATTRS = {
+
     /**
-     * @description The icon of the item. The value can be one of these:
-     *  <dl>
-     *      <dt>default</dt>
-     *          <dd>The AccordionItem will use the default icon</dd>
-     *      <dt>Custom class name</dt>
-     *          <dd>A custom class to be added to icon's classes</dd>
-     *  </dl>
+     * @description Item's icon
      *
      * @attribute icon
-     * @default "default"
-     * @type String
+     * @default null
+     * @type Node
      */
     icon: {
-        value: "default",
-        validator: Lang.isString
+        value: null,
+        validator: function( value ){
+            return value instanceof Node;
+        }
     },
 
     /**
@@ -1867,43 +1831,63 @@ AccordionItem.ATTRS = {
         value: "&#160;",
         validator: Lang.isString
     },
-    
+
+    /**
+     * @description The node, contains label
+     *
+     * @attribute nodeLabel
+     * @default null
+     * @type Node
+     */
+    nodeLabel: {
+        value: null,
+        validator: function( value ){
+            return value instanceof Node;
+        }
+    },
+
+
+    /**
+     * @description The container of iconAlwaysVisible, iconExpanded and iconClose
+     *
+     * @attribute iconsContainer
+     * @default null
+     * @type Node
+     */
+    iconsContainer: {
+        value: null,
+        validator: function( value ){
+            return value instanceof Node;
+        }
+    },
+
+    /**
+     * @description Icon expanded
+     *
+     * @attribute iconExpanded
+     * @default null
+     * @type Node
+     */
+    iconExpanded: {
+        value: null,
+        validator: function( value ){
+            return value instanceof Node;
+        }
+    },
+
+
     /**
      * @description Icon always visible
      *
      * @attribute iconAlwaysVisible
      * @default null
-     * @readOnly
      * @type Node
      */
     iconAlwaysVisible: {
         value: null,
         validator: function( value ){
             return value instanceof Node;
-        },
-        getter: function(){
-            return this._iconAlwaysVisible;
-        },
-        readOnly: true
-    },
-    
-    /**
-     * @description Icon extended
-     *
-     * @attribute iconExtended
-     * @default null
-     * @readOnly
-     * @type Node
-     */
-    iconExtended: {
-        value: null,
-        validator: function( value ){
-            return value instanceof Node;
-        },
-        getter: function(){
-            return this._iconExtended;
-        },
-        readOnly: true
+        }
     },
 
 
@@ -1912,16 +1896,12 @@ AccordionItem.ATTRS = {
      *
      * @attribute iconClose
      * @default null
-     * @readOnly
      * @type Node
      */
     iconClose: {
         value: null,
         validator: function( value ){
             return value instanceof Node;
-        },
-        getter: function(){
-            return this._iconClose;
         }
     },
 
@@ -2008,8 +1988,8 @@ AccordionItem.ATTRS = {
         value: {
             title_always_visible_off: "Click to set always visible on",
             title_always_visible_on: "Click to set always visible off",
-            title_iconextended_off: "Click to expand",
-            title_iconextended_on: "Click to collapse",
+            title_iconexpanded_off: "Click to expand",
+            title_iconexpanded_on: "Click to collapse",
             title_iconclose: "Click to close"
         }
     },
@@ -2042,75 +2022,123 @@ AccordionItem.ATTRS = {
  */
 AccordionItem.HTML_PARSER = {
 
-    label: function ( contentBox ){
-        var node, labelClass;
-        
-        labelClass = "> .yui-widget-hd > div." + C_LABEL;
-        node = contentBox.query( labelClass );
+    icon: function( contentBox ){
+        var node, iconSelector;
 
-        return (node) ? node.get( "innerHTML" ) : null;
+        iconSelector = HEADER_SELECTOR_SUB + C_ICON;
+        node = contentBox.query( iconSelector );
+
+        return node;
     },
 
-    icon: function ( contentBox ){
-        var node, iconClass;
+    label: function( contentBox ){
+        var node, labelSelector, yuiConfig;
         
-        iconClass = "> .yui-widget-hd > div." + C_ICON;
-        node = contentBox.query( iconClass );
-
-        if( node ){
-            iconClass = node.get( CLASS_NAME );
-
-            if( iconClass && Lang.isString( iconClass ) ){
-                return iconClass;
-            }
+        yuiConfig = this._getConfigDOMAttribute( contentBox );
+        
+        if( yuiConfig && Lang.isValue( yuiConfig.label ) ){
+            return yuiConfig.label;
         }
 
-        return null;
+        labelSelector = HEADER_SELECTOR_SUB + C_LABEL;
+        node = contentBox.query( labelSelector );
+
+        return (node) ? node.get( INNER_HTML ) : null;
+    },
+
+    nodeLabel: function( contentBox ){
+        var node, labelSelector;
+
+        labelSelector = HEADER_SELECTOR_SUB + C_LABEL;
+        node = contentBox.query( labelSelector );
+
+        return node;
+    },
+
+    iconsContainer:  function( contentBox ){
+        var node, iconsContainer;
+
+        iconsContainer = HEADER_SELECTOR_SUB + C_ICONSCONTAINER;
+        node = contentBox.query( iconsContainer );
+
+        return node;
+    },
+    
+    iconAlwaysVisible: function( contentBox ){
+        var node, iconAlwaysVisibleSelector;
+
+        iconAlwaysVisibleSelector = HEADER_SELECTOR_SUB + C_ICONALWAYSVISIBLE;
+        node = contentBox.query( iconAlwaysVisibleSelector );
+
+        return node;
+    },
+
+    iconExpanded: function( contentBox ){
+        var node, iconExpandedSelector;
+
+        iconExpandedSelector = HEADER_SELECTOR_SUB + C_ICONEXPANDED;
+        node = contentBox.query( iconExpandedSelector );
+
+        return node;
     },
 
     iconClose: function( contentBox ){
-        var node, iconCloseClass;
+        var node, iconCloseSelector;
 
-        iconCloseClass = "> .yui-widget-hd > div." + C_ICONCLOSE;
-        node = contentBox.query( iconCloseClass );
+        iconCloseSelector = HEADER_SELECTOR_SUB + C_ICONCLOSE;
+        node = contentBox.query( iconCloseSelector );
 
-        if( node ){
-            iconCloseClass = node.get( CLASS_NAME );
-
-            if( iconCloseClass && Lang.isString( iconCloseClass ) ){
-                return iconCloseClass;
-            }
-        }
-
-        return null;
+        return node;
     },
 
     expanded: function( contentBox ){
-        var expanded;
+        var yuiConfig = this._getConfigDOMAttribute( contentBox );
 
-        expanded = contentBox.hasClass( C_EXPANDED );
+        if( yuiConfig && Lang.isValue( yuiConfig.expanded ) ){
+            return yuiConfig.expanded;
+        }
 
-        return expanded;
+        return contentBox.hasClass( C_EXPANDED );
     },
 
     alwaysVisible: function( contentBox ){
-        var alwaysVisible;
+        var value, yuiConfig;
 
-        alwaysVisible = contentBox.hasClass( C_ALWAYSVISIBLE );
+        yuiConfig = this._getConfigDOMAttribute( contentBox );
 
-        return alwaysVisible;
+        if( yuiConfig && Lang.isValue( yuiConfig.alwaysVisible ) ){
+            value = yuiConfig.alwaysVisible;
+        } else {
+            value = contentBox.hasClass( C_ALWAYSVISIBLE );
+        }
+
+        if( Lang.isBoolean(value) && value ){
+            this.set( "expanded", true, {
+                internalCall: true
+            } );
+        }
+
+        return value;
     },
 
     closable: function( contentBox ){
-        var closable;
+        var yuiConfig = this._getConfigDOMAttribute( contentBox );
 
-        closable = contentBox.hasClass( C_CLOSABLE );
+        if( yuiConfig && Lang.isValue( yuiConfig.closable ) ){
+            return yuiConfig.closable;
+        }
 
-        return closable;
+        return contentBox.hasClass( C_CLOSABLE );
     },
 
     contentHeight: function( contentBox ){
-        var contentHeightClass, classValue, height = 0, i, length, index, chr;
+        var contentHeightClass, classValue, height = 0, i, length, index, chr, yuiConfig;
+
+        yuiConfig = this._getConfigDOMAttribute( contentBox );
+
+        if( yuiConfig && yuiConfig.contentHeight ){
+            return yuiConfig.contentHeight;
+        }
 
         classValue = contentBox.get( CLASS_NAME );
 
@@ -2156,96 +2184,173 @@ AccordionItem.HTML_PARSER = {
 };
 
 
+ /**
+  * The template HTML strings for each of header components.
+  * e.g.
+  * <pre>
+  *    {
+  *       icon : '<a class="' + C_ICON + '"></a>',
+  *       label: '<a href="#" class="' + C_LABEL + '"></a>',
+  *       iconsContainer: '<div class="' + C_ICONSCONTAINER + '"></div>',
+  *       iconExpanded: '<a href="#" class="' + C_ICONEXPANDED + '"></a>',
+  *       iconAlwaysVisible: '<a href="#" class="' + C_ICONALWAYSVISIBLE + '"></a>',
+  *       iconClose: '<a href="#" class="' + C_ICONCLOSE + ' ' + C_ICONCLOSE_HIDDEN, '"></a>'
+  *    }
+  * </pre>
+  * @property WidgetStdMod.TEMPLATES
+  * @type Object
+  */
+AccordionItem.TEMPLATES = {
+     icon : '<a class="' + C_ICON + '"></a>',
+     label: '<a href="#" class="' + C_LABEL + '"></a>',
+     iconsContainer: '<div class="' + C_ICONSCONTAINER + '"></div>',
+     iconExpanded: ['<a href="#" class="', C_ICONEXPANDED, ' ', C_ICONEXPANDED_OFF, '"></a>'].join(''),
+     iconAlwaysVisible: ['<a href="#" class="', C_ICONALWAYSVISIBLE, ' ',  C_ICONALWAYSVISIBLE_OFF, '"></a>'].join(''),
+     iconClose: ['<a href="#" class="', C_ICONCLOSE, ' ', C_ICONCLOSE_HIDDEN, '"></a>'].join('')
+};
+
+
 // AccordionItem extends Widget
 
 Y.extend( AccordionItem, Y.Widget, {
 
     /**
-     * Creates the header content of an AccordionItem
+     * Creates the header content
      *
      * @method _createHeader
      * @protected
      */
     _createHeader: function(){
-        var strings, html, node, closable;
+        var closable, templates, strings,  iconsContainer,
+            icon, nodeLabel, iconExpanded, iconAlwaysVisible, iconClose;
 
-        function setIcon(){
-            var icon = this.get( "icon" );
-
-            if( icon === DEFAULT_ICON ){
-                return C_ICON;
-            } else {
-                return icon;
-            }
-        }
-
+        icon = this.get( ICON );
+        nodeLabel = this.get( NODE_LABEL );
+        iconExpanded = this.get( ICON_EXPANDED );
+        iconAlwaysVisible = this.get( ICON_ALWAYSVISIBLE );
+        iconClose = this.get( ICON_CLOSE );
+        iconsContainer = this.get( ICONS_CONTAINER );
+        
         strings = this.get( STRINGS );
         closable = this.get( "closable" );
+        templates = AccordionItem.TEMPLATES;
+        
+        if( !icon ){
+            icon = Node.create( templates.icon );
+            this.set( ICON, icon );
+        }
 
-        html = [
-            "<TABLE selectable='no' class='", C_TABLE, "'>",
-            "<TBODY>",
-            "<TR>",
-                "<TD class='", C_TD_ICON, "'", " id='", Y.guid(), "'>",
-                    "<div id='", Y.guid(), "' class='", setIcon.call(this), "' align='middle' ", "/>",
-                "</TD>",
-                "<TD class='" , C_TD_LABEL, "'>" ,
-                    "<div class='" , C_LABEL, "'" ,
-                       " id='", Y.guid(), "' ", ">",
-                       "<a href='#'>", this.get( "label" ), "</a>",
-                    "</div>",
-                "</TD>",
-                "<TD class='", C_TD_ICONALWAYSVISIBLE, "'", ">" ,
-                    "<div tabindex='0' class='",
-                        C_ICONALWAYSVISIBLE, " " , C_ICONALWAYSVISIBLE_OFF , "'",
-                        " title='", strings.title_always_visible_off, "'",
-                        " id='", Y.guid(), "'>",
-                    "</div>",                    
-                "</TD>",
-                "<TD class='" , C_TD_ICONEXTENDED, "'>" ,
-                    "<div tabindex='0' class='" , C_ICONEXTENDED, " ", C_ICONEXTENDED_OFF, "'",
-                        " title='", strings.title_iconextended_off, "'",
-                        " id='", Y.guid(), "'>",
-                    "</div>",
-                "</TD>",
-                "<TD class='" , C_TD_ICONCLOSE, " ", (!closable ? C_TD_ICONCLOSE_HIDDEN : ""), "'>" ,
-                    "<div tabindex='0' class='" , C_ICONCLOSE, "'",
-                        " title='", strings.title_iconclose, "'",
-                        " id='", Y.guid(), "'>",
-                    "</div>",
-                "</TD>",
-            "</TR>",
-            "</TBODY>",
-            "</TABLE>"
-        ].join( '' );
+        if( !nodeLabel ){
+            nodeLabel = Node.create( templates.label );
+            this.set( NODE_LABEL, nodeLabel );
+        } else if( !nodeLabel.hasAttribute( HREF ) ){
+            nodeLabel.setAttribute( HREF, HREF_VALUE );
+        }
 
-        node = Node.create( html );
-        this.set( "headerContent", node );
+        nodeLabel.setContent( this.get( "label" ) );
+
+
+        if( !iconsContainer ){
+            iconsContainer = Node.create( templates.iconsContainer );
+            this.set( ICONS_CONTAINER, iconsContainer );
+        }
+
+        if( !iconAlwaysVisible ){
+            iconAlwaysVisible = Node.create( templates.iconAlwaysVisible );
+            iconAlwaysVisible.setAttribute( TITLE, strings.title_always_visible_off );
+            this.set( ICON_ALWAYSVISIBLE, iconAlwaysVisible );
+        } else if( !iconAlwaysVisible.hasAttribute( HREF ) ){
+            iconAlwaysVisible.setAttribute( HREF, HREF_VALUE );
+        }
+
+        
+        if( !iconExpanded ){
+            iconExpanded = Node.create( templates.iconExpanded );
+            iconExpanded.setAttribute( TITLE, strings.title_iconexpanded_off );
+            this.set( ICON_EXPANDED, iconExpanded );
+        } else if( !iconExpanded.hasAttribute( HREF ) ){
+            iconExpanded.setAttribute( HREF, HREF_VALUE );
+        }
+        
+        
+        if( !iconClose ){
+            iconClose = Node.create( templates.iconClose );
+            iconClose.setAttribute( TITLE, strings.title_iconclose );
+            this.set( ICON_CLOSE, iconClose );
+        } else if( !iconClose.hasAttribute( HREF ) ){
+            iconClose.setAttribute( HREF, HREF_VALUE );
+        }
+        
+        if( closable ){
+            iconClose.removeClass( C_ICONCLOSE_HIDDEN );
+        } else {
+            iconClose.addClass( C_ICONCLOSE_HIDDEN );
+        }
+
+        this._addHeaderComponents();
     },
 
-
     /**
-     * Handles the change of "iconChanged" property. Set custom or default class for the icon
-     * 
-     * @method _iconChanged
+     * @Add label and icons in the header. Also, it creates header in if not set from markup
+     *
+     * @method _addHeaderComponents
      * @protected
-     * @param {EventFacade} params The event facade for the attribute change
      */
-    _iconChanged: function( params ){
-        var icon;
+    _addHeaderComponents: function(){
+        var header, icon, nodeLabel, iconsContainer, iconExpanded,
+            iconAlwaysVisible, iconClose;
 
-        icon = params.newVal;
+        icon = this.get( ICON );
+        nodeLabel = this.get( NODE_LABEL );
+        iconExpanded = this.get( ICON_EXPANDED );
+        iconAlwaysVisible = this.get( ICON_ALWAYSVISIBLE );
+        iconClose = this.get( ICON_CLOSE );
+        iconsContainer = this.get( ICONS_CONTAINER );
 
-        if( this.get( RENDERED ) ){
-            if( icon === DEFAULT_ICON ){
-                this._icon.set( CLASS_NAME, C_ICON );
-            } else {
-                this._icon.addClass( icon );
+        header = this.get( HEADER_CONTENT );
+
+        if( !header ){
+            header = new Node( document.createDocumentFragment() );
+            header.appendChild( icon );
+            header.appendChild( nodeLabel );
+            header.appendChild( iconsContainer );
+            iconsContainer.appendChild( iconAlwaysVisible );
+            iconsContainer.appendChild( iconExpanded );
+            iconsContainer.appendChild( iconClose );
+
+            this.setStdModContent( WidgetStdMod.HEADER, header, WidgetStdMod.REPLACE );
+        } else {
+            if( !header.contains( icon ) ){
+                if( header.contains( nodeLabel ) ){
+                    header.insertBefore( icon, nodeLabel );
+                } else {
+                    header.appendChild( icon );
+                }
+            }
+
+            if( !header.contains( nodeLabel ) ){
+                header.appendChild( nodeLabel );
+            }
+
+            if( !header.contains( iconsContainer ) ){
+                header.appendChild( iconsContainer );
+            }
+
+            if( !iconsContainer.contains( iconAlwaysVisible ) ){
+                iconsContainer.appendChild( iconAlwaysVisible );
+            }
+
+            if( !iconsContainer.contains( iconExpanded ) ){
+                iconsContainer.appendChild( iconExpanded );
+            }
+
+            if( !iconsContainer.contains( iconClose ) ){
+                iconsContainer.appendChild( iconClose );
             }
         }
     },
 
-    
+
     /**
      * Handles the change of "labelChanged" property. Updates item's UI with the label provided
      * 
@@ -2254,8 +2359,11 @@ Y.extend( AccordionItem, Y.Widget, {
      * @param {EventFacade} params The event facade for the attribute change
      */
     _labelChanged: function( params ){
+        var label;
+        
         if( this.get( RENDERED ) ){
-            this._label.set( "innerHTML", ["<a href='#'>", params.newVal, "</a>" ].join('') );
+            label = this.get( NODE_LABEL );
+            label.set( INNER_HTML, ["<a href='#'>", params.newVal, "</a>" ].join('') );
         }
     },
 
@@ -2273,13 +2381,13 @@ Y.extend( AccordionItem, Y.Widget, {
         if( this.get( RENDERED ) ){
             contentBox = this.get( CONTENT_BOX );
         
-            selector = "> .yui-widget-hd ." + C_TD_ICONCLOSE;
+            selector = HEADER_SELECTOR_SUB + C_ICONCLOSE;
             node = contentBox.query( selector );
 
             if( params.newVal ){
-                node.removeClass( C_TD_ICONCLOSE_HIDDEN );
+                node.removeClass( C_ICONCLOSE_HIDDEN );
             } else {
-                node.addClass( C_TD_ICONCLOSE_HIDDEN );
+                node.addClass( C_ICONCLOSE_HIDDEN );
             }
         }
     },
@@ -2293,30 +2401,10 @@ Y.extend( AccordionItem, Y.Widget, {
      * @param  config {Object} Configuration object literal for the AccordionItem
      */
     initializer: function( config ) {
-        this.after( "render", Y.bind( this._afterRender, this ) );
-        this.after( "iconChange", Y.bind( this._iconChanged, this ) );
+
         this.after( "labelChange",  Y.bind( this._labelChanged, this ) );
         this.after( "closableChange", Y.bind( this._closableChanged, this ) );
     },
-
-
-    /**
-     * Get references to elements, which compose the header
-     *
-     * @method _afterRender
-     * @protected
-     * @param e {Event} after render custom event
-     */
-    _afterRender: function( e ){
-        var contentBox = this.get( CONTENT_BOX );
-
-        this._icon = contentBox.query( "." + C_ICON );
-        this._label = contentBox.query( "." + C_LABEL );
-        this._iconAlwaysVisible = contentBox.query( "." + C_ICONALWAYSVISIBLE );
-        this._iconExtended = contentBox.query( "." + C_ICONEXTENDED );
-        this._iconClose = contentBox.query( "." + C_ICONCLOSE );
-    },
-    
     
     /**
      * Destructor lifecycle implementation for the AccordionItem class.
@@ -2346,12 +2434,11 @@ Y.extend( AccordionItem, Y.Widget, {
      * @protected
      */
     bindUI: function(){
-        var selector, contentBox;
+        var contentBox;
         
         contentBox = this.get( CONTENT_BOX );
-        selector = [ 'div.', C_LABEL, ' a' ].join('');
-
-        contentBox.delegate( "click", Y.bind( this._onLinkClick, this ), selector );
+        
+        contentBox.delegate( "click", Y.bind( this._onLinkClick, this ), HEADER_SELECTOR + ' a' );
     },
 
 
@@ -2377,18 +2464,21 @@ Y.extend( AccordionItem, Y.Widget, {
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
     markAsAlwaysVisible: function( alwaysVisible ){
-        var strings = this.get( STRINGS );
+        var iconAlwaysVisisble, strings;
+
+        iconAlwaysVisisble = this.get( ICON_ALWAYSVISIBLE );
+        strings = this.get( STRINGS );
 
         if( alwaysVisible ){
-            if( !this._iconAlwaysVisible.hasClass( C_ICONALWAYSVISIBLE_ON ) ){
-                this._iconAlwaysVisible.replaceClass( C_ICONALWAYSVISIBLE_OFF, C_ICONALWAYSVISIBLE_ON );
-                this._iconAlwaysVisible.set( TITLE, strings.title_always_visible_on );
+            if( !iconAlwaysVisisble.hasClass( C_ICONALWAYSVISIBLE_ON ) ){
+                iconAlwaysVisisble.replaceClass( C_ICONALWAYSVISIBLE_OFF, C_ICONALWAYSVISIBLE_ON );
+                iconAlwaysVisisble.set( TITLE, strings.title_always_visible_on );
                 return true;
             }
         } else {
-            if( this._iconAlwaysVisible.hasClass( C_ICONALWAYSVISIBLE_ON ) ){
-                this._iconAlwaysVisible.replaceClass( C_ICONALWAYSVISIBLE_ON, C_ICONALWAYSVISIBLE_OFF );
-                this._iconAlwaysVisible.set( TITLE, strings.title_always_visible_off );
+            if( iconAlwaysVisisble.hasClass( C_ICONALWAYSVISIBLE_ON ) ){
+                iconAlwaysVisisble.replaceClass( C_ICONALWAYSVISIBLE_ON, C_ICONALWAYSVISIBLE_OFF );
+                iconAlwaysVisisble.set( TITLE, strings.title_always_visible_off );
                 return true;
             }
         }
@@ -2406,18 +2496,21 @@ Y.extend( AccordionItem, Y.Widget, {
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
     markAsExpanded: function( expanded ){
-        var strings = this.get( STRINGS );
+        var strings, iconExpanded;
+        
+        iconExpanded = this.get( ICON_EXPANDED );
+        strings = this.get( STRINGS );
 
         if( expanded ){
-            if( !this._iconExtended.hasClass( C_ICONEXTENDED_ON ) ){
-                this._iconExtended.replaceClass( C_ICONEXTENDED_OFF, C_ICONEXTENDED_ON );
-                this._iconExtended.set( TITLE , strings.title_iconextended_on );
+            if( !iconExpanded.hasClass( C_ICONEXPANDED_ON ) ){
+                iconExpanded.replaceClass( C_ICONEXPANDED_OFF, C_ICONEXPANDED_ON );
+                iconExpanded.set( TITLE , strings.title_iconexpanded_on );
                 return true;
             }
         } else {
-            if( this._iconExtended.hasClass( C_ICONEXTENDED_ON ) ){
-                this._iconExtended.replaceClass( C_ICONEXTENDED_ON, C_ICONEXTENDED_OFF );
-                this._iconExtended.set( TITLE , strings.title_iconextended_off );
+            if( iconExpanded.hasClass( C_ICONEXPANDED_ON ) ){
+                iconExpanded.replaceClass( C_ICONEXPANDED_ON, C_ICONEXPANDED_OFF );
+                iconExpanded.set( TITLE , strings.title_iconexpanded_off );
                 return true;
             }
         }
@@ -2435,14 +2528,16 @@ Y.extend( AccordionItem, Y.Widget, {
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
     markAsExpanding: function( expanding ){
+        var iconExpanded = this.get( ICON_EXPANDED );
+        
         if( expanding ){
-            if( !this._iconExtended.hasClass( C_ICONEXTENDED_EXPANDING ) ){
-                this._iconExtended.addClass( C_ICONEXTENDED_EXPANDING );
+            if( !iconExpanded.hasClass( C_ICONEXPANDED_EXPANDING ) ){
+                iconExpanded.addClass( C_ICONEXPANDED_EXPANDING );
                 return true;
             }
         } else {
-            if( this._iconExtended.hasClass( C_ICONEXTENDED_EXPANDING ) ){
-                this._iconExtended.removeClass( C_ICONEXTENDED_EXPANDING );
+            if( iconExpanded.hasClass( C_ICONEXPANDED_EXPANDING ) ){
+                iconExpanded.removeClass( C_ICONEXPANDED_EXPANDING );
                 return true;
             }
         }
@@ -2460,19 +2555,43 @@ Y.extend( AccordionItem, Y.Widget, {
     * @return Boolean Return true if the icon has been updated, false if there was no need to update
     */
     markAsCollapsing: function( collapsing ){
+        var iconExpanded = this.get( ICON_EXPANDED );
+
         if( collapsing ){
-            if( !this._iconExtended.hasClass( C_ICONEXTENDED_COLLAPSING ) ){
-                this._iconExtended.addClass( C_ICONEXTENDED_COLLAPSING );
+            if( !iconExpanded.hasClass( C_ICONEXPANDED_COLLAPSING ) ){
+                iconExpanded.addClass( C_ICONEXPANDED_COLLAPSING );
                 return true;
             }
         } else {
-            if( this._iconExtended.hasClass( C_ICONEXTENDED_COLLAPSING ) ){
-                this._iconExtended.removeClass( C_ICONEXTENDED_COLLAPSING );
+            if( iconExpanded.hasClass( C_ICONEXPANDED_COLLAPSING ) ){
+                iconExpanded.removeClass( C_ICONEXPANDED_COLLAPSING );
                 return true;
             }
         }
         
         return false;
+    },
+
+
+    /**
+     * Parses and returns the yuiConfig attribute from contentBox. It must be stringified JSON object.
+     * This function will be replaced with more clever solution when YUI 3.1 becomes available
+     *
+     * @method _getConfigDOMAttribute
+     * @private
+     * @param {Node} contentBox Widget's contentBox
+     * @return {Object} The parsed yuiConfig value
+     */
+    _getConfigDOMAttribute: function( contentBox ) {
+        if( !this._parsedCfg ){
+            this._parsedCfg = contentBox.getAttribute( YUICONFIG );
+
+            if( this._parsedCfg ){
+                this._parsedCfg = JSON.parse( this._parsedCfg );
+            }
+        }
+
+        return this._parsedCfg;
     }
     
 });
@@ -2488,4 +2607,4 @@ Y.AccordionItem = AccordionItem;
 
 
 
-}, '1.02' ,{requires:['event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod']});
+}, '1.04' ,{requires:['event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod', 'json-parse']});

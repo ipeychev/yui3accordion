@@ -16,7 +16,7 @@
 <div id="doc3" class="yui-t2">
 	<div id="hd">
         <h1><a href="http://developer.yahoo.com/yui/" title="Yahoo! UI Library">Yahoo! UI Library</a></h1>
-        <h3>accordion&nbsp; <span class="subtitle">1.02</span></h3>
+        <h3>accordion&nbsp; <span class="subtitle">1.04</span></h3>
         <a href="./index.html" title="Yahoo! UI Library">Yahoo! UI Library</a> 
             &gt; <a href="./module_accordion.html" title="accordion">accordion</a>
                  &gt; AccordionItem 
@@ -146,6 +146,32 @@ structure.
 
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:property" resource="#property_WidgetStdMod.TEMPLATES">
+                                    <h4><a name="property_WidgetStdMod.TEMPLATES" property="yui:name">WidgetStdMod.TEMPLATES</a>
+                                        - <code><span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The template HTML strings for each of header components.
+e.g.
+<pre>
+{
+icon : '<a class="' + C_ICON + '"></a>',
+label: '<a href="#" class="' + C_LABEL + '"></a>',
+iconsContainer: '<div class="' + C_ICONSCONTAINER + '"></div>',
+iconExpanded: '<a href="#" class="' + C_ICONEXPANDED + '"></a>',
+iconAlwaysVisible: '<a href="#" class="' + C_ICONALWAYSVISIBLE + '"></a>',
+iconClose: '<a href="#" class="' + C_ICONCLOSE + ' ' + C_ICONCLOSE_HIDDEN, '"></a>'
+}
+</pre>
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
                             </div>
                         </div>
 
@@ -155,40 +181,26 @@ structure.
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
-                                    <div class="protected" rel="yui:method" resource="#method__afterRender">
+                                    <div class="protected" rel="yui:method" resource="#method__addHeaderComponents">
                                     <h4>
-                                        <a name="method__afterRender">_afterRender</a></h4>
+                                        <a name="method__addHeaderComponents">_addHeaderComponents</a></h4>
                                     <div class="detail" >
                                         <code>
                                          protected 
                                         
                                         
                                         void
-                                            <strong property="yui:name">_afterRender</strong>
+                                            <strong property="yui:name">_addHeaderComponents</strong>
                                            (
-                                                
-                                                        
-                                                         e
-                                                    
-                                                
                                             )
                                         </code>
                                         
                                         <div class="description" property="yui:description">
-                                            Get references to elements, which compose the header
+                                            Add label and icons in the header. Also, it creates header in if not set from markup
                                         </div>
 
                                         <div class="description">
 
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">e</span>
-                                                        &lt;<span property="yui:type">Event</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description">  after render custom event</span>
-                                                        </dd>
-                                                </dl>
 
 
 
@@ -258,55 +270,11 @@ structure.
                                         </code>
                                         
                                         <div class="description" property="yui:description">
-                                            Creates the header content of an AccordionItem
+                                            Creates the header content
                                         </div>
 
                                         <div class="description">
 
-
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="protected" rel="yui:method" resource="#method__iconChanged">
-                                    <h4>
-                                        <a name="method__iconChanged">_iconChanged</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                         protected 
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">_iconChanged</strong>
-                                           (
-                                                
-                                                        
-                                                         params
-                                                    
-                                                
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Handles the change of "iconChanged" property. Set custom or default class for the icon
-                                        </div>
-
-                                        <div class="description">
-
-                                                <dl rel="yui:parameters">
-                                                    <dt>Parameters:</dt>
-                                                        <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">params</span>
-                                                        &lt;<span property="yui:type">EventFacade</span>&gt;
-                                                        </code>
-                                                        <span property="yui:description"> The event facade for the attribute change</span>
-                                                        </dd>
-                                                </dl>
 
 
 
@@ -1104,15 +1072,15 @@ The method will update icon only if needed.
                                     </div>
                                     <hr />
                                     </div>
-                                    <div class="" rel="yui:event" resource="#event_iconExtendedChange">
+                                    <div class="" rel="yui:event" resource="#event_iconExpandedChange">
                                     <h4>
-                                        <a name="event_iconExtendedChange">iconExtendedChange</a></h4>
+                                        <a name="event_iconExpandedChange">iconExpandedChange</a></h4>
                                     <div class="detail">
                                         <code>
                                         
                                         
                                         
-                                            <strong property="yui:name">iconExtendedChange</strong>
+                                            <strong property="yui:name">iconExpandedChange</strong>
 
                                             (
                                                 
@@ -1125,7 +1093,51 @@ The method will update icon only if needed.
                                         </code>
                                         
                                         <div class="description" property="yui:description">
-                                            Fires when the value for the configuration attribute 'iconExtended' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                            Fires when the value for the configuration attribute 'iconExpanded' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_iconsContainerChange">
+                                    <h4>
+                                        <a name="event_iconsContainerChange">iconsContainerChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">iconsContainerChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'iconsContainer' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
                                         </div>
 
                                         <div class="description">
@@ -1170,6 +1182,50 @@ The method will update icon only if needed.
                                         
                                         <div class="description" property="yui:description">
                                             Fires when the value for the configuration attribute 'label' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                            <code><span property="yui:name">event</span>
+                                                                &lt;<span property="yui:type">Event.Facade</span>&gt;
+                                                            </code>
+                                                            <span property="yui:description">An Event Facade object with      the following attribute specific properties added:	<dl>		<dt>prevVal</dt>		<dd>The value of the attribute, prior to it being set</dd>		<dt>newVal</dt>		<dd>The value the attribute is to be set to</dd>		<dt>attrName</dt>		<dd>The name of the attribute being set</dd>		<dt>subAttrName</dt>		<dd>If setting a property within the attribute's value,           the name of the sub-attribute property being set</dd>	</dl></span>
+                                                        </dd>
+                                                        
+                                                </dl>
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_nodeLabelChange">
+                                    <h4>
+                                        <a name="event_nodeLabelChange">nodeLabelChange</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">nodeLabelChange</strong>
+
+                                            (
+                                                
+                                                        
+                                                         event
+                                                    
+                                                
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Fires when the value for the configuration attribute 'nodeLabel' is changed. You can listen for the event using the <a href="Attribute.html#method_on">on</a> method if you wish to be notified before the attribute's value has changed, or using the <a href="Event.Target.html#method_after">after</a> method if you wish to be notified after the attribute's value has changed.
                                         </div>
 
                                         <div class="description">
@@ -1342,23 +1398,17 @@ the item. The value should be an object with at least one property ("method"):
                                     </div>        
                                     <div class="" rel="yui:attribute" resource="#config_icon">
                                     <h4><a name="config_icon">icon</a>
-                                        <code>- <span property="yui:type">String</span></code>
+                                        <code>- <span property="yui:type">Node</span></code>
                                     </h4>
                                     <div class="detail">
                                         <div class="description" property="yui:description">
-                                            The icon of the item. The value can be one of these:
-<dl>
-<dt>default</dt>
-<dd>The AccordionItem will use the default icon</dd>
-<dt>Custom class name</dt>
-<dd>A custom class to be added to icon's classes</dd>
-</dl>
+                                            Item's icon
                                         </div>
                                     </div>
  
      
                                     <div class="default">
-                                        Default Value: "default"
+                                        Default Value: null
                                     </div>        
 
                                     <hr />
@@ -1397,13 +1447,30 @@ the item. The value should be an object with at least one property ("method"):
 
                                     <hr />
                                     </div>        
-                                    <div class="" rel="yui:attribute" resource="#config_iconExtended">
-                                    <h4><a name="config_iconExtended">iconExtended</a>
+                                    <div class="" rel="yui:attribute" resource="#config_iconExpanded">
+                                    <h4><a name="config_iconExpanded">iconExpanded</a>
                                         <code>- <span property="yui:type">Node</span></code>
                                     </h4>
                                     <div class="detail">
                                         <div class="description" property="yui:description">
-                                            Icon extended
+                                            Icon expanded
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: null
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_iconsContainer">
+                                    <h4><a name="config_iconsContainer">iconsContainer</a>
+                                        <code>- <span property="yui:type">Node</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The container of iconAlwaysVisible, iconExpanded and iconClose
                                         </div>
                                     </div>
  
@@ -1427,6 +1494,23 @@ the item. The value should be an object with at least one property ("method"):
      
                                     <div class="default">
                                         Default Value: "&#160;"
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_nodeLabel">
+                                    <h4><a name="config_nodeLabel">nodeLabel</a>
+                                        <code>- <span property="yui:type">Node</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            The node, contains label
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: null
                                     </div>        
 
                                     <hr />
@@ -1488,16 +1572,16 @@ the item. The value should be an object with at least one property ("method"):
                                 <li class=""><a href="#property_Accordion.ATTRS" title="Accordion.ATTRS">Accordion.ATTRS</a></li>
                                 <li class="protected"><a href="#property_AccordionItem.HTML_PARSER" title="AccordionItem.HTML_PARSER">AccordionItem.HTML_PARSER</a></li>
                                 <li class=""><a href="#property_AccordionItem.NAME" title="AccordionItem.NAME">AccordionItem.NAME</a></li>
+                                <li class=""><a href="#property_WidgetStdMod.TEMPLATES" title="WidgetStdMod.TEMPLATES">WidgetStdMod.TEMPLATES</a></li>
                         </ul>
                     </div>
 
                     <div id="methodsList" class="module">
                         <h4>Methods</h4>
                         <ul class="content">        
-                                <li class="protected"><a href="#method__afterRender" title="_afterRender">_afterRender</a></li>
+                                <li class="protected"><a href="#method__addHeaderComponents" title="_addHeaderComponents">_addHeaderComponents</a></li>
                                 <li class="protected"><a href="#method__closableChanged" title="_closableChanged">_closableChanged</a></li>
                                 <li class="protected"><a href="#method__createHeader" title="_createHeader">_createHeader</a></li>
-                                <li class="protected"><a href="#method__iconChanged" title="_iconChanged">_iconChanged</a></li>
                                 <li class="protected"><a href="#method__labelChanged" title="_labelChanged">_labelChanged</a></li>
                                 <li class="protected"><a href="#method__onLinkClick" title="_onLinkClick">_onLinkClick</a></li>
                                 <li class="protected"><a href="#method_bindUI" title="bindUI">bindUI</a></li>
@@ -1522,8 +1606,10 @@ the item. The value should be an object with at least one property ("method"):
                                 <li class=""><a href="#event_iconAlwaysVisibleChange" title="iconAlwaysVisibleChange">iconAlwaysVisibleChange</a></li>
                                 <li class=""><a href="#event_iconChange" title="iconChange">iconChange</a></li>
                                 <li class=""><a href="#event_iconCloseChange" title="iconCloseChange">iconCloseChange</a></li>
-                                <li class=""><a href="#event_iconExtendedChange" title="iconExtendedChange">iconExtendedChange</a></li>
+                                <li class=""><a href="#event_iconExpandedChange" title="iconExpandedChange">iconExpandedChange</a></li>
+                                <li class=""><a href="#event_iconsContainerChange" title="iconsContainerChange">iconsContainerChange</a></li>
                                 <li class=""><a href="#event_labelChange" title="labelChange">labelChange</a></li>
+                                <li class=""><a href="#event_nodeLabelChange" title="nodeLabelChange">nodeLabelChange</a></li>
                                 <li class=""><a href="#event_stringsChange" title="stringsChange">stringsChange</a></li>
                         </ul>
                     </div>
@@ -1539,8 +1625,10 @@ the item. The value should be an object with at least one property ("method"):
                                 <li class=""><a href="#config_icon" title="icon">icon</a></li>
                                 <li class=""><a href="#config_iconAlwaysVisible" title="iconAlwaysVisible">iconAlwaysVisible</a></li>
                                 <li class=""><a href="#config_iconClose" title="iconClose">iconClose</a></li>
-                                <li class=""><a href="#config_iconExtended" title="iconExtended">iconExtended</a></li>
+                                <li class=""><a href="#config_iconExpanded" title="iconExpanded">iconExpanded</a></li>
+                                <li class=""><a href="#config_iconsContainer" title="iconsContainer">iconsContainer</a></li>
                                 <li class=""><a href="#config_label" title="label">label</a></li>
+                                <li class=""><a href="#config_nodeLabel" title="nodeLabel">nodeLabel</a></li>
                                 <li class=""><a href="#config_strings" title="strings">strings</a></li>
                         </ul>
                     </div>
@@ -1554,7 +1642,7 @@ the item. The value should be an object with at least one property ("method"):
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_Accordion.ATTRS", "access": "", "host": "AccordionItem", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_AccordionItem.HTML_PARSER", "access": "protected", "host": "AccordionItem", "type": "property", "name": "AccordionItem.HTML_PARSER"}, {"url": "AccordionItem.html#property_AccordionItem.NAME", "access": "", "host": "AccordionItem", "type": "property", "name": "AccordionItem.NAME"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method_adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterDragEnd"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "Accordion.html#method__afterRender", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterRender"}, {"url": "AccordionItem.html#method__afterRender", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_afterRender"}, {"url": "Accordion.html#method__afterResizeEventChange", "access": "", "host": "Accordion", "type": "method", "name": "_afterResizeEventChange"}, {"url": "AccordionItem.html#config_alwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "alwaysVisible"}, {"url": "AccordionItem.html#event_alwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "alwaysVisibleChange"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "AccordionItem.html#config_animation", "access": "", "host": "AccordionItem", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "AccordionItem.html#event_animationChange", "access": "", "host": "AccordionItem", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#method_bindUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#config_closable", "access": "", "host": "AccordionItem", "type": "config", "name": "closable"}, {"url": "AccordionItem.html#event_closableChange", "access": "", "host": "AccordionItem", "type": "event", "name": "closableChange"}, {"url": "AccordionItem.html#method__closableChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_closableChanged"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "AccordionItem.html#config_contentHeight", "access": "", "host": "AccordionItem", "type": "config", "name": "contentHeight"}, {"url": "AccordionItem.html#event_contentHeightChange", "access": "", "host": "AccordionItem", "type": "event", "name": "contentHeightChange"}, {"url": "AccordionItem.html#method__createHeader", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_createHeader"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#method_destructor", "access": "protected", "host": "AccordionItem", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#config_expanded", "access": "", "host": "AccordionItem", "type": "config", "name": "expanded"}, {"url": "AccordionItem.html#event_expandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "expandedChange"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "AccordionItem.html#config_icon", "access": "", "host": "AccordionItem", "type": "config", "name": "icon"}, {"url": "AccordionItem.html#config_iconAlwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "iconAlwaysVisible"}, {"url": "AccordionItem.html#event_iconAlwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconAlwaysVisibleChange"}, {"url": "AccordionItem.html#event_iconChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconChange"}, {"url": "AccordionItem.html#method__iconChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_iconChanged"}, {"url": "AccordionItem.html#config_iconClose", "access": "", "host": "AccordionItem", "type": "config", "name": "iconClose"}, {"url": "AccordionItem.html#event_iconCloseChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconCloseChange"}, {"url": "AccordionItem.html#config_iconExtended", "access": "", "host": "AccordionItem", "type": "config", "name": "iconExtended"}, {"url": "AccordionItem.html#event_iconExtendedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconExtendedChange"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "AccordionItem.html#method_initializer", "access": "protected", "host": "AccordionItem", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "AccordionItem.html#config_label", "access": "", "host": "AccordionItem", "type": "config", "name": "label"}, {"url": "AccordionItem.html#event_labelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "labelChange"}, {"url": "AccordionItem.html#method__labelChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_labelChanged"}, {"url": "AccordionItem.html#method_markAsAlwaysVisible", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsAlwaysVisible"}, {"url": "AccordionItem.html#method_markAsCollapsing", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsCollapsing"}, {"url": "AccordionItem.html#method_markAsExpanded", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanded"}, {"url": "AccordionItem.html#method_markAsExpanding", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanding"}, {"url": "Accordion.html#method__onCollapseComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onCollapseComplete"}, {"url": "Accordion.html#method__onDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragEnd"}, {"url": "Accordion.html#method__onDragStart", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragStart"}, {"url": "Accordion.html#method__onDropHit", "access": "", "host": "Accordion", "type": "method", "name": "_onDropHit"}, {"url": "Accordion.html#method__onExpandComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onExpandComplete"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__onItemChosenEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosenEvent"}, {"url": "Accordion.html#method__onKeyPressEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onKeyPressEvent"}, {"url": "AccordionItem.html#method__onLinkClick", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_onLinkClick"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "AccordionItem.html#method_renderUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "AccordionItem.html#config_strings", "access": "", "host": "AccordionItem", "type": "config", "name": "strings"}, {"url": "AccordionItem.html#event_stringsChange", "access": "", "host": "AccordionItem", "type": "event", "name": "stringsChange"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}];
+    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_Accordion.ATTRS", "access": "", "host": "AccordionItem", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_AccordionItem.HTML_PARSER", "access": "protected", "host": "AccordionItem", "type": "property", "name": "AccordionItem.HTML_PARSER"}, {"url": "AccordionItem.html#property_AccordionItem.NAME", "access": "", "host": "AccordionItem", "type": "property", "name": "AccordionItem.NAME"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "AccordionItem.html#method__addHeaderComponents", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_addHeaderComponents"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method_adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterDragEnd"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "Accordion.html#method__afterRender", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterRender"}, {"url": "Accordion.html#method__afterResizeEventChange", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterResizeEventChange"}, {"url": "AccordionItem.html#config_alwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "alwaysVisible"}, {"url": "AccordionItem.html#event_alwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "alwaysVisibleChange"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "AccordionItem.html#config_animation", "access": "", "host": "AccordionItem", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "AccordionItem.html#event_animationChange", "access": "", "host": "AccordionItem", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#method_bindUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#config_closable", "access": "", "host": "AccordionItem", "type": "config", "name": "closable"}, {"url": "AccordionItem.html#event_closableChange", "access": "", "host": "AccordionItem", "type": "event", "name": "closableChange"}, {"url": "AccordionItem.html#method__closableChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_closableChanged"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "AccordionItem.html#config_contentHeight", "access": "", "host": "AccordionItem", "type": "config", "name": "contentHeight"}, {"url": "AccordionItem.html#event_contentHeightChange", "access": "", "host": "AccordionItem", "type": "event", "name": "contentHeightChange"}, {"url": "AccordionItem.html#method__createHeader", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_createHeader"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#method_destructor", "access": "protected", "host": "AccordionItem", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#config_expanded", "access": "", "host": "AccordionItem", "type": "config", "name": "expanded"}, {"url": "AccordionItem.html#event_expandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "expandedChange"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "AccordionItem.html#config_icon", "access": "", "host": "AccordionItem", "type": "config", "name": "icon"}, {"url": "AccordionItem.html#config_iconAlwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "iconAlwaysVisible"}, {"url": "AccordionItem.html#event_iconAlwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconAlwaysVisibleChange"}, {"url": "AccordionItem.html#event_iconChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconChange"}, {"url": "AccordionItem.html#config_iconClose", "access": "", "host": "AccordionItem", "type": "config", "name": "iconClose"}, {"url": "AccordionItem.html#event_iconCloseChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconCloseChange"}, {"url": "AccordionItem.html#config_iconExpanded", "access": "", "host": "AccordionItem", "type": "config", "name": "iconExpanded"}, {"url": "AccordionItem.html#event_iconExpandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconExpandedChange"}, {"url": "AccordionItem.html#config_iconsContainer", "access": "", "host": "AccordionItem", "type": "config", "name": "iconsContainer"}, {"url": "AccordionItem.html#event_iconsContainerChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconsContainerChange"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "AccordionItem.html#method_initializer", "access": "protected", "host": "AccordionItem", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "AccordionItem.html#config_label", "access": "", "host": "AccordionItem", "type": "config", "name": "label"}, {"url": "AccordionItem.html#event_labelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "labelChange"}, {"url": "AccordionItem.html#method__labelChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_labelChanged"}, {"url": "AccordionItem.html#method_markAsAlwaysVisible", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsAlwaysVisible"}, {"url": "AccordionItem.html#method_markAsCollapsing", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsCollapsing"}, {"url": "AccordionItem.html#method_markAsExpanded", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanded"}, {"url": "AccordionItem.html#method_markAsExpanding", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanding"}, {"url": "AccordionItem.html#config_nodeLabel", "access": "", "host": "AccordionItem", "type": "config", "name": "nodeLabel"}, {"url": "AccordionItem.html#event_nodeLabelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "nodeLabelChange"}, {"url": "Accordion.html#method__onCollapseComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onCollapseComplete"}, {"url": "Accordion.html#method__onDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragEnd"}, {"url": "Accordion.html#method__onDragStart", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragStart"}, {"url": "Accordion.html#method__onDropHit", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDropHit"}, {"url": "Accordion.html#method__onExpandComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onExpandComplete"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__onItemChosenEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosenEvent"}, {"url": "AccordionItem.html#method__onLinkClick", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_onLinkClick"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "AccordionItem.html#method_renderUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "AccordionItem.html#config_strings", "access": "", "host": "AccordionItem", "type": "config", "name": "strings"}, {"url": "AccordionItem.html#event_stringsChange", "access": "", "host": "AccordionItem", "type": "event", "name": "stringsChange"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}, {"url": "AccordionItem.html#property_WidgetStdMod.TEMPLATES", "access": "", "host": "AccordionItem", "type": "property", "name": "WidgetStdMod.TEMPLATES"}];
 </script>
 </body>
 </html>

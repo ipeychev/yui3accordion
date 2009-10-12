@@ -5,14 +5,10 @@ YUI( {
     debug: true, 
     filter:"RAW",
     modules: {
-        'accordion-css' : {
-            type: 'css',
-            fullpath: '../build/accordion/assets/skins/sam/accordion.css'
-        },
         'accordion': {
             type: 'js',
             fullpath: '../build/accordion/accordion.js',
-            requires: [ 'accordion-css', 'event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod' ]
+            requires: [ 'event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod', 'json-parse' ]
         }
     }
 } ).use("accordion", 'test', 'console', 'event-simulate', function(Y) {
@@ -25,6 +21,7 @@ YUI( {
      */
     
     this._accordion = new Y.Accordion( {
+        boundingBox: "#bb1",
         contentBox: "#acc1",
         useAnimation: true,
         collapseOthersOnExpand: true
@@ -360,38 +357,6 @@ YUI( {
            }
     });
 
-
-    var testKeyboard = new Y.Test.Case( {
-           testCollapseKeyboard: function(){
-               var _items, _item1, _iconExtended;
-
-               _items = _that._accordion.get( "items" );
-               _item1 = _items[ 1 ];
-
-               _iconExtended = _item1.get( "iconExtended" );
-
-               Y.Event.simulate(  Y.Node.getDOMNode(_iconExtended), "keypress", {
-                   charCode: 13
-               } );
-               Y.Assert.areEqual( false, _item1.get("expanded"), "The item must be not expanded" );
-           },
-
-           testExpandKeyboard: function(){
-               var _items, _item1, _iconAlwaysVisible;
-
-               _items = _that._accordion.get( "items" );
-               _item1 = _items[ 1 ];
-
-               _iconAlwaysVisible = _item1.get( "iconAlwaysVisible" );
-
-               Y.Event.simulate( Y.Node.getDOMNode(_iconAlwaysVisible), "keypress", {
-                   charCode: 13
-               } );
-               Y.Assert.areEqual( true, _item1.get("expanded"), "The item must be expanded" );
-               Y.Assert.areEqual( true, _item1.get("alwaysVisible"), "The item must be always visible" );
-           }
-    });
-
     //////////////////////////////////////////////////////////////////////////////////////
     
     var _console = new Y.Console({
@@ -413,7 +378,6 @@ YUI( {
     Y.Test.Runner.add(testAddItemsFromScript);
     Y.Test.Runner.add(testCollapse);
     Y.Test.Runner.add(testClosable);
-    Y.Test.Runner.add(testKeyboard);
     
 
     this._accordion.after( "render", function(){

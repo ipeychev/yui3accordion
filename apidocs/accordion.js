@@ -225,8 +225,6 @@ Y.extend( Accordion, Y.Widget, {
     initializer: function( config ) {
         this._initEvents();
 
-        this._lastChild = null;
-
         this.after( "render", Y.bind( this._afterRender, this ) );
 
         this._forCollapsing = {};
@@ -562,6 +560,7 @@ Y.extend( Accordion, Y.Widget, {
      * Set up resizing with the new value provided
      *
      * @method _afterResizeEventChange
+     * @protected
      * @param params {Event} after resizeEventChange custom event
      */
     _afterResizeEventChange: function( params ){
@@ -1131,6 +1130,7 @@ Y.extend( Accordion, Y.Widget, {
      * Moves the source item before or after target item.
      *
      * @method _onDropHit
+     * @protected
      * @param {Y.DD.Drag} The drag instance of the item
      * @param e {Event} the DD instance's drag:drophit custom event
      */
@@ -1422,7 +1422,7 @@ Y.extend( Accordion, Y.Widget, {
 
     
     /**
-     * Add listener to <code>itemChosen</code> and <code>keypress</code> events in Accordion's content box
+     * Add listener to <code>itemChosen</code> event in Accordion's content box
      * 
      * @method bindUI
      * @protected
@@ -1434,7 +1434,6 @@ Y.extend( Accordion, Y.Widget, {
         itemChosenEvent = this.get( 'itemChosen' );
         
         contentBox.delegate( itemChosenEvent, Y.bind( this._onItemChosenEvent, this ), 'div.yui-widget-hd' );
-        contentBox.delegate( "keypress", Y.bind( this._onKeyPressEvent, this ), 'div.yui-widget-hd' );
     },
 
 
@@ -1463,44 +1462,6 @@ Y.extend( Accordion, Y.Widget, {
     },
 
 
-    /**
-     * Listening for Enter key and process the item depending on the source (iconClose, iconAlwaysVisisble, etc.)
-     *
-     * @method _onKeyPressEvent
-     * @protected
-     *
-     * @param e {Event} The keypress event
-     */
-    _onKeyPressEvent: function(e){
-        var header, itemNode, item, iconAlwaysVisible,
-            iconClose, srcIconAlwaysVisible, srcIconClose,
-            charCode, target = e.target, srcIconExtended, iconExtended;
-
-        charCode = e.charCode;
-
-        if( charCode === 13 ){
-            header = e.currentTarget;
-            itemNode = header.get( PARENT_NODE );
-            item = this.getItem( itemNode );
-
-            iconAlwaysVisible = item.get( ICON_ALWAYSVISIBLE );
-            iconExtended = item.get( "iconExtended" );
-            iconClose = item.get( ICON_CLOSE );
-            srcIconAlwaysVisible = (iconAlwaysVisible === target);
-            srcIconExtended = (iconExtended === target );
-            srcIconClose = (iconClose === e.target);
-
-            /**
-             * Exclude label in order to avoid double function invocation.
-             * Label keypress will be managed in "click" listener.
-             */
-            if( srcIconExtended || srcIconAlwaysVisible  || srcIconClose ){
-                this._onItemChosen( item, srcIconAlwaysVisible, srcIconClose );
-            }
-        }
-    },
-
-    
     /**
      * Add an item to Accordion. Items could be added/removed multiple times and they
      * will be rendered in the process of adding, if not.

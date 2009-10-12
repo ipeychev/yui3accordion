@@ -2,7 +2,6 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border: 1px solid #007f9e;
     position: relative;
 }
 
@@ -12,80 +11,49 @@
     width: 100%;
 }
 
-.yui-accordion-item-content .yui-widget-bd {
+.yui-accordion-item .yui-widget-hd {
+    overflow: hidden;
+}
+
+.yui-accordion-item .yui-widget-bd {
     cursor: default;
     overflow: hidden;
     position: relative;
 }
 
-.yui-accordion-item-table {
-    width: 100%;
-    -moz-user-select: none;
-    border-collapse: collapse;
-    border-spacing: 0px;
+.yui-accordion-item-icons {
+    position: relative;
+    float: right;
+    overflow: hidden;
+    padding: 1px;
+    height: 25px;
 }
 
-.yui-accordion-item-table td{
-    padding: 0px;
-    margin: 0px;
-}
-
-.yui-accordion-item-table DIV{
+.yui-accordion-item-icon,
+.yui-accordion-item-iconexpanded,
+.yui-accordion-item-iconalwaysvisible,
+.yui-accordion-item-iconclose {
+    width: 22px;
     height: 22px;
-    _height: 16px;
-    _overflow: hidden;
-} 
-
-.yui-accordion-item-td-icon {
-    width: 20px;
 }
 
-.yui-accordion-item-td-label {
-    text-align: left;
-    vertical-align: center;    
+.yui-accordion-item-icon,
+.yui-accordion-item-label {
+    float: left;
 }
 
-.yui-accordion-item-label a{
-    text-decoration: none;
-    background: transparent;
+.yui-accordion-item-label{
+    position: relative;
+    top: 4px;
+    _height: 22px;
 }
 
-.yui-accordion-item-label a:hover{
-    text-decoration: underline;
+.yui-accordion-item-iconexpanded,
+.yui-accordion-item-iconalwaysvisible,
+.yui-accordion-item-iconclose {
+    float: left;
 }
 
-.yui-accordion-item-td-iconalwaysvisible {
-    width: 20px;
-}
-
-.yui-accordion-item-iconalwaysvisible {
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-
-.yui-accordion-item-td-iconextended {
-    width: 22px;
-}
-
-.yui-accordion-item-iconextended {
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-
-.yui-accordion-item-td-iconclose {
-    width: 22px;
-}
-
-.yui-accordion-item-td-iconclose-hidden {
+.yui-accordion-item-iconclose-hidden {
     display: none;
 }
-
-.yui-accordion-item-iconclose {
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-
-.yui-accordion-item-table TR{
-    _height: 24px;
-}
-
