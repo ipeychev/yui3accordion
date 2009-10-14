@@ -6,6 +6,7 @@
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssreset/reset-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssfonts/fonts-min.css">
+        <link rel="stylesheet" type="text/css" href="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css">
 
         <style type="text/css">
             html, body {
@@ -84,20 +85,17 @@
         YUI({
             combine: true,
             modules: {
-                'accordion-css' : {
-                    type: 'css',
-                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-                },
                 'accordion': {
                     type: 'js',
                     fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                    requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+                    requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod', 'json-parse' ]
                 }
             }
         } ).use( 'accordion', function(Y) {
             var _accordion;
             
             _accordion = new Y.Accordion( {
+                boundingBox: "#bb1",
                 contentBox: "#acc1",
                 useAnimation: true,
                 collapseOthersOnExpand: false
@@ -141,109 +139,138 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </pre>
 </div>
             <div id="acc_container" class="acc_container">
-                <div id="acc1">
-                    <div id="item1" class="yui-accordion-item yui-accordion-item-expanded">
-                        <div class="yui-widget-hd">
-                            <div class="yui-accordion-item-label">What is Accordion widget?</div>
+                <div id="bb1" class="yui-accordion">
+                    <div id="acc1">
+                        <div id="item1" class="yui-accordion-item yui-accordion-item-expanded">
+                            <div class="yui-widget-hd">
+                                <a class="yui-accordion-item-icon"></a>
+                                <a class="yui-accordion-item-label">What is Accordion widget?</a>
+                                <div class="yui-accordion-item-icons">
+                                    <a class="yui-accordion-item-iconalwaysvisible"></a>
+                                    <a class="yui-accordion-item-iconexpanded"></a>
+                                    <a class="yui-accordion-item-iconclose"></a>
+                                </div>
+                            </div>
+                            <div class="yui-widget-bd">
+                                <div id="pm1" style="position: relative;">
+                                    <h1>Accordion widget</h1>
+                                    <p>
+                                        Accordion widget allows grouping items, containing arbitrary data inside. These items can be expanded, collapsed, closed, reordered by using drag and drop, etc.<br>
+                                        The height of the content inside each item can be set in three different ways:<br>
+                                    </p>
+                                    <ol>
+                                        <li>auto - this means the height will be as is being calculated from browser</li>
+                                        <li>fixed - the content height will be exactly X pixels</li>
+                                        <li>stretch - the height will be calculated, based on the height of the other items in the Accordion</li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
-                        <div class="yui-widget-bd">
-                            <div id="pm1" style="position: relative;">
-                                <h1>Accordion widget</h1>
-                                <p>
-                                    Accordion widget allows grouping of items, containing arbitrary data inside. These items can be expanded, collapsed, closed, reordered by using drag and drop, etc.<br>
-                                    The height of the content inside each item can be set in three different ways:<br>
-                                </p>
-                                <ol>
-                                    <li>auto - this means the height will be as is being calculated from browser</li>
-                                    <li>fixed - the content height will be exactly X pixels</li>
-                                    <li>stretch - the height will be calculated, based on the height of the other items in the Accordion</li>
-                                </ol>
+
+                        <div id="item2" class="yui-accordion-item" yuiConfig='{"expanded": true, "contentHeight": {"method": "stretch"}, "label": "Can I see some examples?"}'>
+                            <div class="yui-widget-hd">
+                                <a class="yui-accordion-item-icon"></a>
+                                <a class="yui-accordion-item-label"></a>
+                                <div class="yui-accordion-item-icons">
+                                    <a class="yui-accordion-item-iconalwaysvisible"></a>
+                                    <a class="yui-accordion-item-iconexpanded"></a>
+                                    <a class="yui-accordion-item-iconclose"></a>
+                                </div>
+                            </div>
+                            <div id="bodyid2" class="yui-widget-bd">
+                                <div id="pm2" style="position:relative; overflow: auto; height: 100%;">
+                                    <h3>
+                                        Examples:
+                                    </h3>
+                                    <ol>
+                                        <li>
+                                            <h4>
+                                                <a href="build_from_markup.html">Build Accordion widget from markup</a>
+                                            </h4>
+                                        </li>
+                                        <li>
+                                            <h4>
+                                                <a href="build_from_script.html">Build Accordion widget from script</a>
+                                            </h4>
+                                        </li>
+                                        <li>
+                                            <h4>
+                                                <a href="add_remove_items.html">Dynamically add or remove items</a>
+                                            </h4>
+                                        </li>
+                                        <li>
+                                            <h4>
+                                                <a href="overwrite_properties.html">Overwrite the default properties</a>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div id="item3" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-contentheight-fixed-90">
+                            <div class="yui-widget-hd">
+                                <a class="yui-accordion-item-icon"></a>
+                                <a class="yui-accordion-item-label">Where are the sources?</a>
+                                <div class="yui-accordion-item-icons">
+                                    <a class="yui-accordion-item-iconalwaysvisible"></a>
+                                    <a class="yui-accordion-item-iconexpanded"></a>
+                                    <a class="yui-accordion-item-iconclose"></a>
+                                </div>
+                            </div>
+                            <div id="bodyid3" class="yui-widget-bd">
+                                <div id="pm3">
+                                    <ol>
+                                        <li>
+                                            <h4>
+                                                <a href="http://github.com/ipeychev/yui3accordion" target="_blank">Source code<br></a>
+                                            </h4>
+                                        </li>
+                                        <li>
+                                            <h4>
+                                                <a href="apidocs/module_accordion.html" target="_blank">API Documentation<br></a>
+                                            </h4>
+                                        </li>
+                                    </ol>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="item4" class="yui-accordion-item yui-accordion-item-contentheight-stretch">
+                            <div class="yui-widget-hd">
+                                <a class="yui-accordion-item-icon"></a>
+                                <a class="yui-accordion-item-label">Changelog</a>
+                                <div class="yui-accordion-item-icons">
+                                    <a class="yui-accordion-item-iconalwaysvisible"></a>
+                                    <a class="yui-accordion-item-iconexpanded"></a>
+                                    <a class="yui-accordion-item-iconclose"></a>
+                                </div>
+                            </div>
+                            <div id="bodyid3" class="yui-widget-bd">
+                                <div id="pm3" style="position:relative; overflow:auto; height:100%;">
+                                    <p>
+                                        12.10.2009 - ver 1.04:<br/>
+                                        - AccordionItem - header rewritten<br/>
+                                    </p>
+                                    <p>
+                                        06.10.2009 - ver 1.03:<br/>
+                                        - Local constants created instead string literals<br/>
+                                        - Event listeners unbundled<br/>
+                                        - Removed unnecessary underscores.
+                                    </p>
+                                    <p>
+                                        30.09.2009:<br/>
+                                         - Switched to YUI3 GA
+                                    </p>
+                                    <p>
+                                        29.09.2009:<br/>
+                                        - Added new example - Overwrite the default properties
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                
-                    <div id="item2" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-contentheight-stretch">
-                        <div class="yui-widget-hd">
-                            <div class="yui-accordion-item-label">Can I see some examples?</div>
-                        </div>
-                        <div id="bodyid2" class="yui-widget-bd">
-                            <div id="pm2" style="position:relative; overflow: auto; height: 100%;">
-                                <h3>
-                                    Examples:
-                                </h3>
-                                <ol>
-                                    <li>
-                                        <h4>
-                                            <a href="build_from_markup.html">Build Accordion widget from markup</a>
-                                        </h4>
-                                    </li>
-                                    <li>
-                                        <h4>
-                                            <a href="build_from_script.html">Build Accordion widget from script</a>
-                                        </h4>
-                                    </li>
-                                    <li>
-                                        <h4>
-                                            <a href="add_remove_items.html">Dynamically add or remove items</a>
-                                        </h4>
-                                    </li>
-                                    <li>
-                                        <h4>
-                                            <a href="overwrite_properties.html">Overwrite the default properties</a>
-                                        </h4>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-
-                     <div id="item3" class="yui-accordion-item yui-accordion-item-expanded yui-accordion-item-contentheight-fixed-90">
-                        <div class="yui-widget-hd">
-                            <div class="yui-accordion-item-label">Where are the sources?</div>
-                        </div>
-                        <div id="bodyid3" class="yui-widget-bd">
-                            <div id="pm3">
-                                <ol>
-                                    <li>
-                                        <h4>
-                                            <a href="http://github.com/ipeychev/yui3accordion" target="_blank">Source code<br></a>
-                                        </h4>
-                                    </li>
-                                    <li>
-                                        <h4>
-                                            <a href="apidocs/module_accordion.html" target="_blank">API Documentation<br></a>
-                                        </h4>
-                                    </li>
-                                </ol>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="item4" class="yui-accordion-item yui-accordion-item-contentheight-stretch">
-                        <div class="yui-widget-hd">
-                            <div class="yui-accordion-item-label">Changelog</div>
-                        </div>
-                        <div id="bodyid3" class="yui-widget-bd">
-                            <div id="pm3" style="position:relative; overflow:auto; height:100%;">
-                                <p>
-                                    06.10.2009 - ver 1.03:<br/>
-                                    - Local constants created instead string literals<br/>
-                                    - Event listeners unbundled<br/>
-                                    - Removed unnecessary underscores.
-                                </p>
-                                <p>
-                                    30.09.2009:<br/>
-                                     - Switched to YUI3 GA
-                                </p>
-                                <p>
-                                    29.09.2009:<br/>
-                                    - Added new example - Overwrite the default properties
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

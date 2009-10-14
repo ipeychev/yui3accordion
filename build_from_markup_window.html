@@ -6,16 +6,11 @@
 
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssreset/reset-min.css">
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssfonts/fonts-min.css">
+<link rel="stylesheet" type="text/css" href="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css">
 
 <style type="text/css">
 	html, body {
             height:100%;
-	}
-	
-	#item2 .customiconclass {
-            background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
-            background-repeat: no-repeat;
-            background-position: center -83px;
 	}
 </style>
 
@@ -26,63 +21,22 @@
 YUI({
     combine: true,
     modules: {
-        'accordion-css' : {
-            type: 'css',
-            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-        },
         'accordion': {
             type: 'js',
             fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+            requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod', 'json-parse' ]
         }
     }
 } ).use( 'accordion', function(Y) {
 	
-	var _accordion = new Y.Accordion( {
-            contentBox: "#acc1",
+	var accordion = new Y.Accordion( {
+            boundingBox: "#boundingBox1",
+            contentBox: "#contentBox1",
             useAnimation: true,
             collapseOthersOnExpand: true
         });
 
-        /*
-         * You can subscribe to "beforeItemAdd" event and set all the properties just before render accordion
-         * 
-	_accordion.on( "beforeItemAdd", function( _attrs ){
-            var _item, _id;
-
-            _item = _attrs.item;
-            _id = _item.get( "contentBox" ).get( "id" );
-
-            if( _id === "item1" ){
-                _item.set( "contentHeight",  {
-                        method: "fixed",
-                        height: 150
-                    });
-
-                _item.set( "alwaysVisible", true );  // this means that the item will be also expanded after render
-
-                _item.set( "closable", true );
-            } else if( _id === "item2" ){
-                _item.set( "label", "Label2" ); // there is no label in markup for this item, so we set it here
-
-                _item.set( "contentHeight",  {
-                        method: "stretch"
-                    });
-
-               _item.set( "expanded", true );
-            } else if( _id === "item3" ){
-                _item.set( "label", "Label3, overwritten" ); // we overwrite the label from markup
-
-                _item.set( "contentHeight",  {
-                        method: "auto"
-                    });
-
-                _item.set( "expanded", true );
-            }
-        }, this );
-        */
-
-        _accordion.render();
+        accordion.render();
 });
 
 </script>
@@ -91,43 +45,59 @@ YUI({
 
 <body class="yui-skin-sam">
     <div style="position: absolute; left: 50px; top: 50px; width: 350px; height: 420px;">
-        <div id="acc1" style="position: relative; height: 550px; overflow:hidden;"> <!-- IE needs these styles in quirks mode -->
-            <div id="item1" class="yui-accordion-item yui-accordion-item-contentheight-fixed-150 yui-accordion-item-alwaysvisible yui-accordion-item-closable">
-                <div class="yui-widget-hd">
-                    <div class="yui-accordion-item-label">Label 1</div>
-                </div>
-                <div class="yui-widget-bd">
-                    <div id="pm1" style="position: relative;">
-                        Item1 content - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <div id="boundingBox1" class="yui-accordion">
+            <div id="contentBox1" style="position: relative; height: 420px; overflow:hidden;">
+                <div id="item1" class="yui-accordion-item yui-accordion-item-alwaysvisible" yuiConfig='{"contentHeight": {"method":"fixed", "height":150}, "closable": true}'>
+                    <div class="yui-widget-hd">
+                        <a class="yui-accordion-item-icon"></a>
+                        <a class="yui-accordion-item-label">Label 1</a>
+                        <div class="yui-accordion-item-icons">
+                            <a class="yui-accordion-item-iconalwaysvisible"></a>
+                            <a class="yui-accordion-item-iconexpanded"></a>
+                            <a class="yui-accordion-item-iconclose"></a>
+                        </div>
+                    </div>
+                    <div class="yui-widget-bd">
+                        <div id="pm1" style="position: relative;">
+                            Item1 content - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div id="item2" class="yui-accordion-item yui-accordion-item-contentheight-stretch yui-accordion-item-expanded">
-                <div class="yui-widget-hd">
-                    <div class="yui-accordion-item-label">Label 2</div>
-                    <div class="yui-accordion-item-icon customiconclass">
-                    </div>
-                </div>
-                <div id="bodyid2" class="yui-widget-bd">
-                    <div id="pm2" style="position:relative">
-                        Item2 content - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-            </div>
 
-            <div id="item3" class="yui-accordion-item yui-accordion-item-contentheight-auto yui-accordion-item-expanded">
-                <div class="yui-widget-hd">
-                    <div class="yui-accordion-item-label">Label 3 from markup</div>
-                </div>
-                <div id="bodyid3" class="yui-widget-bd">
-                    <div id="pm3" style="position:relative;">
-                        Item3 content - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <div id="item2" class="yui-accordion-item yui-accordion-item-contentheight-stretch" yuiConfig='{"expanded": true}'>
+                    <div class="yui-widget-hd">
+                        <a class="yui-accordion-item-icon"></a>
+                        <a class="yui-accordion-item-label">Label 2</a>
+                        <div class="yui-accordion-item-icons">
+                            <a class="yui-accordion-item-iconalwaysvisible"></a>
+                            <a class="yui-accordion-item-iconexpanded"></a>
+                            <a class="yui-accordion-item-iconclose"></a>
+                        </div>
+                    </div>
+                    <div id="bodyid2" class="yui-widget-bd">
+                        <div id="pm2" style="position:relative">
+                            Item2 content - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                <div id="item3" class="yui-accordion-item" yuiConfig='{"contentHeight": {"method": "auto"}, "expanded":true}'>
+                    <div class="yui-widget-hd">
+                        <a class="yui-accordion-item-icon"></a>
+                        <a class="yui-accordion-item-label">Label 3 from markup</a>
+                        <div class="yui-accordion-item-icons">
+                            <a class="yui-accordion-item-iconalwaysvisible"></a>
+                            <a class="yui-accordion-item-iconexpanded"></a>
+                            <a class="yui-accordion-item-iconclose"></a>
+                        </div>
+                    </div>
+                    <div id="bodyid3" class="yui-widget-bd">
+                        <div id="pm3" style="position:relative;">
+                            Item3 content - Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
+                    </div>
+                </div>
+           </div>
        </div>
-    </div>
-
+   </div>
 </body>
