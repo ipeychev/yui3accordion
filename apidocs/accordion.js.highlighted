@@ -225,8 +225,6 @@
     <span class="nx">initializer</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">config</span> <span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">_initEvents</span><span class="p">();</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="nx">_lastChild</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-
         <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;render&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_afterRender</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span> <span class="p">);</span>
 
         <span class="k">this</span><span class="p">.</span><span class="nx">_forCollapsing</span> <span class="o">=</span> <span class="p">{};</span>
@@ -562,6 +560,7 @@
 <span class="c">     * Set up resizing with the new value provided</span>
 <span class="c">     *</span>
 <span class="c">     * @method _afterResizeEventChange</span>
+<span class="c">     * @protected</span>
 <span class="c">     * @param params {Event} after resizeEventChange custom event</span>
 <span class="c">     */</span>
     <span class="nx">_afterResizeEventChange</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">params</span> <span class="p">){</span>
@@ -1131,6 +1130,7 @@
 <span class="c">     * Moves the source item before or after target item.</span>
 <span class="c">     *</span>
 <span class="c">     * @method _onDropHit</span>
+<span class="c">     * @protected</span>
 <span class="c">     * @param {Y.DD.Drag} The drag instance of the item</span>
 <span class="c">     * @param e {Event} the DD instance&#39;s drag:drophit custom event</span>
 <span class="c">     */</span>
@@ -1422,7 +1422,7 @@
 
     
     <span class="c">/**</span>
-<span class="c">     * Add listener to &lt;code&gt;itemChosen&lt;/code&gt; and &lt;code&gt;keypress&lt;/code&gt; events in Accordion&#39;s content box</span>
+<span class="c">     * Add listener to &lt;code&gt;itemChosen&lt;/code&gt; event in Accordion&#39;s content box</span>
 <span class="c">     * </span>
 <span class="c">     * @method bindUI</span>
 <span class="c">     * @protected</span>
@@ -1434,7 +1434,6 @@
         <span class="nx">itemChosenEvent</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s1">&#39;itemChosen&#39;</span> <span class="p">);</span>
         
         <span class="nx">contentBox</span><span class="p">.</span><span class="nx">delegate</span><span class="p">(</span> <span class="nx">itemChosenEvent</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_onItemChosenEvent</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span><span class="o">,</span> <span class="s1">&#39;div.yui-widget-hd&#39;</span> <span class="p">);</span>
-        <span class="nx">contentBox</span><span class="p">.</span><span class="nx">delegate</span><span class="p">(</span> <span class="s2">&quot;keypress&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_onKeyPressEvent</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span><span class="o">,</span> <span class="s1">&#39;div.yui-widget-hd&#39;</span> <span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
 
@@ -1463,44 +1462,6 @@
     <span class="p">}</span><span class="o">,</span>
 
 
-    <span class="c">/**</span>
-<span class="c">     * Listening for Enter key and process the item depending on the source (iconClose, iconAlwaysVisisble, etc.)</span>
-<span class="c">     *</span>
-<span class="c">     * @method _onKeyPressEvent</span>
-<span class="c">     * @protected</span>
-<span class="c">     *</span>
-<span class="c">     * @param e {Event} The keypress event</span>
-<span class="c">     */</span>
-    <span class="nx">_onKeyPressEvent</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
-        <span class="k">var</span> <span class="nx">header</span><span class="o">,</span> <span class="nx">itemNode</span><span class="o">,</span> <span class="nx">item</span><span class="o">,</span> <span class="nx">iconAlwaysVisible</span><span class="o">,</span>
-            <span class="nx">iconClose</span><span class="o">,</span> <span class="nx">srcIconAlwaysVisible</span><span class="o">,</span> <span class="nx">srcIconClose</span><span class="o">,</span>
-            <span class="nx">charCode</span><span class="o">,</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="o">,</span> <span class="nx">srcIconExtended</span><span class="o">,</span> <span class="nx">iconExtended</span><span class="o">;</span>
-
-        <span class="nx">charCode</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">charCode</span><span class="o">;</span>
-
-        <span class="k">if</span><span class="p">(</span> <span class="nx">charCode</span> <span class="o">===</span> <span class="mi">13</span> <span class="p">){</span>
-            <span class="nx">header</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="o">;</span>
-            <span class="nx">itemNode</span> <span class="o">=</span> <span class="nx">header</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">PARENT_NODE</span> <span class="p">);</span>
-            <span class="nx">item</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span> <span class="nx">itemNode</span> <span class="p">);</span>
-
-            <span class="nx">iconAlwaysVisible</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_ALWAYSVISIBLE</span> <span class="p">);</span>
-            <span class="nx">iconExtended</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;iconExtended&quot;</span> <span class="p">);</span>
-            <span class="nx">iconClose</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_CLOSE</span> <span class="p">);</span>
-            <span class="nx">srcIconAlwaysVisible</span> <span class="o">=</span> <span class="p">(</span><span class="nx">iconAlwaysVisible</span> <span class="o">===</span> <span class="nx">target</span><span class="p">);</span>
-            <span class="nx">srcIconExtended</span> <span class="o">=</span> <span class="p">(</span><span class="nx">iconExtended</span> <span class="o">===</span> <span class="nx">target</span> <span class="p">);</span>
-            <span class="nx">srcIconClose</span> <span class="o">=</span> <span class="p">(</span><span class="nx">iconClose</span> <span class="o">===</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
-
-            <span class="c">/**</span>
-<span class="c">             * Exclude label in order to avoid double function invocation.</span>
-<span class="c">             * Label keypress will be managed in &quot;click&quot; listener.</span>
-<span class="c">             */</span>
-            <span class="k">if</span><span class="p">(</span> <span class="nx">srcIconExtended</span> <span class="o">||</span> <span class="nx">srcIconAlwaysVisible</span>  <span class="o">||</span> <span class="nx">srcIconClose</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_onItemChosen</span><span class="p">(</span> <span class="nx">item</span><span class="o">,</span> <span class="nx">srcIconAlwaysVisible</span><span class="o">,</span> <span class="nx">srcIconClose</span> <span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span><span class="o">,</span>
-
-    
     <span class="c">/**</span>
 <span class="c">     * Add an item to Accordion. Items could be added/removed multiple times and they</span>
 <span class="c">     * will be rendered in the process of adding, if not.</span>

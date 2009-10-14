@@ -16,7 +16,7 @@
 <div id="doc3" class="yui-t2">
 	<div id="hd">
         <h1><a href="http://developer.yahoo.com/yui/" title="Yahoo! UI Library">Yahoo! UI Library</a></h1>
-        <h3>accordion&nbsp; <span class="subtitle">1.02</span></h3>
+        <h3>accordion&nbsp; <span class="subtitle">1.04</span></h3>
         <a href="./index.html" title="Yahoo! UI Library">Yahoo! UI Library</a> 
             &gt; <a href="./module_accordion.html" title="accordion">accordion</a>
                 
@@ -73,40 +73,32 @@
 <span class="k">var</span> <span class="nx">Lang</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Lang</span><span class="o">,</span>
     <span class="nx">Base</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Base</span><span class="o">,</span>
     <span class="nx">Node</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Node</span><span class="o">,</span>
+    <span class="nx">JSON</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">JSON</span><span class="o">,</span>
     <span class="nx">WidgetStdMod</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">WidgetStdMod</span><span class="o">,</span>
     <span class="nx">AccItemName</span> <span class="o">=</span> <span class="s2">&quot;accordion-item&quot;</span><span class="o">,</span>
     <span class="nx">getCN</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">ClassNameManager</span><span class="p">.</span><span class="nx">getClassName</span><span class="o">,</span>
     
-    <span class="nx">DEFAULT_ICON</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="o">,</span>
-
-    <span class="nx">C_TABLE</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;table&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_TD_ICON</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;icon&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_TD_LABEL</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;label&quot;</span> <span class="p">)</span><span class="o">,</span>
-
-    <span class="nx">C_TD_ICONALWAYSVISIBLE</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_TD_ICONEXTENDED</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_TD_ICONCLOSE</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;td&quot;</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span><span class="o">,</span> <span class="s2">&quot;hidden&quot;</span> <span class="p">)</span><span class="o">,</span>
-
-    <span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;expanding&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;collapsing&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONEXPANDED_EXPANDING</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconexpanded&quot;</span><span class="o">,</span> <span class="s2">&quot;expanding&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONEXPANDED_COLLAPSING</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconexpanded&quot;</span><span class="o">,</span> <span class="s2">&quot;collapsing&quot;</span> <span class="p">)</span><span class="o">,</span>
 
     <span class="nx">C_ICON</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;icon&quot;</span> <span class="p">)</span><span class="o">,</span>
     <span class="nx">C_LABEL</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;label&quot;</span> <span class="p">)</span><span class="o">,</span>
     <span class="nx">C_ICONALWAYSVISIBLE</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_ICONEXTENDED</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONSCONTAINER</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;icons&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONEXPANDED</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconexpanded&quot;</span> <span class="p">)</span><span class="o">,</span>
     <span class="nx">C_ICONCLOSE</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONCLOSE_HIDDEN</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconclose&quot;</span><span class="o">,</span> <span class="s2">&quot;hidden&quot;</span> <span class="p">)</span><span class="o">,</span>
+
+    <span class="nx">C_ICONEXPANDED_ON</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconexpanded&quot;</span><span class="o">,</span> <span class="s2">&quot;on&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONEXPANDED_OFF</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconexpanded&quot;</span><span class="o">,</span> <span class="s2">&quot;off&quot;</span> <span class="p">)</span><span class="o">,</span>
+
+    <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span><span class="o">,</span> <span class="s2">&quot;on&quot;</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span><span class="o">,</span> <span class="s2">&quot;off&quot;</span> <span class="p">)</span><span class="o">,</span>
 
     <span class="nx">C_EXPANDED</span> <span class="o">=</span>  <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;expanded&quot;</span> <span class="p">)</span><span class="o">,</span>
     <span class="nx">C_CLOSABLE</span> <span class="o">=</span>  <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;closable&quot;</span> <span class="p">)</span><span class="o">,</span>
     <span class="nx">C_ALWAYSVISIBLE</span> <span class="o">=</span>  <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;alwaysvisible&quot;</span> <span class="p">)</span><span class="o">,</span>
     <span class="nx">C_CONTENTHEIGHT</span> <span class="o">=</span>  <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;contentheight&quot;</span> <span class="p">)</span><span class="o">,</span>
-
-    <span class="nx">C_ICONEXTENDED_ON</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;on&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_ICONEXTENDED_OFF</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconextended&quot;</span><span class="o">,</span> <span class="s2">&quot;off&quot;</span> <span class="p">)</span><span class="o">,</span>
-
-    <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span><span class="o">,</span> <span class="s2">&quot;on&quot;</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="o">=</span> <span class="nx">getCN</span><span class="p">(</span> <span class="nx">AccItemName</span><span class="o">,</span> <span class="s2">&quot;iconalwaysvisible&quot;</span><span class="o">,</span> <span class="s2">&quot;off&quot;</span> <span class="p">)</span><span class="o">,</span>
 
     <span class="nx">TITLE</span> <span class="o">=</span> <span class="s2">&quot;title&quot;</span><span class="o">,</span>
     <span class="nx">STRINGS</span> <span class="o">=</span> <span class="s2">&quot;strings&quot;</span><span class="o">,</span>
@@ -115,7 +107,21 @@
     <span class="nx">CLASS_NAME</span> <span class="o">=</span> <span class="s2">&quot;className&quot;</span><span class="o">,</span>
     <span class="nx">AUTO</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="o">,</span>
     <span class="nx">STRETCH</span> <span class="o">=</span> <span class="s2">&quot;stretch&quot;</span><span class="o">,</span>
-    <span class="nx">FIXED</span> <span class="o">=</span> <span class="s2">&quot;fixed&quot;</span><span class="o">;</span>
+    <span class="nx">FIXED</span> <span class="o">=</span> <span class="s2">&quot;fixed&quot;</span><span class="o">,</span>
+    <span class="nx">HEADER_SELECTOR</span> <span class="o">=</span> <span class="s2">&quot;.yui-widget-hd&quot;</span><span class="o">,</span>
+    <span class="nx">DOT</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">,</span>
+    <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">=</span> <span class="s2">&quot;.yui-widget-hd &quot;</span> <span class="o">+</span> <span class="nx">DOT</span><span class="o">,</span>
+    <span class="nx">INNER_HTML</span> <span class="o">=</span> <span class="s2">&quot;innerHTML&quot;</span><span class="o">,</span>
+    <span class="nx">ICONS_CONTAINER</span> <span class="o">=</span> <span class="s2">&quot;iconsContainer&quot;</span><span class="o">,</span>
+    <span class="nx">ICON</span> <span class="o">=</span> <span class="s2">&quot;icon&quot;</span><span class="o">,</span>
+    <span class="nx">NODE_LABEL</span> <span class="o">=</span> <span class="s2">&quot;nodeLabel&quot;</span><span class="o">,</span>
+    <span class="nx">ICON_ALWAYSVISIBLE</span> <span class="o">=</span> <span class="s2">&quot;iconAlwaysVisible&quot;</span><span class="o">,</span>
+    <span class="nx">ICON_EXPANDED</span> <span class="o">=</span> <span class="s2">&quot;iconExpanded&quot;</span><span class="o">,</span>
+    <span class="nx">ICON_CLOSE</span> <span class="o">=</span> <span class="s2">&quot;iconClose&quot;</span><span class="o">,</span>
+    <span class="nx">HREF</span> <span class="o">=</span> <span class="s2">&quot;href&quot;</span><span class="o">,</span>
+    <span class="nx">HREF_VALUE</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span><span class="o">,</span>
+    <span class="nx">YUICONFIG</span> <span class="o">=</span> <span class="s2">&quot;yuiConfig&quot;</span><span class="o">,</span>
+    <span class="nx">HEADER_CONTENT</span> <span class="o">=</span> <span class="s2">&quot;headerContent&quot;</span><span class="o">;</span>
 
 <span class="c">/**</span>
 <span class="c"> *  Static property provides a string to identify the class.</span>
@@ -135,22 +141,19 @@
 <span class="c"> * @static</span>
 <span class="c"> */</span>
 <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+
     <span class="c">/**</span>
-<span class="c">     * @description The icon of the item. The value can be one of these:</span>
-<span class="c">     *  &lt;dl&gt;</span>
-<span class="c">     *      &lt;dt&gt;default&lt;/dt&gt;</span>
-<span class="c">     *          &lt;dd&gt;The AccordionItem will use the default icon&lt;/dd&gt;</span>
-<span class="c">     *      &lt;dt&gt;Custom class name&lt;/dt&gt;</span>
-<span class="c">     *          &lt;dd&gt;A custom class to be added to icon&#39;s classes&lt;/dd&gt;</span>
-<span class="c">     *  &lt;/dl&gt;</span>
+<span class="c">     * @description Item&#39;s icon</span>
 <span class="c">     *</span>
 <span class="c">     * @attribute icon</span>
-<span class="c">     * @default &quot;default&quot;</span>
-<span class="c">     * @type String</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @type Node</span>
 <span class="c">     */</span>
     <span class="nx">icon</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;default&quot;</span><span class="o">,</span>
-        <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
 
     <span class="c">/**</span>
@@ -164,43 +167,63 @@
         <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;&amp;#160;&quot;</span><span class="o">,</span>
         <span class="nx">validator</span><span class="o">:</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span>
     <span class="p">}</span><span class="o">,</span>
-    
+
+    <span class="c">/**</span>
+<span class="c">     * @description The node, contains label</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute nodeLabel</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @type Node</span>
+<span class="c">     */</span>
+    <span class="nx">nodeLabel</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * @description The container of iconAlwaysVisible, iconExpanded and iconClose</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute iconsContainer</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @type Node</span>
+<span class="c">     */</span>
+    <span class="nx">iconsContainer</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * @description Icon expanded</span>
+<span class="c">     *</span>
+<span class="c">     * @attribute iconExpanded</span>
+<span class="c">     * @default null</span>
+<span class="c">     * @type Node</span>
+<span class="c">     */</span>
+    <span class="nx">iconExpanded</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
     <span class="c">/**</span>
 <span class="c">     * @description Icon always visible</span>
 <span class="c">     *</span>
 <span class="c">     * @attribute iconAlwaysVisible</span>
 <span class="c">     * @default null</span>
-<span class="c">     * @readOnly</span>
 <span class="c">     * @type Node</span>
 <span class="c">     */</span>
     <span class="nx">iconAlwaysVisible</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
         <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
             <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
-        <span class="p">}</span><span class="o">,</span>
-        <span class="nx">getter</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="o">;</span>
-        <span class="p">}</span><span class="o">,</span>
-        <span class="nx">readOnly</span><span class="o">:</span> <span class="kc">true</span>
-    <span class="p">}</span><span class="o">,</span>
-    
-    <span class="c">/**</span>
-<span class="c">     * @description Icon extended</span>
-<span class="c">     *</span>
-<span class="c">     * @attribute iconExtended</span>
-<span class="c">     * @default null</span>
-<span class="c">     * @readOnly</span>
-<span class="c">     * @type Node</span>
-<span class="c">     */</span>
-    <span class="nx">iconExtended</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
-        <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
-            <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
-        <span class="p">}</span><span class="o">,</span>
-        <span class="nx">getter</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="o">;</span>
-        <span class="p">}</span><span class="o">,</span>
-        <span class="nx">readOnly</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
 
 
@@ -209,16 +232,12 @@
 <span class="c">     *</span>
 <span class="c">     * @attribute iconClose</span>
 <span class="c">     * @default null</span>
-<span class="c">     * @readOnly</span>
 <span class="c">     * @type Node</span>
 <span class="c">     */</span>
     <span class="nx">iconClose</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">value</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
         <span class="nx">validator</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">value</span> <span class="p">){</span>
             <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nx">Node</span><span class="o">;</span>
-        <span class="p">}</span><span class="o">,</span>
-        <span class="nx">getter</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconClose</span><span class="o">;</span>
         <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
 
@@ -305,8 +324,8 @@
         <span class="nx">value</span><span class="o">:</span> <span class="p">{</span>
             <span class="nx">title_always_visible_off</span><span class="o">:</span> <span class="s2">&quot;Click to set always visible on&quot;</span><span class="o">,</span>
             <span class="nx">title_always_visible_on</span><span class="o">:</span> <span class="s2">&quot;Click to set always visible off&quot;</span><span class="o">,</span>
-            <span class="nx">title_iconextended_off</span><span class="o">:</span> <span class="s2">&quot;Click to expand&quot;</span><span class="o">,</span>
-            <span class="nx">title_iconextended_on</span><span class="o">:</span> <span class="s2">&quot;Click to collapse&quot;</span><span class="o">,</span>
+            <span class="nx">title_iconexpanded_off</span><span class="o">:</span> <span class="s2">&quot;Click to expand&quot;</span><span class="o">,</span>
+            <span class="nx">title_iconexpanded_on</span><span class="o">:</span> <span class="s2">&quot;Click to collapse&quot;</span><span class="o">,</span>
             <span class="nx">title_iconclose</span><span class="o">:</span> <span class="s2">&quot;Click to close&quot;</span>
         <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
@@ -339,75 +358,123 @@
 <span class="c"> */</span>
 <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">HTML_PARSER</span> <span class="o">=</span> <span class="p">{</span>
 
-    <span class="k">label</span><span class="o">:</span> <span class="k">function</span> <span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">labelClass</span><span class="o">;</span>
-        
-        <span class="nx">labelClass</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd &gt; div.&quot;</span> <span class="o">+</span> <span class="nx">C_LABEL</span><span class="o">;</span>
-        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">labelClass</span> <span class="p">);</span>
+    <span class="nx">icon</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconSelector</span><span class="o">;</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="o">?</span> <span class="nx">node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;innerHTML&quot;</span> <span class="p">)</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="nx">iconSelector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_ICON</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconSelector</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
     <span class="p">}</span><span class="o">,</span>
 
-    <span class="nx">icon</span><span class="o">:</span> <span class="k">function</span> <span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconClass</span><span class="o">;</span>
+    <span class="k">label</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">labelSelector</span><span class="o">,</span> <span class="nx">yuiConfig</span><span class="o">;</span>
         
-        <span class="nx">iconClass</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd &gt; div.&quot;</span> <span class="o">+</span> <span class="nx">C_ICON</span><span class="o">;</span>
-        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconClass</span> <span class="p">);</span>
-
-        <span class="k">if</span><span class="p">(</span> <span class="nx">node</span> <span class="p">){</span>
-            <span class="nx">iconClass</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">CLASS_NAME</span> <span class="p">);</span>
-
-            <span class="k">if</span><span class="p">(</span> <span class="nx">iconClass</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span><span class="p">(</span> <span class="nx">iconClass</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">return</span> <span class="nx">iconClass</span><span class="o">;</span>
-            <span class="p">}</span>
+        <span class="nx">yuiConfig</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getConfigDOMAttribute</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">);</span>
+        
+        <span class="k">if</span><span class="p">(</span> <span class="nx">yuiConfig</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isValue</span><span class="p">(</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="k">label</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="k">label</span><span class="o">;</span>
         <span class="p">}</span>
 
-        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="nx">labelSelector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_LABEL</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">labelSelector</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="o">?</span> <span class="nx">node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">INNER_HTML</span> <span class="p">)</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">nodeLabel</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">labelSelector</span><span class="o">;</span>
+
+        <span class="nx">labelSelector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_LABEL</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">labelSelector</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">iconsContainer</span><span class="o">:</span>  <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconsContainer</span><span class="o">;</span>
+
+        <span class="nx">iconsContainer</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_ICONSCONTAINER</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconsContainer</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="nx">iconAlwaysVisible</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconAlwaysVisibleSelector</span><span class="o">;</span>
+
+        <span class="nx">iconAlwaysVisibleSelector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_ICONALWAYSVISIBLE</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconAlwaysVisibleSelector</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">iconExpanded</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconExpandedSelector</span><span class="o">;</span>
+
+        <span class="nx">iconExpandedSelector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_ICONEXPANDED</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconExpandedSelector</span> <span class="p">);</span>
+
+        <span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
     <span class="p">}</span><span class="o">,</span>
 
     <span class="nx">iconClose</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconCloseClass</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">iconCloseSelector</span><span class="o">;</span>
 
-        <span class="nx">iconCloseClass</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd &gt; div.&quot;</span> <span class="o">+</span> <span class="nx">C_ICONCLOSE</span><span class="o">;</span>
-        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconCloseClass</span> <span class="p">);</span>
+        <span class="nx">iconCloseSelector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_ICONCLOSE</span><span class="o">;</span>
+        <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">iconCloseSelector</span> <span class="p">);</span>
 
-        <span class="k">if</span><span class="p">(</span> <span class="nx">node</span> <span class="p">){</span>
-            <span class="nx">iconCloseClass</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">CLASS_NAME</span> <span class="p">);</span>
-
-            <span class="k">if</span><span class="p">(</span> <span class="nx">iconCloseClass</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isString</span><span class="p">(</span> <span class="nx">iconCloseClass</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">return</span> <span class="nx">iconCloseClass</span><span class="o">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
     <span class="p">}</span><span class="o">,</span>
 
     <span class="nx">expanded</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">expanded</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">yuiConfig</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getConfigDOMAttribute</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">);</span>
 
-        <span class="nx">expanded</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_EXPANDED</span> <span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">yuiConfig</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isValue</span><span class="p">(</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">expanded</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">expanded</span><span class="o">;</span>
+        <span class="p">}</span>
 
-        <span class="k">return</span> <span class="nx">expanded</span><span class="o">;</span>
+        <span class="k">return</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_EXPANDED</span> <span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
     <span class="nx">alwaysVisible</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">alwaysVisible</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">value</span><span class="o">,</span> <span class="nx">yuiConfig</span><span class="o">;</span>
 
-        <span class="nx">alwaysVisible</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ALWAYSVISIBLE</span> <span class="p">);</span>
+        <span class="nx">yuiConfig</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getConfigDOMAttribute</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">);</span>
 
-        <span class="k">return</span> <span class="nx">alwaysVisible</span><span class="o">;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">yuiConfig</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isValue</span><span class="p">(</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">alwaysVisible</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">alwaysVisible</span><span class="o">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">value</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ALWAYSVISIBLE</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isBoolean</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">value</span> <span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;expanded&quot;</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="p">{</span>
+                <span class="nx">internalCall</span><span class="o">:</span> <span class="kc">true</span>
+            <span class="p">}</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nx">value</span><span class="o">;</span>
     <span class="p">}</span><span class="o">,</span>
 
     <span class="nx">closable</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">closable</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">yuiConfig</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getConfigDOMAttribute</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">);</span>
 
-        <span class="nx">closable</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_CLOSABLE</span> <span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">yuiConfig</span> <span class="o">&amp;&amp;</span> <span class="nx">Lang</span><span class="p">.</span><span class="nx">isValue</span><span class="p">(</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">closable</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">closable</span><span class="o">;</span>
+        <span class="p">}</span>
 
-        <span class="k">return</span> <span class="nx">closable</span><span class="o">;</span>
+        <span class="k">return</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_CLOSABLE</span> <span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
     <span class="nx">contentHeight</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">contentHeightClass</span><span class="o">,</span> <span class="nx">classValue</span><span class="o">,</span> <span class="nx">height</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="nx">i</span><span class="o">,</span> <span class="nx">length</span><span class="o">,</span> <span class="nx">index</span><span class="o">,</span> <span class="nx">chr</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">contentHeightClass</span><span class="o">,</span> <span class="nx">classValue</span><span class="o">,</span> <span class="nx">height</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="nx">i</span><span class="o">,</span> <span class="nx">length</span><span class="o">,</span> <span class="nx">index</span><span class="o">,</span> <span class="nx">chr</span><span class="o">,</span> <span class="nx">yuiConfig</span><span class="o">;</span>
+
+        <span class="nx">yuiConfig</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getConfigDOMAttribute</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">yuiConfig</span> <span class="o">&amp;&amp;</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">contentHeight</span> <span class="p">){</span>
+            <span class="k">return</span> <span class="nx">yuiConfig</span><span class="p">.</span><span class="nx">contentHeight</span><span class="o">;</span>
+        <span class="p">}</span>
 
         <span class="nx">classValue</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">CLASS_NAME</span> <span class="p">);</span>
 
@@ -453,96 +520,173 @@
 <span class="p">};</span>
 
 
+ <span class="c">/**</span>
+<span class="c">  * The template HTML strings for each of header components.</span>
+<span class="c">  * e.g.</span>
+<span class="c">  * &lt;pre&gt;</span>
+<span class="c">  *    {</span>
+<span class="c">  *       icon : &#39;&lt;a class=&quot;&#39; + C_ICON + &#39;&quot;&gt;&lt;/a&gt;&#39;,</span>
+<span class="c">  *       label: &#39;&lt;a href=&quot;#&quot; class=&quot;&#39; + C_LABEL + &#39;&quot;&gt;&lt;/a&gt;&#39;,</span>
+<span class="c">  *       iconsContainer: &#39;&lt;div class=&quot;&#39; + C_ICONSCONTAINER + &#39;&quot;&gt;&lt;/div&gt;&#39;,</span>
+<span class="c">  *       iconExpanded: &#39;&lt;a href=&quot;#&quot; class=&quot;&#39; + C_ICONEXPANDED + &#39;&quot;&gt;&lt;/a&gt;&#39;,</span>
+<span class="c">  *       iconAlwaysVisible: &#39;&lt;a href=&quot;#&quot; class=&quot;&#39; + C_ICONALWAYSVISIBLE + &#39;&quot;&gt;&lt;/a&gt;&#39;,</span>
+<span class="c">  *       iconClose: &#39;&lt;a href=&quot;#&quot; class=&quot;&#39; + C_ICONCLOSE + &#39; &#39; + C_ICONCLOSE_HIDDEN, &#39;&quot;&gt;&lt;/a&gt;&#39;</span>
+<span class="c">  *    }</span>
+<span class="c">  * &lt;/pre&gt;</span>
+<span class="c">  * @property WidgetStdMod.TEMPLATES</span>
+<span class="c">  * @type Object</span>
+<span class="c">  */</span>
+<span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">TEMPLATES</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="nx">icon</span> <span class="o">:</span> <span class="s1">&#39;&lt;a class=&quot;&#39;</span> <span class="o">+</span> <span class="nx">C_ICON</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&lt;/a&gt;&#39;</span><span class="o">,</span>
+     <span class="k">label</span><span class="o">:</span> <span class="s1">&#39;&lt;a href=&quot;#&quot; class=&quot;&#39;</span> <span class="o">+</span> <span class="nx">C_LABEL</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&lt;/a&gt;&#39;</span><span class="o">,</span>
+     <span class="nx">iconsContainer</span><span class="o">:</span> <span class="s1">&#39;&lt;div class=&quot;&#39;</span> <span class="o">+</span> <span class="nx">C_ICONSCONTAINER</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&lt;/div&gt;&#39;</span><span class="o">,</span>
+     <span class="nx">iconExpanded</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;a href=&quot;#&quot; class=&quot;&#39;</span><span class="o">,</span> <span class="nx">C_ICONEXPANDED</span><span class="o">,</span> <span class="s1">&#39; &#39;</span><span class="o">,</span> <span class="nx">C_ICONEXPANDED_OFF</span><span class="o">,</span> <span class="s1">&#39;&quot;&gt;&lt;/a&gt;&#39;</span><span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">,</span>
+     <span class="nx">iconAlwaysVisible</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;a href=&quot;#&quot; class=&quot;&#39;</span><span class="o">,</span> <span class="nx">C_ICONALWAYSVISIBLE</span><span class="o">,</span> <span class="s1">&#39; &#39;</span><span class="o">,</span>  <span class="nx">C_ICONALWAYSVISIBLE_OFF</span><span class="o">,</span> <span class="s1">&#39;&quot;&gt;&lt;/a&gt;&#39;</span><span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">,</span>
+     <span class="nx">iconClose</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;a href=&quot;#&quot; class=&quot;&#39;</span><span class="o">,</span> <span class="nx">C_ICONCLOSE</span><span class="o">,</span> <span class="s1">&#39; &#39;</span><span class="o">,</span> <span class="nx">C_ICONCLOSE_HIDDEN</span><span class="o">,</span> <span class="s1">&#39;&quot;&gt;&lt;/a&gt;&#39;</span><span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="p">};</span>
+
+
 <span class="c">// AccordionItem extends Widget</span>
 
 <span class="nx">Y</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span> <span class="nx">AccordionItem</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Widget</span><span class="o">,</span> <span class="p">{</span>
 
     <span class="c">/**</span>
-<span class="c">     * Creates the header content of an AccordionItem</span>
+<span class="c">     * Creates the header content</span>
 <span class="c">     *</span>
 <span class="c">     * @method _createHeader</span>
 <span class="c">     * @protected</span>
 <span class="c">     */</span>
     <span class="nx">_createHeader</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
-        <span class="k">var</span> <span class="nx">strings</span><span class="o">,</span> <span class="nx">html</span><span class="o">,</span> <span class="nx">node</span><span class="o">,</span> <span class="nx">closable</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">closable</span><span class="o">,</span> <span class="nx">templates</span><span class="o">,</span> <span class="nx">strings</span><span class="o">,</span>  <span class="nx">iconsContainer</span><span class="o">,</span>
+            <span class="nx">icon</span><span class="o">,</span> <span class="nx">nodeLabel</span><span class="o">,</span> <span class="nx">iconExpanded</span><span class="o">,</span> <span class="nx">iconAlwaysVisible</span><span class="o">,</span> <span class="nx">iconClose</span><span class="o">;</span>
 
-        <span class="k">function</span> <span class="nx">setIcon</span><span class="p">(){</span>
-            <span class="k">var</span> <span class="nx">icon</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;icon&quot;</span> <span class="p">);</span>
-
-            <span class="k">if</span><span class="p">(</span> <span class="nx">icon</span> <span class="o">===</span> <span class="nx">DEFAULT_ICON</span> <span class="p">){</span>
-                <span class="k">return</span> <span class="nx">C_ICON</span><span class="o">;</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="nx">icon</span><span class="o">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
+        <span class="nx">icon</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON</span> <span class="p">);</span>
+        <span class="nx">nodeLabel</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">NODE_LABEL</span> <span class="p">);</span>
+        <span class="nx">iconExpanded</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_EXPANDED</span> <span class="p">);</span>
+        <span class="nx">iconAlwaysVisible</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_ALWAYSVISIBLE</span> <span class="p">);</span>
+        <span class="nx">iconClose</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_CLOSE</span> <span class="p">);</span>
+        <span class="nx">iconsContainer</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICONS_CONTAINER</span> <span class="p">);</span>
+        
         <span class="nx">strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">STRINGS</span> <span class="p">);</span>
         <span class="nx">closable</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;closable&quot;</span> <span class="p">);</span>
+        <span class="nx">templates</span> <span class="o">=</span> <span class="nx">AccordionItem</span><span class="p">.</span><span class="nx">TEMPLATES</span><span class="o">;</span>
+        
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">icon</span> <span class="p">){</span>
+            <span class="nx">icon</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">templates</span><span class="p">.</span><span class="nx">icon</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">ICON</span><span class="o">,</span> <span class="nx">icon</span> <span class="p">);</span>
+        <span class="p">}</span>
 
-        <span class="nx">html</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;&lt;TABLE selectable=&#39;no&#39; class=&#39;&quot;</span><span class="o">,</span> <span class="nx">C_TABLE</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
-            <span class="s2">&quot;&lt;TBODY&gt;&quot;</span><span class="o">,</span>
-            <span class="s2">&quot;&lt;TR&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span><span class="o">,</span> <span class="nx">C_TD_ICON</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span> <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
-                    <span class="s2">&quot;&lt;div id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39; class=&#39;&quot;</span><span class="o">,</span> <span class="nx">setIcon</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span> <span class="s2">&quot;&#39; align=&#39;middle&#39; &quot;</span><span class="o">,</span> <span class="s2">&quot;/&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">C_TD_LABEL</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">,</span>
-                    <span class="s2">&quot;&lt;div class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">C_LABEL</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span> <span class="o">,</span>
-                       <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39; &quot;</span><span class="o">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="o">,</span>
-                       <span class="s2">&quot;&lt;a href=&#39;#&#39;&gt;&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;label&quot;</span> <span class="p">)</span><span class="o">,</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span><span class="o">,</span>
-                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span><span class="o">,</span> <span class="nx">C_TD_ICONALWAYSVISIBLE</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">,</span>
-                    <span class="s2">&quot;&lt;div tabindex=&#39;0&#39; class=&#39;&quot;</span><span class="o">,</span>
-                        <span class="nx">C_ICONALWAYSVISIBLE</span><span class="o">,</span> <span class="s2">&quot; &quot;</span> <span class="o">,</span> <span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
-                        <span class="s2">&quot; title=&#39;&quot;</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_always_visible_off</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
-                        <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
-                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>                    
-                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">C_TD_ICONEXTENDED</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">,</span>
-                    <span class="s2">&quot;&lt;div tabindex=&#39;0&#39; class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">C_ICONEXTENDED</span><span class="o">,</span> <span class="s2">&quot; &quot;</span><span class="o">,</span> <span class="nx">C_ICONEXTENDED_OFF</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
-                        <span class="s2">&quot; title=&#39;&quot;</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconextended_off</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
-                        <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
-                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;TD class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">C_TD_ICONCLOSE</span><span class="o">,</span> <span class="s2">&quot; &quot;</span><span class="o">,</span> <span class="p">(</span><span class="o">!</span><span class="nx">closable</span> <span class="o">?</span> <span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">,</span>
-                    <span class="s2">&quot;&lt;div tabindex=&#39;0&#39; class=&#39;&quot;</span> <span class="o">,</span> <span class="nx">C_ICONCLOSE</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
-                        <span class="s2">&quot; title=&#39;&quot;</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconclose</span><span class="o">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="o">,</span>
-                        <span class="s2">&quot; id=&#39;&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">guid</span><span class="p">()</span><span class="o">,</span> <span class="s2">&quot;&#39;&gt;&quot;</span><span class="o">,</span>
-                    <span class="s2">&quot;&lt;/div&gt;&quot;</span><span class="o">,</span>
-                <span class="s2">&quot;&lt;/TD&gt;&quot;</span><span class="o">,</span>
-            <span class="s2">&quot;&lt;/TR&gt;&quot;</span><span class="o">,</span>
-            <span class="s2">&quot;&lt;/TBODY&gt;&quot;</span><span class="o">,</span>
-            <span class="s2">&quot;&lt;/TABLE&gt;&quot;</span>
-        <span class="p">].</span><span class="nx">join</span><span class="p">(</span> <span class="s1">&#39;&#39;</span> <span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">nodeLabel</span> <span class="p">){</span>
+            <span class="nx">nodeLabel</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">templates</span><span class="p">.</span><span class="k">label</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">NODE_LABEL</span><span class="o">,</span> <span class="nx">nodeLabel</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">nodeLabel</span><span class="p">.</span><span class="nx">hasAttribute</span><span class="p">(</span> <span class="nx">HREF</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="nx">nodeLabel</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">HREF</span><span class="o">,</span> <span class="nx">HREF_VALUE</span> <span class="p">);</span>
+        <span class="p">}</span>
 
-        <span class="nx">node</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">html</span> <span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;headerContent&quot;</span><span class="o">,</span> <span class="nx">node</span> <span class="p">);</span>
+        <span class="nx">nodeLabel</span><span class="p">.</span><span class="nx">setContent</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="s2">&quot;label&quot;</span> <span class="p">)</span> <span class="p">);</span>
+
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconsContainer</span> <span class="p">){</span>
+            <span class="nx">iconsContainer</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">templates</span><span class="p">.</span><span class="nx">iconsContainer</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">ICONS_CONTAINER</span><span class="o">,</span> <span class="nx">iconsContainer</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconAlwaysVisible</span> <span class="p">){</span>
+            <span class="nx">iconAlwaysVisible</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">templates</span><span class="p">.</span><span class="nx">iconAlwaysVisible</span> <span class="p">);</span>
+            <span class="nx">iconAlwaysVisible</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_always_visible_off</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">ICON_ALWAYSVISIBLE</span><span class="o">,</span> <span class="nx">iconAlwaysVisible</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconAlwaysVisible</span><span class="p">.</span><span class="nx">hasAttribute</span><span class="p">(</span> <span class="nx">HREF</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="nx">iconAlwaysVisible</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">HREF</span><span class="o">,</span> <span class="nx">HREF_VALUE</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconExpanded</span> <span class="p">){</span>
+            <span class="nx">iconExpanded</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">templates</span><span class="p">.</span><span class="nx">iconExpanded</span> <span class="p">);</span>
+            <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconexpanded_off</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">ICON_EXPANDED</span><span class="o">,</span> <span class="nx">iconExpanded</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasAttribute</span><span class="p">(</span> <span class="nx">HREF</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">HREF</span><span class="o">,</span> <span class="nx">HREF_VALUE</span> <span class="p">);</span>
+        <span class="p">}</span>
+        
+        
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconClose</span> <span class="p">){</span>
+            <span class="nx">iconClose</span> <span class="o">=</span> <span class="nx">Node</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">templates</span><span class="p">.</span><span class="nx">iconClose</span> <span class="p">);</span>
+            <span class="nx">iconClose</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconclose</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">ICON_CLOSE</span><span class="o">,</span> <span class="nx">iconClose</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconClose</span><span class="p">.</span><span class="nx">hasAttribute</span><span class="p">(</span> <span class="nx">HREF</span> <span class="p">)</span> <span class="p">){</span>
+            <span class="nx">iconClose</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span> <span class="nx">HREF</span><span class="o">,</span> <span class="nx">HREF_VALUE</span> <span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span><span class="p">(</span> <span class="nx">closable</span> <span class="p">){</span>
+            <span class="nx">iconClose</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">iconClose</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">_addHeaderComponents</span><span class="p">();</span>
     <span class="p">}</span><span class="o">,</span>
 
-
     <span class="c">/**</span>
-<span class="c">     * Handles the change of &quot;iconChanged&quot; property. Set custom or default class for the icon</span>
-<span class="c">     * </span>
-<span class="c">     * @method _iconChanged</span>
+<span class="c">     * Add label and icons in the header. Also, it creates header in if not set from markup</span>
+<span class="c">     *</span>
+<span class="c">     * @method _addHeaderComponents</span>
 <span class="c">     * @protected</span>
-<span class="c">     * @param {EventFacade} params The event facade for the attribute change</span>
 <span class="c">     */</span>
-    <span class="nx">_iconChanged</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">params</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">icon</span><span class="o">;</span>
+    <span class="nx">_addHeaderComponents</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
+        <span class="k">var</span> <span class="nx">header</span><span class="o">,</span> <span class="nx">icon</span><span class="o">,</span> <span class="nx">nodeLabel</span><span class="o">,</span> <span class="nx">iconsContainer</span><span class="o">,</span> <span class="nx">iconExpanded</span><span class="o">,</span>
+            <span class="nx">iconAlwaysVisible</span><span class="o">,</span> <span class="nx">iconClose</span><span class="o">;</span>
 
-        <span class="nx">icon</span> <span class="o">=</span> <span class="nx">params</span><span class="p">.</span><span class="nx">newVal</span><span class="o">;</span>
+        <span class="nx">icon</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON</span> <span class="p">);</span>
+        <span class="nx">nodeLabel</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">NODE_LABEL</span> <span class="p">);</span>
+        <span class="nx">iconExpanded</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_EXPANDED</span> <span class="p">);</span>
+        <span class="nx">iconAlwaysVisible</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_ALWAYSVISIBLE</span> <span class="p">);</span>
+        <span class="nx">iconClose</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_CLOSE</span> <span class="p">);</span>
+        <span class="nx">iconsContainer</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICONS_CONTAINER</span> <span class="p">);</span>
 
-        <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">RENDERED</span> <span class="p">)</span> <span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span> <span class="nx">icon</span> <span class="o">===</span> <span class="nx">DEFAULT_ICON</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_icon</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">CLASS_NAME</span><span class="o">,</span> <span class="nx">C_ICON</span> <span class="p">);</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_icon</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">icon</span> <span class="p">);</span>
+        <span class="nx">header</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">HEADER_CONTENT</span> <span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">header</span> <span class="p">){</span>
+            <span class="nx">header</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Node</span><span class="p">(</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">()</span> <span class="p">);</span>
+            <span class="nx">header</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">icon</span> <span class="p">);</span>
+            <span class="nx">header</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">nodeLabel</span> <span class="p">);</span>
+            <span class="nx">header</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconsContainer</span> <span class="p">);</span>
+            <span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconAlwaysVisible</span> <span class="p">);</span>
+            <span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconExpanded</span> <span class="p">);</span>
+            <span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconClose</span> <span class="p">);</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">setStdModContent</span><span class="p">(</span> <span class="nx">WidgetStdMod</span><span class="p">.</span><span class="nx">HEADER</span><span class="o">,</span> <span class="nx">header</span><span class="o">,</span> <span class="nx">WidgetStdMod</span><span class="p">.</span><span class="nx">REPLACE</span> <span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">header</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">icon</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span> <span class="nx">header</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">nodeLabel</span> <span class="p">)</span> <span class="p">){</span>
+                    <span class="nx">header</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span> <span class="nx">icon</span><span class="o">,</span> <span class="nx">nodeLabel</span> <span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">header</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">icon</span> <span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">header</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">nodeLabel</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">header</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">nodeLabel</span> <span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">header</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">iconsContainer</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">header</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconsContainer</span> <span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">iconAlwaysVisible</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconAlwaysVisible</span> <span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">iconExpanded</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconExpanded</span> <span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span> <span class="nx">iconClose</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconsContainer</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span> <span class="nx">iconClose</span> <span class="p">);</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
 
-    
+
     <span class="c">/**</span>
 <span class="c">     * Handles the change of &quot;labelChanged&quot; property. Updates item&#39;s UI with the label provided</span>
 <span class="c">     * </span>
@@ -551,8 +695,11 @@
 <span class="c">     * @param {EventFacade} params The event facade for the attribute change</span>
 <span class="c">     */</span>
     <span class="nx">_labelChanged</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">params</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="k">label</span><span class="o">;</span>
+        
         <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">RENDERED</span> <span class="p">)</span> <span class="p">){</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">_label</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="s2">&quot;innerHTML&quot;</span><span class="o">,</span> <span class="p">[</span><span class="s2">&quot;&lt;a href=&#39;#&#39;&gt;&quot;</span><span class="o">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">newVal</span><span class="o">,</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span> <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">);</span>
+            <span class="k">label</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">NODE_LABEL</span> <span class="p">);</span>
+            <span class="k">label</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">INNER_HTML</span><span class="o">,</span> <span class="p">[</span><span class="s2">&quot;&lt;a href=&#39;#&#39;&gt;&quot;</span><span class="o">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">newVal</span><span class="o">,</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span> <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
 
@@ -570,13 +717,13 @@
         <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">RENDERED</span> <span class="p">)</span> <span class="p">){</span>
             <span class="nx">contentBox</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">CONTENT_BOX</span> <span class="p">);</span>
         
-            <span class="nx">selector</span> <span class="o">=</span> <span class="s2">&quot;&gt; .yui-widget-hd .&quot;</span> <span class="o">+</span> <span class="nx">C_TD_ICONCLOSE</span><span class="o">;</span>
+            <span class="nx">selector</span> <span class="o">=</span> <span class="nx">HEADER_SELECTOR_SUB</span> <span class="o">+</span> <span class="nx">C_ICONCLOSE</span><span class="o">;</span>
             <span class="nx">node</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="nx">selector</span> <span class="p">);</span>
 
             <span class="k">if</span><span class="p">(</span> <span class="nx">params</span><span class="p">.</span><span class="nx">newVal</span> <span class="p">){</span>
-                <span class="nx">node</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
+                <span class="nx">node</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">node</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_TD_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
+                <span class="nx">node</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_ICONCLOSE_HIDDEN</span> <span class="p">);</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
@@ -590,30 +737,10 @@
 <span class="c">     * @param  config {Object} Configuration object literal for the AccordionItem</span>
 <span class="c">     */</span>
     <span class="nx">initializer</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">config</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;render&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_afterRender</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span> <span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;iconChange&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconChanged</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span> <span class="p">);</span>
+
         <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;labelChange&quot;</span><span class="o">,</span>  <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_labelChanged</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span> <span class="p">);</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span> <span class="s2">&quot;closableChange&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_closableChanged</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span> <span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
-
-
-    <span class="c">/**</span>
-<span class="c">     * Get references to elements, which compose the header</span>
-<span class="c">     *</span>
-<span class="c">     * @method _afterRender</span>
-<span class="c">     * @protected</span>
-<span class="c">     * @param e {Event} after render custom event</span>
-<span class="c">     */</span>
-    <span class="nx">_afterRender</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">e</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">contentBox</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">CONTENT_BOX</span> <span class="p">);</span>
-
-        <span class="k">this</span><span class="p">.</span><span class="nx">_icon</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">C_ICON</span> <span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">_label</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">C_LABEL</span> <span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">C_ICONALWAYSVISIBLE</span> <span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">C_ICONEXTENDED</span> <span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">_iconClose</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">C_ICONCLOSE</span> <span class="p">);</span>
-    <span class="p">}</span><span class="o">,</span>
-    
     
     <span class="c">/**</span>
 <span class="c">     * Destructor lifecycle implementation for the AccordionItem class.</span>
@@ -643,12 +770,11 @@
 <span class="c">     * @protected</span>
 <span class="c">     */</span>
     <span class="nx">bindUI</span><span class="o">:</span> <span class="k">function</span><span class="p">(){</span>
-        <span class="k">var</span> <span class="nx">selector</span><span class="o">,</span> <span class="nx">contentBox</span><span class="o">;</span>
+        <span class="k">var</span> <span class="nx">contentBox</span><span class="o">;</span>
         
         <span class="nx">contentBox</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">CONTENT_BOX</span> <span class="p">);</span>
-        <span class="nx">selector</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;div.&#39;</span><span class="o">,</span> <span class="nx">C_LABEL</span><span class="o">,</span> <span class="s1">&#39; a&#39;</span> <span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
-
-        <span class="nx">contentBox</span><span class="p">.</span><span class="nx">delegate</span><span class="p">(</span> <span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_onLinkClick</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span><span class="o">,</span> <span class="nx">selector</span> <span class="p">);</span>
+        
+        <span class="nx">contentBox</span><span class="p">.</span><span class="nx">delegate</span><span class="p">(</span> <span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_onLinkClick</span><span class="o">,</span> <span class="k">this</span> <span class="p">)</span><span class="o">,</span> <span class="nx">HEADER_SELECTOR</span> <span class="o">+</span> <span class="s1">&#39; a&#39;</span> <span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
 
@@ -674,18 +800,21 @@
 <span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
 <span class="c">    */</span>
     <span class="nx">markAsAlwaysVisible</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">alwaysVisible</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">STRINGS</span> <span class="p">);</span>
+        <span class="k">var</span> <span class="nx">iconAlwaysVisisble</span><span class="o">,</span> <span class="nx">strings</span><span class="o">;</span>
+
+        <span class="nx">iconAlwaysVisisble</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_ALWAYSVISIBLE</span> <span class="p">);</span>
+        <span class="nx">strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">STRINGS</span> <span class="p">);</span>
 
         <span class="k">if</span><span class="p">(</span> <span class="nx">alwaysVisible</span> <span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_OFF</span><span class="o">,</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">);</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_always_visible_on</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconAlwaysVisisble</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconAlwaysVisisble</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_OFF</span><span class="o">,</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">);</span>
+                <span class="nx">iconAlwaysVisisble</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_always_visible_on</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span><span class="o">,</span> <span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="p">);</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconAlwaysVisible</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_always_visible_off</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">iconAlwaysVisisble</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconAlwaysVisisble</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONALWAYSVISIBLE_ON</span><span class="o">,</span> <span class="nx">C_ICONALWAYSVISIBLE_OFF</span> <span class="p">);</span>
+                <span class="nx">iconAlwaysVisisble</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span><span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_always_visible_off</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -703,18 +832,21 @@
 <span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
 <span class="c">    */</span>
     <span class="nx">markAsExpanded</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">expanded</span> <span class="p">){</span>
-        <span class="k">var</span> <span class="nx">strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">STRINGS</span> <span class="p">);</span>
+        <span class="k">var</span> <span class="nx">strings</span><span class="o">,</span> <span class="nx">iconExpanded</span><span class="o">;</span>
+        
+        <span class="nx">iconExpanded</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_EXPANDED</span> <span class="p">);</span>
+        <span class="nx">strings</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">STRINGS</span> <span class="p">);</span>
 
         <span class="k">if</span><span class="p">(</span> <span class="nx">expanded</span> <span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_ON</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_OFF</span><span class="o">,</span> <span class="nx">C_ICONEXTENDED_ON</span> <span class="p">);</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span> <span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconextended_on</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_OFF</span><span class="o">,</span> <span class="nx">C_ICONEXPANDED_ON</span> <span class="p">);</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span> <span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconexpanded_on</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_ON</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_ON</span><span class="o">,</span> <span class="nx">C_ICONEXTENDED_OFF</span> <span class="p">);</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span> <span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconextended_off</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_ON</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">replaceClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_ON</span><span class="o">,</span> <span class="nx">C_ICONEXPANDED_OFF</span> <span class="p">);</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">TITLE</span> <span class="o">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">title_iconexpanded_off</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -732,14 +864,16 @@
 <span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
 <span class="c">    */</span>
     <span class="nx">markAsExpanding</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">expanding</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">iconExpanded</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_EXPANDED</span> <span class="p">);</span>
+        
         <span class="k">if</span><span class="p">(</span> <span class="nx">expanding</span> <span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_EXPANDING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_EXPANDING</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_EXPANDING</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_EXPANDING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_EXPANDING</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
@@ -757,19 +891,43 @@
 <span class="c">    * @return Boolean Return true if the icon has been updated, false if there was no need to update</span>
 <span class="c">    */</span>
     <span class="nx">markAsCollapsing</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">collapsing</span> <span class="p">){</span>
+        <span class="k">var</span> <span class="nx">iconExpanded</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span> <span class="nx">ICON_EXPANDED</span> <span class="p">);</span>
+
         <span class="k">if</span><span class="p">(</span> <span class="nx">collapsing</span> <span class="p">){</span>
-            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_COLLAPSING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_COLLAPSING</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">)</span> <span class="p">){</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_iconExtended</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_ICONEXTENDED_COLLAPSING</span> <span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_COLLAPSING</span> <span class="p">)</span> <span class="p">){</span>
+                <span class="nx">iconExpanded</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span> <span class="nx">C_ICONEXPANDED_COLLAPSING</span> <span class="p">);</span>
                 <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
         
         <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+
+    <span class="c">/**</span>
+<span class="c">     * Parses and returns the yuiConfig attribute from contentBox. It must be stringified JSON object.</span>
+<span class="c">     * This function will be replaced with more clever solution when YUI 3.1 becomes available</span>
+<span class="c">     *</span>
+<span class="c">     * @method _getConfigDOMAttribute</span>
+<span class="c">     * @private</span>
+<span class="c">     * @param {Node} contentBox Widget&#39;s contentBox</span>
+<span class="c">     * @return {Object} The parsed yuiConfig value</span>
+<span class="c">     */</span>
+    <span class="nx">_getConfigDOMAttribute</span><span class="o">:</span> <span class="k">function</span><span class="p">(</span> <span class="nx">contentBox</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_parsedCfg</span> <span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">_parsedCfg</span> <span class="o">=</span> <span class="nx">contentBox</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span> <span class="nx">YUICONFIG</span> <span class="p">);</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_parsedCfg</span> <span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">_parsedCfg</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_parsedCfg</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_parsedCfg</span><span class="o">;</span>
     <span class="p">}</span>
     
 <span class="p">});</span>
@@ -826,7 +984,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_Accordion.ATTRS", "access": "", "host": "AccordionItem", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_AccordionItem.HTML_PARSER", "access": "protected", "host": "AccordionItem", "type": "property", "name": "AccordionItem.HTML_PARSER"}, {"url": "AccordionItem.html#property_AccordionItem.NAME", "access": "", "host": "AccordionItem", "type": "property", "name": "AccordionItem.NAME"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method_adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterDragEnd"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "Accordion.html#method__afterRender", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterRender"}, {"url": "AccordionItem.html#method__afterRender", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_afterRender"}, {"url": "Accordion.html#method__afterResizeEventChange", "access": "", "host": "Accordion", "type": "method", "name": "_afterResizeEventChange"}, {"url": "AccordionItem.html#config_alwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "alwaysVisible"}, {"url": "AccordionItem.html#event_alwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "alwaysVisibleChange"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "AccordionItem.html#config_animation", "access": "", "host": "AccordionItem", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "AccordionItem.html#event_animationChange", "access": "", "host": "AccordionItem", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#method_bindUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#config_closable", "access": "", "host": "AccordionItem", "type": "config", "name": "closable"}, {"url": "AccordionItem.html#event_closableChange", "access": "", "host": "AccordionItem", "type": "event", "name": "closableChange"}, {"url": "AccordionItem.html#method__closableChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_closableChanged"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "AccordionItem.html#config_contentHeight", "access": "", "host": "AccordionItem", "type": "config", "name": "contentHeight"}, {"url": "AccordionItem.html#event_contentHeightChange", "access": "", "host": "AccordionItem", "type": "event", "name": "contentHeightChange"}, {"url": "AccordionItem.html#method__createHeader", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_createHeader"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#method_destructor", "access": "protected", "host": "AccordionItem", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#config_expanded", "access": "", "host": "AccordionItem", "type": "config", "name": "expanded"}, {"url": "AccordionItem.html#event_expandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "expandedChange"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "AccordionItem.html#config_icon", "access": "", "host": "AccordionItem", "type": "config", "name": "icon"}, {"url": "AccordionItem.html#config_iconAlwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "iconAlwaysVisible"}, {"url": "AccordionItem.html#event_iconAlwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconAlwaysVisibleChange"}, {"url": "AccordionItem.html#event_iconChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconChange"}, {"url": "AccordionItem.html#method__iconChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_iconChanged"}, {"url": "AccordionItem.html#config_iconClose", "access": "", "host": "AccordionItem", "type": "config", "name": "iconClose"}, {"url": "AccordionItem.html#event_iconCloseChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconCloseChange"}, {"url": "AccordionItem.html#config_iconExtended", "access": "", "host": "AccordionItem", "type": "config", "name": "iconExtended"}, {"url": "AccordionItem.html#event_iconExtendedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconExtendedChange"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "AccordionItem.html#method_initializer", "access": "protected", "host": "AccordionItem", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "AccordionItem.html#config_label", "access": "", "host": "AccordionItem", "type": "config", "name": "label"}, {"url": "AccordionItem.html#event_labelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "labelChange"}, {"url": "AccordionItem.html#method__labelChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_labelChanged"}, {"url": "AccordionItem.html#method_markAsAlwaysVisible", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsAlwaysVisible"}, {"url": "AccordionItem.html#method_markAsCollapsing", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsCollapsing"}, {"url": "AccordionItem.html#method_markAsExpanded", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanded"}, {"url": "AccordionItem.html#method_markAsExpanding", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanding"}, {"url": "Accordion.html#method__onCollapseComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onCollapseComplete"}, {"url": "Accordion.html#method__onDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragEnd"}, {"url": "Accordion.html#method__onDragStart", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragStart"}, {"url": "Accordion.html#method__onDropHit", "access": "", "host": "Accordion", "type": "method", "name": "_onDropHit"}, {"url": "Accordion.html#method__onExpandComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onExpandComplete"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__onItemChosenEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosenEvent"}, {"url": "Accordion.html#method__onKeyPressEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onKeyPressEvent"}, {"url": "AccordionItem.html#method__onLinkClick", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_onLinkClick"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "AccordionItem.html#method_renderUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "AccordionItem.html#config_strings", "access": "", "host": "AccordionItem", "type": "config", "name": "strings"}, {"url": "AccordionItem.html#event_stringsChange", "access": "", "host": "AccordionItem", "type": "event", "name": "stringsChange"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}];
+    ALL_YUI_PROPS = [{"url": "Accordion.html#property_Accordion.ATTRS", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_Accordion.ATTRS", "access": "", "host": "AccordionItem", "type": "property", "name": "Accordion.ATTRS"}, {"url": "AccordionItem.html#property_AccordionItem.HTML_PARSER", "access": "protected", "host": "AccordionItem", "type": "property", "name": "AccordionItem.HTML_PARSER"}, {"url": "AccordionItem.html#property_AccordionItem.NAME", "access": "", "host": "AccordionItem", "type": "property", "name": "AccordionItem.NAME"}, {"url": "Accordion.html#property_Accordion.NAME", "access": "", "host": "Accordion", "type": "property", "name": "Accordion.NAME"}, {"url": "AccordionItem.html#method__addHeaderComponents", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_addHeaderComponents"}, {"url": "Accordion.html#method_addItem", "access": "", "host": "Accordion", "type": "method", "name": "addItem"}, {"url": "Accordion.html#method_adjustStretchItems", "access": "protected", "host": "Accordion", "type": "method", "name": "adjustStretchItems"}, {"url": "Accordion.html#method__afterContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterContentHeight"}, {"url": "Accordion.html#method__afterDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterDragEnd"}, {"url": "Accordion.html#method__afterItemAlwaysVisible", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemAlwaysVisible"}, {"url": "Accordion.html#method__afterItemExpand", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterItemExpand"}, {"url": "Accordion.html#method__afterRender", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterRender"}, {"url": "Accordion.html#method__afterResizeEventChange", "access": "protected", "host": "Accordion", "type": "method", "name": "_afterResizeEventChange"}, {"url": "AccordionItem.html#config_alwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "alwaysVisible"}, {"url": "AccordionItem.html#event_alwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "alwaysVisibleChange"}, {"url": "Accordion.html#config_animation", "access": "", "host": "Accordion", "type": "config", "name": "animation"}, {"url": "AccordionItem.html#config_animation", "access": "", "host": "AccordionItem", "type": "config", "name": "animation"}, {"url": "Accordion.html#event_animationChange", "access": "", "host": "Accordion", "type": "event", "name": "animationChange"}, {"url": "AccordionItem.html#event_animationChange", "access": "", "host": "AccordionItem", "type": "event", "name": "animationChange"}, {"url": "Accordion.html#event_beforeEndItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeEndItemReorder"}, {"url": "Accordion.html#event_beforeItemAdd", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemAdd"}, {"url": "Accordion.html#event_beforeItemCollapse", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemCollapse"}, {"url": "Accordion.html#event_beforeItemExpand", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemExpand"}, {"url": "Accordion.html#event_beforeItemRemove", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemRemove"}, {"url": "Accordion.html#event_beforeItemReorder", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemReorder"}, {"url": "Accordion.html#event_beforeItemResized", "access": "", "host": "Accordion", "type": "event", "name": "beforeItemResized"}, {"url": "Accordion.html#method_bindUI", "access": "protected", "host": "Accordion", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#method_bindUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "bindUI"}, {"url": "AccordionItem.html#config_closable", "access": "", "host": "AccordionItem", "type": "config", "name": "closable"}, {"url": "AccordionItem.html#event_closableChange", "access": "", "host": "AccordionItem", "type": "event", "name": "closableChange"}, {"url": "AccordionItem.html#method__closableChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_closableChanged"}, {"url": "Accordion.html#method__collapseItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_collapseItem"}, {"url": "Accordion.html#config_collapseOthersOnExpand", "access": "", "host": "Accordion", "type": "config", "name": "collapseOthersOnExpand"}, {"url": "Accordion.html#event_collapseOthersOnExpandChange", "access": "", "host": "Accordion", "type": "event", "name": "collapseOthersOnExpandChange"}, {"url": "AccordionItem.html#config_contentHeight", "access": "", "host": "AccordionItem", "type": "config", "name": "contentHeight"}, {"url": "AccordionItem.html#event_contentHeightChange", "access": "", "host": "AccordionItem", "type": "event", "name": "contentHeightChange"}, {"url": "AccordionItem.html#method__createHeader", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_createHeader"}, {"url": "Accordion.html#method_destructor", "access": "protected", "host": "Accordion", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#method_destructor", "access": "protected", "host": "AccordionItem", "type": "method", "name": "destructor"}, {"url": "AccordionItem.html#config_expanded", "access": "", "host": "AccordionItem", "type": "config", "name": "expanded"}, {"url": "AccordionItem.html#event_expandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "expandedChange"}, {"url": "Accordion.html#method__expandItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_expandItem"}, {"url": "Accordion.html#method__getHeightPerStretchItem", "access": "protected", "host": "Accordion", "type": "method", "name": "_getHeightPerStretchItem"}, {"url": "Accordion.html#method_getItem", "access": "", "host": "Accordion", "type": "method", "name": "getItem"}, {"url": "Accordion.html#method__getItemContentHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getItemContentHeight"}, {"url": "Accordion.html#method_getItemIndex", "access": "", "host": "Accordion", "type": "method", "name": "getItemIndex"}, {"url": "Accordion.html#method__getNodeOffsetHeight", "access": "protected", "host": "Accordion", "type": "method", "name": "_getNodeOffsetHeight"}, {"url": "AccordionItem.html#config_icon", "access": "", "host": "AccordionItem", "type": "config", "name": "icon"}, {"url": "AccordionItem.html#config_iconAlwaysVisible", "access": "", "host": "AccordionItem", "type": "config", "name": "iconAlwaysVisible"}, {"url": "AccordionItem.html#event_iconAlwaysVisibleChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconAlwaysVisibleChange"}, {"url": "AccordionItem.html#event_iconChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconChange"}, {"url": "AccordionItem.html#config_iconClose", "access": "", "host": "AccordionItem", "type": "config", "name": "iconClose"}, {"url": "AccordionItem.html#event_iconCloseChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconCloseChange"}, {"url": "AccordionItem.html#config_iconExpanded", "access": "", "host": "AccordionItem", "type": "config", "name": "iconExpanded"}, {"url": "AccordionItem.html#event_iconExpandedChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconExpandedChange"}, {"url": "AccordionItem.html#config_iconsContainer", "access": "", "host": "AccordionItem", "type": "config", "name": "iconsContainer"}, {"url": "AccordionItem.html#event_iconsContainerChange", "access": "", "host": "AccordionItem", "type": "event", "name": "iconsContainerChange"}, {"url": "Accordion.html#method__initEvents", "access": "protected", "host": "Accordion", "type": "method", "name": "_initEvents"}, {"url": "Accordion.html#method_initializer", "access": "protected", "host": "Accordion", "type": "method", "name": "initializer"}, {"url": "AccordionItem.html#method_initializer", "access": "protected", "host": "AccordionItem", "type": "method", "name": "initializer"}, {"url": "Accordion.html#method__initItemDragDrop", "access": "protected", "host": "Accordion", "type": "method", "name": "_initItemDragDrop"}, {"url": "Accordion.html#event_itemAdded", "access": "", "host": "Accordion", "type": "event", "name": "itemAdded"}, {"url": "Accordion.html#config_itemChosen", "access": "", "host": "Accordion", "type": "config", "name": "itemChosen"}, {"url": "Accordion.html#event_itemChosenChange", "access": "", "host": "Accordion", "type": "event", "name": "itemChosenChange"}, {"url": "Accordion.html#event_itemCollapsed", "access": "", "host": "Accordion", "type": "event", "name": "itemCollapsed"}, {"url": "Accordion.html#event_itemExpanded", "access": "", "host": "Accordion", "type": "event", "name": "itemExpanded"}, {"url": "Accordion.html#event_itemRemoved", "access": "", "host": "Accordion", "type": "event", "name": "itemRemoved"}, {"url": "Accordion.html#event_itemReordered", "access": "", "host": "Accordion", "type": "event", "name": "itemReordered"}, {"url": "Accordion.html#event_itemResized", "access": "", "host": "Accordion", "type": "event", "name": "itemResized"}, {"url": "Accordion.html#config_items", "access": "", "host": "Accordion", "type": "config", "name": "items"}, {"url": "Accordion.html#event_itemsChange", "access": "", "host": "Accordion", "type": "event", "name": "itemsChange"}, {"url": "AccordionItem.html#config_label", "access": "", "host": "AccordionItem", "type": "config", "name": "label"}, {"url": "AccordionItem.html#event_labelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "labelChange"}, {"url": "AccordionItem.html#method__labelChanged", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_labelChanged"}, {"url": "AccordionItem.html#method_markAsAlwaysVisible", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsAlwaysVisible"}, {"url": "AccordionItem.html#method_markAsCollapsing", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsCollapsing"}, {"url": "AccordionItem.html#method_markAsExpanded", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanded"}, {"url": "AccordionItem.html#method_markAsExpanding", "access": "", "host": "AccordionItem", "type": "method", "name": "markAsExpanding"}, {"url": "AccordionItem.html#config_nodeLabel", "access": "", "host": "AccordionItem", "type": "config", "name": "nodeLabel"}, {"url": "AccordionItem.html#event_nodeLabelChange", "access": "", "host": "AccordionItem", "type": "event", "name": "nodeLabelChange"}, {"url": "Accordion.html#method__onCollapseComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onCollapseComplete"}, {"url": "Accordion.html#method__onDragEnd", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragEnd"}, {"url": "Accordion.html#method__onDragStart", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDragStart"}, {"url": "Accordion.html#method__onDropHit", "access": "protected", "host": "Accordion", "type": "method", "name": "_onDropHit"}, {"url": "Accordion.html#method__onExpandComplete", "access": "protected", "host": "Accordion", "type": "method", "name": "_onExpandComplete"}, {"url": "Accordion.html#method__onItemChosen", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosen"}, {"url": "Accordion.html#method__onItemChosenEvent", "access": "protected", "host": "Accordion", "type": "method", "name": "_onItemChosenEvent"}, {"url": "AccordionItem.html#method__onLinkClick", "access": "protected", "host": "AccordionItem", "type": "method", "name": "_onLinkClick"}, {"url": "Accordion.html#method__processCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_processCollapsing"}, {"url": "Accordion.html#method__processExpanding", "access": "protected", "host": "Accordion", "type": "method", "name": "_processExpanding"}, {"url": "Accordion.html#method__processItems", "access": "protected", "host": "Accordion", "type": "method", "name": "_processItems"}, {"url": "Accordion.html#method_removeItem", "access": "", "host": "Accordion", "type": "method", "name": "removeItem"}, {"url": "Accordion.html#method__removeItemHandles", "access": "protected", "host": "Accordion", "type": "method", "name": "_removeItemHandles"}, {"url": "Accordion.html#method_renderUI", "access": "protected", "host": "Accordion", "type": "method", "name": "renderUI"}, {"url": "AccordionItem.html#method_renderUI", "access": "protected", "host": "AccordionItem", "type": "method", "name": "renderUI"}, {"url": "Accordion.html#config_reorderItems", "access": "", "host": "Accordion", "type": "config", "name": "reorderItems"}, {"url": "Accordion.html#event_reorderItemsChange", "access": "", "host": "Accordion", "type": "event", "name": "reorderItemsChange"}, {"url": "Accordion.html#config_resizeEvent", "access": "", "host": "Accordion", "type": "config", "name": "resizeEvent"}, {"url": "Accordion.html#event_resizeEventChange", "access": "", "host": "Accordion", "type": "event", "name": "resizeEventChange"}, {"url": "Accordion.html#method__setItemProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemProperties"}, {"url": "Accordion.html#method__setItemsProperties", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemsProperties"}, {"url": "Accordion.html#method__setItemUI", "access": "protected", "host": "Accordion", "type": "method", "name": "_setItemUI"}, {"url": "Accordion.html#method__setUpResizing", "access": "protected", "host": "Accordion", "type": "method", "name": "_setUpResizing"}, {"url": "Accordion.html#method__storeItemsForCollapsing", "access": "protected", "host": "Accordion", "type": "method", "name": "_storeItemsForCollapsing"}, {"url": "AccordionItem.html#config_strings", "access": "", "host": "AccordionItem", "type": "config", "name": "strings"}, {"url": "AccordionItem.html#event_stringsChange", "access": "", "host": "AccordionItem", "type": "event", "name": "stringsChange"}, {"url": "Accordion.html#config_useAnimation", "access": "", "host": "Accordion", "type": "config", "name": "useAnimation"}, {"url": "Accordion.html#event_useAnimationChange", "access": "", "host": "Accordion", "type": "event", "name": "useAnimationChange"}, {"url": "AccordionItem.html#property_WidgetStdMod.TEMPLATES", "access": "", "host": "AccordionItem", "type": "property", "name": "WidgetStdMod.TEMPLATES"}];
 </script>
 </body>
 </html>
