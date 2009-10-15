@@ -88,9 +88,8 @@
             <h1>Step one: create accordion module</h1>
 
             <p>
-		In order to use Accordion widget, you have to add it as an external module in your YUI instance. You have to define at least one module, which will contain Accordion's JavaScript code.
-                You may define another one for its CSS code, but in this example we will load it manually. In this way, the page will look nice, even if JavaScript is disabled in user's browser.
-		Of course, you must load YUI3 core file also.
+                In order to use Accordion widget, you have to add it as external module in your YUI instance or include the JavaScript and CSS manually on the page.
+                in this example we will load CSS manually. In this way, the page will look nice, even if JavaScript is disabled in browser. Of course, you must load YUI3 core file also.
             </p>
 
             <pre class="brush: html;">
@@ -109,7 +108,7 @@ YUI({
         'accordion': {
             type: 'js',
             fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod', 'json-parse' ]
+            requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
         }
     }
 } ).use( 'accordion', function(Y) {
@@ -371,37 +370,37 @@ var accordion = new Y.Accordion( {
         <h4>If you subscribe to "beforeItemAdd" event, you will be able to overwrite all parameters, added from markup or to add new parameters:</h4>
 
         <pre class="brush: js;">
-accordion.on( "beforeItemAdd", function( _attrs ){
-    var _item, _id;
+accordion.on( "beforeItemAdd", function( attrs ){
+    var item, id;
 
-    _item = _attrs.item;
-    _id = _item.get( "contentBox" ).get( "id" );
+    item = attrs.item;
+    id = item.get( "contentBox" ).get( "id" );
 
-    if( _id === "item1" ){
-        _item.set( "contentHeight",  {
+    if( id === "item1" ){
+        item.set( "contentHeight",  {
             method: "fixed",
             height: 150 <!-- In pixels -->
         });
 
-        _item.set( "alwaysVisible", true );
+        item.set( "alwaysVisible", true );
 
-        _item.set( "closable", true );
-    } else if( _id === "item2" ){
-        _item.set( "label", "Label2" );
+        item.set( "closable", true );
+    } else if( id === "item2" ){
+        item.set( "label", "Label2" );
 
-        _item.set( "contentHeight",  {
+        item.set( "contentHeight",  {
             method: "stretch"
         });
 
-       _item.set( "expanded", true );
-    } else if( _id === "item3" ){
-        _item.set( "label", "Label3, overwritten" );
+       item.set( "expanded", true );
+    } else if( id === "item3" ){
+        item.set( "label", "Label3, overwritten" );
 
-        _item.set( "contentHeight",  {
+        item.set( "contentHeight",  {
             method: "auto"
         });
 
-        _item.set( "expanded", true );
+        item.set( "expanded", true );
     }
 }, this );
         </pre>

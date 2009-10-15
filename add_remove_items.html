@@ -45,7 +45,7 @@ YUI({
         'accordion': {
             type: 'js',
             fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
         },
         'yde': {
             type: 'js',
@@ -73,117 +73,117 @@ YUI({
         }
     }
 } ).use( 'accordion', 'yde', 'element', 'container-core', 'button', 'simple-editor', function(Y) {
-     var _accordion, _btnAdd, _btnRemove, _txtLabel, _editor, _txtPixels,
-        _expanded, _alwaysVisisble, _closable, _contentHeight, _contentHeightSettings,
-        _btnStretch, _btnAuto, _btnFixed;
+     var accordion, btnAdd, btnRemove, txtLabel, editor, txtPixels,
+        expanded, alwaysVisisble, closable, contentHeight, contentHeightSettings,
+        btnStretch, btnAuto, btnFixed;
     
-    _btnAdd = new YAHOO.widget.Button( "additem" );
-    _btnRemove = new YAHOO.widget.Button( "removeitems" );
-    _txtLabel = Y.get( "#label" );
-    _txtPixels = Y.get( "#pixels");
+    btnAdd = new YAHOO.widget.Button( "additem" );
+    btnRemove = new YAHOO.widget.Button( "removeitems" );
+    txtLabel = Y.get( "#label" );
+    txtPixels = Y.get( "#pixels");
 
-    _editor = new YAHOO.widget.SimpleEditor( 'content', {
+    editor = new YAHOO.widget.SimpleEditor( 'content', {
         height: '200px',
         width: '422px',
         dompath: false,
         animate: false
     });
 
-    _editor.render();
+    editor.render();
 
-    _expanded = new YAHOO.widget.Button( "expanded" );
-    _alwaysVisisble = new YAHOO.widget.Button( "alwaysvisible" );
-    _closable = new YAHOO.widget.Button( "closable" );
+    expanded = new YAHOO.widget.Button( "expanded" );
+    alwaysVisisble = new YAHOO.widget.Button( "alwaysvisible" );
+    closable = new YAHOO.widget.Button( "closable" );
 
-    _contentHeightSettings = new YAHOO.widget.ButtonGroup( "contentheight_settings" );
+    contentHeightSettings = new YAHOO.widget.ButtonGroup( "contentheight_settings" );
 
-    _btnStretch = _contentHeightSettings.getButton( 0 );
-    _btnAuto    = _contentHeightSettings.getButton( 1 );
-    _btnFixed   = _contentHeightSettings.getButton( 2 );
+    btnStretch = contentHeightSettings.getButton( 0 );
+    btnAuto    = contentHeightSettings.getButton( 1 );
+    btnFixed   = contentHeightSettings.getButton( 2 );
 
-    _contentHeightSettings.on( "checkedButtonChange", function(e){
-        var _checkedButton = e.newValue;
+    contentHeightSettings.on( "checkedButtonChange", function(e){
+        var checkedButton = e.newValue;
 
-        if( _checkedButton == _btnFixed ){
-            _txtPixels.removeAttribute( "disabled" );
+        if( checkedButton == btnFixed ){
+            txtPixels.removeAttribute( "disabled" );
         } else {
-            _txtPixels.setAttribute( "disabled", "true" );
+            txtPixels.setAttribute( "disabled", "true" );
         }
 
     }, this, true );
     
-    _btnAdd.on( "click", function(e){
-        var _item, _html, _el, _contentHeight, _checkedButton, _class;
+    btnAdd.on( "click", function(e){
+        var item, html, el, contentHeight, checkedButton, className;
 
-        _checkedButton = _contentHeightSettings.get( "checkedButton" );
+        checkedButton = contentHeightSettings.get( "checkedButton" );
 
-        if( _checkedButton === _btnStretch  ){
-            _contentHeight = {
+        if( checkedButton === btnStretch  ){
+            contentHeight = {
                 method: "stretch"
             };
 
-            _class = "stretch";
-        } else if( _checkedButton === _btnAuto  ){
-            _contentHeight = {
+            className = "stretch";
+        } else if( checkedButton === btnAuto  ){
+            contentHeight = {
                 method: "auto"
             };
 
-            _class = "auto";
-        } else if( _checkedButton === _btnFixed  ){
-            _contentHeight = {
+            className = "auto";
+        } else if( checkedButton === btnFixed  ){
+            contentHeight = {
                 method: "fixed",
-                height: parseInt( _txtPixels.get( "value" ), 10 ) || 150
+                height: parseInt( txtPixels.get( "value" ), 10 ) || 150
             };
 
-            _class = "fixed";
+            className = "fixed";
         } else {
             throw "Internal error. No selected button";
         }
 
-        _item = new Y.AccordionItem( {
-            label: _txtLabel.get( "value" ),
-            expanded: _expanded.get( "checked" ),
-            alwaysVisible: _alwaysVisisble.get( "checked" ),
-            closable: _closable.get( "checked" ),
+        item = new Y.AccordionItem( {
+            label: txtLabel.get( "value" ),
+            expanded: expanded.get( "checked" ),
+            alwaysVisible: alwaysVisisble.get( "checked" ),
+            closable: closable.get( "checked" ),
             contentBox: Y.guid(),
-            contentHeight: _contentHeight
+            contentHeight: contentHeight
         } );
 
-        _editor.saveHTML();
-        _html = _editor.get('element').value;
+        editor.saveHTML();
+        html = editor.get('element').value;
 
-        _el = Y.Node.create( '<div>' );
-        _el.addClass( _class );
-        _el.setContent( _html );
+        el = Y.Node.create( '<div>' );
+        el.addClass( className );
+        el.setContent( html );
 
-        _item.setStdModContent( Y.WidgetStdMod.BODY, _el, Y.WidgetStdMod.REPLACE );
+        item.setStdModContent( Y.WidgetStdMod.BODY, el, Y.WidgetStdMod.REPLACE );
 
-        _accordion.addItem( _item );
+        accordion.addItem( item );
     }, this, true );
     
-    _btnRemove.on( "click", function(e){
-        var _item, _items, i, _length;
+    btnRemove.on( "click", function(e){
+        var item, items, i, length;
 
-        _items = _accordion.get( "items" );
+        items = accordion.get( "items" );
         
-        _length = _items.length;
+        length = items.length;
         
-        for( i = _length; i>= 0; i-- ){
-            _item = _items[i];
-            _accordion.removeItem( _item );
+        for( i = length; i>= 0; i-- ){
+            item = items[i];
+            accordion.removeItem( item );
         }
     }, this, true );
     
-    _accordion = new Y.Accordion( {
+    accordion = new Y.Accordion( {
         contentBox: "#acc1",
         useAnimation: true,
         collapseOthersOnExpand: true
     });
 
-    _accordion.render();
+    accordion.render();
 
 
-    _txtPixels.on( "keypress", function(e){
+    txtPixels.on( "keypress", function(e){
         var charCode = e.keyCode;
 
         if( charCode > 31 && (charCode < 48 || charCode > 57) ){

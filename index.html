@@ -88,20 +88,20 @@
                 'accordion': {
                     type: 'js',
                     fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                    requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod', 'json-parse' ]
+                    requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
                 }
             }
         } ).use( 'accordion', function(Y) {
-            var _accordion;
+            var accordion;
             
-            _accordion = new Y.Accordion( {
+            accordion = new Y.Accordion( {
                 boundingBox: "#bb1",
                 contentBox: "#acc1",
                 useAnimation: true,
                 collapseOthersOnExpand: false
             });
                 
-            _accordion.render();
+            accordion.render();
         });
         </script>
     </head>
@@ -148,7 +148,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <div class="yui-accordion-item-icons">
                                     <a class="yui-accordion-item-iconalwaysvisible"></a>
                                     <a class="yui-accordion-item-iconexpanded"></a>
-                                    <a class="yui-accordion-item-iconclose"></a>
+                                    <a class="yui-accordion-item-iconclose yui-accordion-item-iconclose-hidden"></a>
                                 </div>
                             </div>
                             <div class="yui-widget-bd">
@@ -174,7 +174,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <div class="yui-accordion-item-icons">
                                     <a class="yui-accordion-item-iconalwaysvisible"></a>
                                     <a class="yui-accordion-item-iconexpanded"></a>
-                                    <a class="yui-accordion-item-iconclose"></a>
+                                    <a class="yui-accordion-item-iconclose yui-accordion-item-iconclose-hidden"></a>
                                 </div>
                             </div>
                             <div id="bodyid2" class="yui-widget-bd">
@@ -215,7 +215,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <div class="yui-accordion-item-icons">
                                     <a class="yui-accordion-item-iconalwaysvisible"></a>
                                     <a class="yui-accordion-item-iconexpanded"></a>
-                                    <a class="yui-accordion-item-iconclose"></a>
+                                    <a class="yui-accordion-item-iconclose yui-accordion-item-iconclose-hidden"></a>
                                 </div>
                             </div>
                             <div id="bodyid3" class="yui-widget-bd">
@@ -244,7 +244,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                 <div class="yui-accordion-item-icons">
                                     <a class="yui-accordion-item-iconalwaysvisible"></a>
                                     <a class="yui-accordion-item-iconexpanded"></a>
-                                    <a class="yui-accordion-item-iconclose"></a>
+                                    <a class="yui-accordion-item-iconclose yui-accordion-item-iconclose-hidden"></a>
                                 </div>
                             </div>
                             <div id="bodyid3" class="yui-widget-bd">

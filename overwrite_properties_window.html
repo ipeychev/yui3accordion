@@ -27,13 +27,13 @@ YUI({
         'accordion': {
             type: 'js',
             fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
         }
     }
 } ).use( 'accordion', function(Y) {
-    var _accordion, _item1;
+    var accordion, item1;
 
-    _accordion = new Y.Accordion( {
+    accordion = new Y.Accordion( {
         contentBox: "#acc1",
         useAnimation: false,
         animation: {
@@ -45,9 +45,9 @@ YUI({
         resizeEvent: "default"
     } );
 
-    _accordion.render();
+    accordion.render();
 
-    _item1 = new Y.AccordionItem({
+    item1 = new Y.AccordionItem({
         label: "Item, added from script",
         expanded: true,
         contentBox: "dynamicContentBox1",
@@ -58,9 +58,9 @@ YUI({
         closable: true
     });
 
-    _item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"stretch\"." );
+    item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"stretch\"." );
 
-    _accordion.addItem( _item1 );
+    accordion.addItem( item1 );
 
 });
 

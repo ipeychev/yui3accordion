@@ -11,12 +11,6 @@
     html, body {
         height:100%;
     }
-    
-    #item2 .customiconclass {
-        background-image: url("http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion_sprite.png");
-        background-repeat: no-repeat;
-        background-position: center -83px;
-    }
 </style>
 
 <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
@@ -33,21 +27,21 @@ YUI({
         'accordion': {
             type: 'js',
             fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+            requires:[ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
         }
     }
 } ).use( 'accordion', function(Y) {
-    var _item1, _item2, _item3, _accordion;
+    var item1, item2, item3, accordion;
     
-    _accordion = new Y.Accordion( {
+    accordion = new Y.Accordion( {
             contentBox: "#acc1",
             useAnimation: true,
             collapseOthersOnExpand: true
         });
         
-    _accordion.render();
+    accordion.render();
         
-    _item1 = new Y.AccordionItem( {
+    item1 = new Y.AccordionItem( {
         label: "Item1, added from script",
         expanded: true,
         contentBox: "dynamicContentBox1",
@@ -58,11 +52,11 @@ YUI({
         closable: true
     } );
 
-    _item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"fixed, 80px\"." );
+    item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"fixed, 80px\"." );
     
-    _accordion.addItem( _item1 );
+    accordion.addItem( item1 );
     
-    _item2 = new Y.AccordionItem( {
+    item2 = new Y.AccordionItem( {
         label: "Item2, added from script",
         expanded: true,
         contentBox: "dynamicContentBox2",
@@ -71,11 +65,11 @@ YUI({
         }
     } );
 
-    _item2.set( "bodyContent", "This is the body of the item, added dynamically to accordion, before item1.<br>Content height has been set as \"stretch\"." );
+    item2.set( "bodyContent", "This is the body of the item, added dynamically to accordion, before item1.<br>Content height has been set as \"stretch\"." );
     
-    _accordion.addItem( _item2, _item1 );
+    accordion.addItem( item2, item1 );
     
-    _item3 = new Y.AccordionItem( {
+    item3 = new Y.AccordionItem( {
         label: "Item3, added from script",
         expanded: true,
         alwaysVisible: true,
@@ -85,9 +79,9 @@ YUI({
         }
     } );
 
-    _item3.set( "bodyContent", "<div style='position:relative;'>This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"auto\".</div>" );
+    item3.set( "bodyContent", "<div style='position:relative;'>This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"auto\".</div>" );
     
-    _accordion.addItem( _item3 );
+    accordion.addItem( item3 );
 });
 
 </script>

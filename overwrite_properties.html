@@ -89,7 +89,7 @@
                     'accordion': {
                         type: 'js',
                         fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                        requires: [ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+                        requires: [ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
                     }
                 }
             } ).use( 'accordion', function(Y) {
@@ -114,9 +114,8 @@
             <h1>Step one: create accordion module</h1>
 
             <p>
-        In order to use Accordion widget, you have to add it as module in your YUI instance. You have to define two modules - one for JavaScript code and another for the CSS.
-        Let's name them 'accordion' and 'accordion-css'. You have to specify also the full path to accordion js file. Here we will load it from GitHub.
-        Of course, we must load YUI3 core file also.
+                In order to use Accordion widget, you have to add it as external module in your YUI instance or include the JavaScript and CSS manually on the page.
+                In this example we add two modules. The first one will contain JavaScript code and the second one - CSS. Of course, you must load YUI3 core file also.
             </p>
 
             <pre class="brush: html;">
@@ -135,7 +134,7 @@
                 'accordion': {
                     type: 'js',
                     fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                    requires: [ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod' ]
+                    requires: [ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
                 }
             }
         } ).use( 'accordion', function(Y) {
@@ -153,9 +152,9 @@
         </p>
 
         <pre class="brush: js;">
-var _accordion;
+var accordion;
 
-_accordion = new Y.Accordion( {
+accordion = new Y.Accordion( {
     contentBox: "#acc1",
     useAnimation: false,
     animation: {
@@ -167,7 +166,7 @@ _accordion = new Y.Accordion( {
     resizeEvent: "default"
 } );
 
-_accordion.render();
+accordion.render();
         </pre>
         
         <h4>
@@ -202,9 +201,9 @@ _accordion.render();
         </p>
 
         <pre class="brush: js;">
-var _item1;
+var item1;
 
-_item1 = new Y.AccordionItem({
+item1 = new Y.AccordionItem({
     label: "Item, added from script",
     expanded: true,
     contentBox: "dynamicContentBox1",
@@ -215,9 +214,9 @@ _item1 = new Y.AccordionItem({
     closable: true
 });
 
-_item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"stretch\"." );
+item1.set( "bodyContent", "This is the body of the item, added dynamically to accordion.<br>Content height has been set as \"stretch\"." );
 
-_accordion.addItem( _item1 );
+accordion.addItem( item1 );
         </pre>
         
         <h4>
