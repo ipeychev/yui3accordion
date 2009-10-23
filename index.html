@@ -79,19 +79,11 @@
         </style>
         
         <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+        <script type="text/javascript" src="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js"></script>
         
         <script type="text/javascript"> 
 
-        YUI({
-            combine: true,
-            modules: {
-                'accordion': {
-                    type: 'js',
-                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                    requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
-                }
-            }
-        } ).use( 'accordion', function(Y) {
+        YUI().use( 'accordion', function(Y) {
             var accordion;
             
             accordion = new Y.Accordion( {

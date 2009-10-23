@@ -85,36 +85,24 @@
                 </h3>
             </div>
 
-            <h1>Step one: create accordion module</h1>
+            <h1>Step one: add Accordion to your YUI instance</h1>
 
             <p>
-                In order to use Accordion widget, you have to add it as external module in your YUI instance or include the JavaScript and CSS manually on the page.
-                Here we will load CSS manually. In this way, the page will look nice, even if JavaScript is disabled in browser. Of course, you must load YUI3 core file also.
+                In order to use Accordion widget, you have to add it as external module in your YUI instance or include the JavaScript and CSS manually on the page:
             </p>
 
             <pre class="brush: html;">
 <link rel="stylesheet" type="text/css" href="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css">
 
 <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js"></script>
+
+<script type="text/javascript">
+    YUI().use( 'accordion', function(Y) {
+        // Your code here
+    });
+</script>
             </pre>
-
-            <p>
-                Add Accordion as an external module in your YUI3 instance:
-            </p>
-        <pre class="brush: js;">
-YUI({
-    combine: true,
-    modules: {
-        'accordion': {
-            type: 'js',
-            fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-            requires:[ 'event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
-        }
-    }
-} ).use( 'accordion', function(Y) {
-
-});
-        </pre>
     </div>
 
     <div class="step">

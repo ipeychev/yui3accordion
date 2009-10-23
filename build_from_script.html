@@ -5,7 +5,7 @@
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssreset/reset-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.0.0/build/cssfonts/fonts-min.css">
-
+        
         <link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shCore.css">
         <link type="text/css" rel="stylesheet" href="syntaxhighlighter/styles/shThemeDefault.css">
 
@@ -47,7 +47,7 @@
 
 
         <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
-
+        
         <script type="text/javascript" src="syntaxhighlighter/scripts/shCore.js"></script>
         <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushCss.js"></script>
         <script type="text/javascript" src="syntaxhighlighter/scripts/shBrushJScript.js"></script>
@@ -56,25 +56,6 @@
         <script type="text/javascript">
             SyntaxHighlighter.config.clipboardSwf = 'syntaxhighlighter/scripts/clipboard.swf';
             SyntaxHighlighter.all();
-
-            YUI({
-                combine: true,
-                modules: {
-                    'accordion-css' : {
-                        type: 'css',
-                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-                    },
-                    'accordion': {
-                        type: 'js',
-                        fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                        requires: [ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod','json-parse' ]
-                    }
-                }
-            } ).use( 'accordion', function(Y) {
-
-
-            });
-
         </script>
     </head>
     <body class="yui-skin-sam">
@@ -87,36 +68,25 @@
                 </h3>
             </div>
 
-            <h1>Step one: create accordion module</h1>
+            <h1>Step one: add Accordion to your YUI instance</h1>
 
             <p>
                 In order to use Accordion widget, you have to add it as external module in your YUI instance or include the JavaScript and CSS manually on the page.
-                In this example we add two modules. The first one will contain JavaScript code and the second one - CSS. Of course, you must load YUI3 core file also.
             </p>
 
-            <pre class="brush: html;">
-            <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
-            </pre>
+<pre class="brush: html;">
+<link rel="stylesheet" type="text/css" href="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css">
 
+<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js"></script>
 
-        <pre class="brush: js;">
-        YUI({
-            combine: true,
-            modules: {
-                'accordion-css' : {
-                    type: 'css',
-                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/assets/skins/sam/accordion.css'
-                },
-                'accordion': {
-                    type: 'js',
-                    fullpath: 'http://github.com/ipeychev/yui3accordion/raw/master/build/accordion/accordion-min.js',
-                    requires: [ 'accordion-css','event','anim-easing','dd-constrain','dd-proxy','dd-drop','widget','widget-stdmod', 'json-parse' ]
-                }
-            }
-        } ).use( 'accordion', function(Y) {
+<script type="text/javascript">
+    YUI().use( 'accordion', function(Y) {
+        // Your code here
+    });
+</script>
+</pre>
 
-        });
-        </pre>
     </div>
 
     
