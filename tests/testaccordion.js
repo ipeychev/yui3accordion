@@ -1,17 +1,9 @@
 
-// Create new YUI instance, and populate it with the required modules
-YUI( {
-    combine: false, 
-    debug: true, 
-    filter:"RAW",
-    modules: {
-        'accordion': {
-            type: 'js',
-            fullpath: '../build/accordion/accordion.js',
-            requires: [ 'event', 'anim-easing', 'dd-constrain', 'dd-proxy', 'dd-drop', 'widget', 'widget-stdmod', 'json-parse' ]
-        }
-    }
-} ).use("accordion", 'test', 'console', 'event-simulate', function(Y) {
+YUI({
+    combine: false,
+    debug: true,
+    filter:"RAW"
+}).use("accordion", 'test', 'console', 'event-simulate', function(Y) {
     
     var _that = this;
 
