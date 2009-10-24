@@ -226,9 +226,9 @@
         <h4>4.4 Define content height policy</h4>
         <h4>You can set content height of given item in three ways:</h4>
         <ol>
-            <li>auto - this means the height will be as is being calculated by browser</li>
-            <li>fixed - the content height will be exactly X pixels</li>
-            <li>stretch - the height will be calculated, based on the height of the other items in the Accordion. For example, lets assume there is Accordion with total height 600px and it has three items added. The content height of the first item is fixed, 200px and the second one is also fixed, 100px. Content height policy of the third item is stretch and it will get the remaining space, which is:<br/>
+            <li>auto - the browser will calculate content height</li>
+            <li>fixed - content height will be exactly X pixels</li>
+            <li>stretch - content height will be calculated, based on the height of the other items in the Accordion. For example, lets assume there is Accordion with total height 600px and it has three items added. The content height of the first item is fixed, 200px and the second one is also fixed, 100px. Content height policy of the third item is stretch and it will get the remaining space, which is:<br/>
             600 - 25 - 200 - 25 - 100 - 25 = 225px, if we assume 25 is header height in pixels for each item</li>
         </ol>
         <h4>In order to set content height policy, you can use fake class names, or JSON string in yuiConfig property:</h4>
